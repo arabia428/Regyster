@@ -858,35 +858,89 @@
     
     let html = '';
     
+    // Obtener todos los registros del cronómetro de esta fecha (trabajo Y descanso)
+    const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
+    const todosCrono = registrosCrono.filter(rc => rc.fecha === registro.fecha);
+    
     // Sección de cronómetro
-    if(registro.datosCrono && registro.datosCrono.length > 0){
+    if(todosCrono && todosCrono.length > 0){
       html += '<div class="detalle-seccion">';
       html += '<div class="detalle-seccion-titulo">⏱️ Datos del Cronómetro</div>';
       
-      registro.datosCrono.forEach(crono => {
-        if(crono.horaInicio){
-          html += `<div class="detalle-dato">
-            <span class="detalle-dato-label">⏰ Hora de inicio:</span>
-            <span class="detalle-dato-valor">${crono.horaInicio}</span>
-          </div>`;
-        }
-        if(crono.horaFin){
-          html += `<div class="detalle-dato">
-            <span class="detalle-dato-label">⏰ Hora de fin:</span>
-            <span class="detalle-dato-valor">${crono.horaFin}</span>
-          </div>`;
-        }
-        html += `<div class="detalle-dato">
-          <span class="detalle-dato-label">⏱️ Horas trabajadas:</span>
-          <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
-        </div>`;
-      });
+      // Separar trabajo y descanso
+      const trabajo = todosCrono.filter(c => c.tipo === 'trabajo');
+      const descanso = todosCrono.filter(c => c.tipo === 'descanso');
       
-      const totalHoras = registro.datosCrono.reduce((sum, rc) => sum + rc.tiempo, 0);
-      html += `<div class="detalle-dato" style="margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
-        <span class="detalle-dato-label">⏱️ TOTAL HORAS:</span>
-        <span class="detalle-dato-valor" style="font-size: 1.2em;">${totalHoras.toFixed(2)}h</span>
-      </div>`;
+      // Mostrar períodos de TRABAJO
+      if(trabajo.length > 0){
+        trabajo.forEach((crono, idx) => {
+          if(trabajo.length > 1){
+            html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
+              <span class="detalle-dato-label">🔧 Sesión de Trabajo ${idx + 1}</span>
+            </div>`;
+          }
+          if(crono.horaInicio){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🔧 Hora de inicio:</span>
+              <span class="detalle-dato-valor">${crono.horaInicio}</span>
+            </div>`;
+          }
+          if(crono.horaFin){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🔧 Hora de fin:</span>
+              <span class="detalle-dato-valor">${crono.horaFin}</span>
+            </div>`;
+          }
+          html += `<div class="detalle-dato">
+            <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
+            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+          </div>`;
+        });
+        
+        const totalTrabajo = trabajo.reduce((sum, rc) => sum + rc.tiempo, 0);
+        if(trabajo.length > 1){
+          html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
+            <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalTrabajo.toFixed(2)}h</span>
+          </div>`;
+        }
+      }
+      
+      // Mostrar períodos de DESCANSO
+      if(descanso.length > 0){
+        html += `<div style="height: 20px;"></div>`;
+        descanso.forEach((crono, idx) => {
+          if(descanso.length > 1){
+            html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
+              <span class="detalle-dato-label">🛏️ Sesión de Descanso ${idx + 1}</span>
+            </div>`;
+          }
+          if(crono.horaInicio){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🛏️ Hora de inicio:</span>
+              <span class="detalle-dato-valor">${crono.horaInicio}</span>
+            </div>`;
+          }
+          if(crono.horaFin){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🛏️ Hora de fin:</span>
+              <span class="detalle-dato-valor">${crono.horaFin}</span>
+            </div>`;
+          }
+          html += `<div class="detalle-dato">
+            <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
+            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+          </div>`;
+        });
+        
+        const totalDescanso = descanso.reduce((sum, rc) => sum + rc.tiempo, 0);
+        if(descanso.length > 1){
+          html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
+            <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalDescanso.toFixed(2)}h</span>
+          </div>`;
+        }
+      }
       
       html += '</div>';
     }
