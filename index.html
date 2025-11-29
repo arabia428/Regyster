@@ -471,8 +471,8 @@
 
   .modal-close-detalle {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 0;
+    right: 0;
     background: transparent;
     color: #ff8c42;
     border: 2px solid #ff8c42;
@@ -621,9 +621,9 @@
 <!-- MODAL PARA BORRAR REGISTROS -->
 <div class="modal-overlay" id="modalBorrar">
   <div class="modal-content">
+    <button class="modal-close" id="cerrarModal" style="position: absolute; top: 0; right: 0; z-index: 10;">✕</button>
     <div class="modal-header">
       <h3 class="modal-title">🗑️ Últimos 10 Registros</h3>
-      <button class="modal-close" id="cerrarModal">✕</button>
     </div>
     <div id="listaRegistros"></div>
   </div>
