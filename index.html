@@ -346,6 +346,9 @@
   }
 
   .modal-close {
+    position: fixed;
+    top: calc(10vh - 4px);
+    right: calc(5vw - 4px);
     background: transparent;
     color: #ff8c42;
     border: 2px solid #ff8c42;
@@ -363,6 +366,7 @@
     margin: 0;
     transition: all 0.3s ease;
     flex-shrink: 0;
+    z-index: 1001;
   }
 
   .modal-close:hover {
@@ -470,9 +474,9 @@
   }
 
   .modal-close-detalle {
-    position: absolute;
-    top: 0;
-    right: 0;
+    position: fixed;
+    top: calc(10vh - 4px);
+    right: calc(5vw - 4px);
     background: transparent;
     color: #ff8c42;
     border: 2px solid #ff8c42;
@@ -487,7 +491,7 @@
     padding: 0;
     margin: 0;
     transition: all 0.3s ease;
-    z-index: 10;
+    z-index: 1001;
   }
 
   .modal-close-detalle:hover {
@@ -621,7 +625,7 @@
 <!-- MODAL PARA BORRAR REGISTROS -->
 <div class="modal-overlay" id="modalBorrar">
   <div class="modal-content">
-    <button class="modal-close" id="cerrarModal" style="position: absolute; top: 0; right: 0; z-index: 10;">✕</button>
+    <button class="modal-close" id="cerrarModal">✕</button>
     <div class="modal-header">
       <h3 class="modal-title">🗑️ Últimos 10 Registros</h3>
     </div>
