@@ -204,11 +204,15 @@
     min-width: 160px;
   }
 
-  #botonGuardar {
+  #botonGuardar, #botonBorrar {
     background: linear-gradient(135deg, #ff3333 0%, #cc0000 100%);
     border: 3px solid #ff6666;
     box-shadow: 0 0 20px rgba(255, 51, 51, 0.4);
     margin-top: 30px;
+  }
+
+  #botonBorrar {
+    margin-top: 15px;
   }
 
   .entry {
@@ -280,6 +284,239 @@
     background: linear-gradient(90deg, transparent, #ff8c42, transparent);
     margin: 30px 0;
   }
+
+  /* ESTILOS PARA MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-content {
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+    border: 3px solid #ff8c42;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 50px rgba(255, 140, 66, 0.5);
+    position: relative;
+    animation: slideIn 0.3s ease;
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 2px solid rgba(255, 140, 66, 0.3);
+    padding-bottom: 15px;
+  }
+
+  .modal-title {
+    font-size: 1.8em;
+    color: #ff8c42;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .modal-close {
+    background: transparent;
+    color: #ff8c42;
+    border: 2px solid #ff8c42;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+  }
+
+  .modal-close:hover {
+    background: #ff8c42;
+    color: #0a0e27;
+    transform: rotate(90deg);
+  }
+
+  .registro-item {
+    background: rgba(255, 140, 66, 0.1);
+    border-left: 4px solid #ff8c42;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .registro-item:hover {
+    background: rgba(255, 140, 66, 0.2);
+    transform: translateX(5px);
+    box-shadow: 0 0 20px rgba(255, 140, 66, 0.3);
+  }
+
+  .registro-fecha {
+    font-size: 1.2em;
+    color: #ff8c42;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .registro-horas {
+    color: #e0e0e0;
+    font-size: 1em;
+  }
+
+  .mensaje-vacio {
+    text-align: center;
+    color: #ff8c42;
+    font-size: 1.3em;
+    padding: 40px 20px;
+  }
+
+  /* ESTILOS PARA VISTA DETALLADA */
+  .detalle-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(255, 140, 66, 0.15);
+    border-radius: 8px;
+    border: 2px solid #ff8c42;
+  }
+
+  .detalle-checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .detalle-checkbox {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    accent-color: #ff8c42;
+  }
+
+  .detalle-fecha {
+    font-size: 1.4em;
+    color: #ff8c42;
+    font-weight: bold;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  .detalle-acciones {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .btn-borrar-detalle {
+    background: linear-gradient(135deg, #ff3333 0%, #cc0000 100%);
+    color: #000;
+    border: 2px solid #ff6666;
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    font-size: 1.5em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    transition: all 0.3s ease;
+  }
+
+  .btn-borrar-detalle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px rgba(255, 51, 51, 0.6);
+  }
+
+  .detalle-seccion {
+    background: rgba(255, 140, 66, 0.08);
+    border-left: 4px solid #ff8c42;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  .detalle-seccion-titulo {
+    font-size: 1.3em;
+    color: #ff8c42;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .detalle-dato {
+    margin-bottom: 12px;
+    font-size: 1.05em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .detalle-dato-label {
+    color: #ff8c42;
+    font-weight: bold;
+  }
+
+  .detalle-dato-valor {
+    color: #e0e0e0;
+    font-weight: 600;
+  }
+
+  /* Scrollbar personalizado */
+  .modal-content::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 140, 66, 0.1);
+    border-radius: 10px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb {
+    background: #ff8c42;
+    border-radius: 10px;
+  }
+
+  .modal-content::-webkit-scrollbar-thumb:hover {
+    background: #ff6b35;
+  }
 </style>
 </head>
 <body>
@@ -319,6 +556,7 @@
     <div class="estado-crono" id="estadoCrono">Presiona para comenzar</div>
 
     <button id="botonGuardar">💾 GUARDAR</button>
+    <button id="botonBorrar">🗑️ BORRAR REGISTROS</button>
   </div>
 
   <div class="separador"></div>
@@ -343,9 +581,37 @@
     <label>Resumen 26→25 (Ciclo Laboral)</label>
     <input type="month" id="mesResumenReal" />
     <button id="resumenReal">📈 Mostrar Resumen 26→25</button>
-    <div id="resumenReal"></div>
+    <div id="resumenRealResultado"></div>
   </div>
 
+</div>
+
+<!-- MODAL PARA BORRAR REGISTROS -->
+<div class="modal-overlay" id="modalBorrar">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">🗑️ Últimos 10 Registros</h3>
+      <button class="modal-close" id="cerrarModal">✕</button>
+    </div>
+    <div id="listaRegistros"></div>
+  </div>
+</div>
+
+<!-- MODAL PARA DETALLE DE REGISTRO -->
+<div class="modal-overlay" id="modalDetalle">
+  <div class="modal-content">
+    <div class="detalle-header">
+      <div class="detalle-checkbox-container">
+        <input type="checkbox" class="detalle-checkbox" id="detalleCheckbox" />
+        <span class="detalle-fecha" id="detalleFecha">📅 DD/MM/YYYY</span>
+      </div>
+      <div class="detalle-acciones">
+        <button class="btn-borrar-detalle" id="btnBorrarDetalle">🗑️</button>
+        <button class="modal-close" id="cerrarDetalle">✕</button>
+      </div>
+    </div>
+    <div id="detalleContenido"></div>
+  </div>
 </div>
 
 <script>
@@ -372,6 +638,7 @@
   let enTrabajo = true;
   let tiempoInicio = null;
   let tiempoTranscurrido = 0;
+  let horaInicioReal = null; // Nueva variable para guardar hora exacta de inicio
 
   function formatearTiempo(ms){
     const totalSegundos = Math.floor(ms / 1000);
@@ -379,6 +646,11 @@
     const minutos = Math.floor((totalSegundos % 3600) / 60);
     const segundos = totalSegundos % 60;
     return `${String(horas).padStart(2,'0')}:${String(minutos).padStart(2,'0')}:${String(segundos).padStart(2,'0')}`;
+  }
+
+  function formatearHora(timestamp){
+    const fecha = new Date(timestamp);
+    return fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   }
 
   function actualizarReloj(){
@@ -406,6 +678,7 @@
     if(!cronoActivo){
       cronoActivo = true;
       tiempoInicio = Date.now();
+      horaInicioReal = tiempoInicio; // Guardamos hora exacta de inicio
       this.textContent = '⏹ PARAR';
       actualizarReloj();
     } else {
@@ -416,17 +689,23 @@
       const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
       const tiempoTotal = Math.round(tiempoTranscurrido / 1000 / 3600 * 100) / 100;
       
+      // Guardamos con datos extendidos
       registrosCrono.push({
         fecha: hoy,
         tipo: enTrabajo ? 'trabajo' : 'descanso',
         tiempo: tiempoTotal,
-        timestamp: ahora
+        timestamp: ahora,
+        horaInicio: formatearHora(horaInicioReal), // Hora exacta de inicio
+        horaFin: formatearHora(ahora), // Hora exacta de fin
+        timestampInicio: horaInicioReal,
+        timestampFin: ahora
       });
       
       localStorage.setItem('registrosCrono', JSON.stringify(registrosCrono));
 
       enTrabajo = !enTrabajo;
       tiempoTranscurrido = 0;
+      horaInicioReal = null;
       this.textContent = '▶ INICIO';
       actualizarReloj();
     }
@@ -464,6 +743,13 @@
       return;
     }
 
+    // Validar si el cronómetro está activo
+    if(cronoActivo){
+      if(!confirm('⚠️ El cronómetro está activo. ¿Deseas guardar igualmente?\n\nRecomendación: Para el cronómetro primero para incluir el tiempo trabajado.')){
+        return;
+      }
+    }
+
     const registros = JSON.parse(localStorage.getItem('registros') || "[]");
     registros.push({fecha, nocturnas: noct, dieta_pernocta: dieta, festivo: fest, sexto: sexto});
     localStorage.setItem('registros', JSON.stringify(registros));
@@ -471,6 +757,232 @@
     cargarHistorial();
     alert('Guardado correctamente');
   };
+
+  // FUNCIONALIDAD DE BORRADO
+  let registroSeleccionadoIndex = null;
+
+  document.getElementById('botonBorrar').onclick = function(){
+    mostrarUltimosRegistros();
+    document.getElementById('modalBorrar').classList.add('active');
+  };
+
+  document.getElementById('cerrarModal').onclick = function(){
+    document.getElementById('modalBorrar').classList.remove('active');
+  };
+
+  document.getElementById('cerrarDetalle').onclick = function(){
+    document.getElementById('modalDetalle').classList.remove('active');
+  };
+
+  // Cerrar modal al hacer clic fuera
+  document.getElementById('modalBorrar').onclick = function(e){
+    if(e.target === this){
+      this.classList.remove('active');
+    }
+  };
+
+  document.getElementById('modalDetalle').onclick = function(e){
+    if(e.target === this){
+      this.classList.remove('active');
+    }
+  };
+
+  function mostrarUltimosRegistros(){
+    const registros = JSON.parse(localStorage.getItem('registros') || '[]');
+    const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
+    
+    // Combinar y obtener últimos 10 registros únicos por fecha
+    const fechasUnicas = new Set();
+    const registrosCombinados = [];
+
+    // Agregar fechas de registros manuales
+    registros.forEach(r => {
+      if(!fechasUnicas.has(r.fecha)){
+        fechasUnicas.add(r.fecha);
+        registrosCombinados.push({
+          fecha: r.fecha,
+          datosManual: r,
+          datosCrono: registrosCrono.filter(rc => rc.fecha === r.fecha && rc.tipo === 'trabajo')
+        });
+      }
+    });
+
+    // Agregar fechas solo de cronómetro que no estén en manual
+    registrosCrono.forEach(rc => {
+      if(!fechasUnicas.has(rc.fecha) && rc.tipo === 'trabajo'){
+        fechasUnicas.add(rc.fecha);
+        registrosCombinados.push({
+          fecha: rc.fecha,
+          datosManual: null,
+          datosCrono: registrosCrono.filter(r => r.fecha === rc.fecha && r.tipo === 'trabajo')
+        });
+      }
+    });
+
+    // Ordenar por fecha descendente y tomar últimos 10
+    registrosCombinados.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    const ultimos10 = registrosCombinados.slice(0, 10);
+
+    const listaRegistros = document.getElementById('listaRegistros');
+    
+    if(ultimos10.length === 0){
+      listaRegistros.innerHTML = '<div class="mensaje-vacio">📭 No hay registros para mostrar</div>';
+      return;
+    }
+
+    listaRegistros.innerHTML = '';
+    
+    ultimos10.forEach((reg, index) => {
+      const div = document.createElement('div');
+      div.className = 'registro-item';
+      
+      const fechaFormateada = new Date(reg.fecha + 'T00:00:00').toLocaleDateString('es-ES');
+      const horasTrabajadas = reg.datosCrono.reduce((sum, rc) => sum + rc.tiempo, 0).toFixed(2);
+      
+      div.innerHTML = `
+        <div class="registro-fecha">📅 ${fechaFormateada}</div>
+        <div class="registro-horas">⏱️ ${horasTrabajadas}h trabajadas</div>
+      `;
+      
+      div.onclick = () => mostrarDetalle(reg, index);
+      listaRegistros.appendChild(div);
+    });
+  }
+
+  function mostrarDetalle(registro, index){
+    registroSeleccionadoIndex = index;
+    
+    const fechaFormateada = new Date(registro.fecha + 'T00:00:00').toLocaleDateString('es-ES');
+    document.getElementById('detalleFecha').textContent = `📅 ${fechaFormateada}`;
+    document.getElementById('detalleCheckbox').checked = false;
+    
+    let html = '';
+    
+    // Sección de cronómetro
+    if(registro.datosCrono && registro.datosCrono.length > 0){
+      html += '<div class="detalle-seccion">';
+      html += '<div class="detalle-seccion-titulo">⏱️ Datos del Cronómetro</div>';
+      
+      registro.datosCrono.forEach(crono => {
+        if(crono.horaInicio){
+          html += `<div class="detalle-dato">
+            <span class="detalle-dato-label">⏰ Hora de inicio:</span>
+            <span class="detalle-dato-valor">${crono.horaInicio}</span>
+          </div>`;
+        }
+        if(crono.horaFin){
+          html += `<div class="detalle-dato">
+            <span class="detalle-dato-label">⏰ Hora de fin:</span>
+            <span class="detalle-dato-valor">${crono.horaFin}</span>
+          </div>`;
+        }
+        html += `<div class="detalle-dato">
+          <span class="detalle-dato-label">⏱️ Horas trabajadas:</span>
+          <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+        </div>`;
+      });
+      
+      const totalHoras = registro.datosCrono.reduce((sum, rc) => sum + rc.tiempo, 0);
+      html += `<div class="detalle-dato" style="margin-top: 15px; padding-top: 15px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
+        <span class="detalle-dato-label">⏱️ TOTAL HORAS:</span>
+        <span class="detalle-dato-valor" style="font-size: 1.2em;">${totalHoras.toFixed(2)}h</span>
+      </div>`;
+      
+      html += '</div>';
+    }
+    
+    // Sección de datos manuales
+    if(registro.datosManual){
+      html += '<div class="detalle-seccion">';
+      html += '<div class="detalle-seccion-titulo">📝 Datos Manuales</div>';
+      
+      if(registro.datosManual.nocturnas && parseInt(registro.datosManual.nocturnas) > 0){
+        html += `<div class="detalle-dato">
+          <span class="detalle-dato-label">🌙 Horas nocturnas:</span>
+          <span class="detalle-dato-valor">${registro.datosManual.nocturnas} horas</span>
+        </div>`;
+      }
+      
+      html += `<div class="detalle-dato">
+        <span class="detalle-dato-label">🛏️ Dieta pernocta:</span>
+        <span class="detalle-dato-valor">${registro.datosManual.dieta_pernocta === 'camion' ? 'En camión' : 'En casa'}</span>
+      </div>`;
+      
+      if(registro.datosManual.festivo){
+        html += `<div class="detalle-dato">
+          <span class="detalle-dato-label">🎉 Festivo:</span>
+          <span class="detalle-dato-valor">Sí</span>
+        </div>`;
+      }
+      
+      if(registro.datosManual.sexto){
+        html += `<div class="detalle-dato">
+          <span class="detalle-dato-label">⚡ Sexto día consecutivo:</span>
+          <span class="detalle-dato-valor">Sí</span>
+        </div>`;
+      }
+      
+      html += '</div>';
+    }
+    
+    document.getElementById('detalleContenido').innerHTML = html;
+    
+    // Cerrar modal de lista y abrir detalle
+    document.getElementById('modalBorrar').classList.remove('active');
+    document.getElementById('modalDetalle').classList.add('active');
+  }
+
+  document.getElementById('btnBorrarDetalle').onclick = function(){
+    const checkbox = document.getElementById('detalleCheckbox');
+    
+    if(!checkbox.checked){
+      alert('⚠️ Marca el checkbox para confirmar el borrado');
+      return;
+    }
+    
+    if(!confirm('¿Seguro que quieres borrar este registro?')){
+      return;
+    }
+    
+    borrarRegistroActual();
+  };
+
+  function borrarRegistroActual(){
+    const registros = JSON.parse(localStorage.getItem('registros') || '[]');
+    const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
+    
+    // Obtener la fecha del registro actual
+    const fechaTexto = document.getElementById('detalleFecha').textContent.replace('📅 ', '');
+    const [dia, mes, anio] = fechaTexto.split('/');
+    const fechaBuscar = `${anio}-${mes.padStart(2, '0')}-${dia.padStart(2, '0')}`;
+    
+    // Filtrar registros manuales
+    const registrosFiltrados = registros.filter(r => r.fecha !== fechaBuscar);
+    
+    // Filtrar registros de cronómetro
+    const cronoFiltrados = registrosCrono.filter(rc => rc.fecha !== fechaBuscar);
+    
+    // Guardar
+    localStorage.setItem('registros', JSON.stringify(registrosFiltrados));
+    localStorage.setItem('registrosCrono', JSON.stringify(cronoFiltrados));
+    
+    // Actualizar interfaz
+    cargarHistorial();
+    document.getElementById('modalDetalle').classList.remove('active');
+    
+    // Recargar la lista de registros en el modal
+    mostrarUltimosRegistros();
+    
+    // Si aún hay registros, mostrar el modal de lista, si no, cerrarlo
+    const hayRegistros = registrosFiltrados.length > 0 || cronoFiltrados.length > 0;
+    if(hayRegistros){
+      document.getElementById('modalBorrar').classList.add('active');
+    } else {
+      document.getElementById('modalBorrar').classList.remove('active');
+    }
+    
+    alert('✅ Registro borrado correctamente');
+  }
 
   document.getElementById('resumenMes').onclick = function(){
     const mes = document.getElementById('mesResumen').value;
@@ -541,7 +1053,7 @@
     html += '<div class="resumen-item"><span>Días en casa:</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + casa + '</span></div>';
     html += '</div>';
     
-    document.getElementById('resumenReal').innerHTML = html;
+    document.getElementById('resumenRealResultado').innerHTML = html;
   };
 
   cargarHistorial();
