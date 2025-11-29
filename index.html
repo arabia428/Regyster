@@ -620,6 +620,23 @@
     <div id="resumenRealResultado"></div>
   </div>
 
+  <div class="seccion">
+    <label>📅 Resumen Diario</label>
+    <button id="btnMostrarDiarios">📅 Mostrar Resúmenes Diarios</button>
+    <div id="listaDiasResumen"></div>
+  </div>
+
+</div>
+
+<!-- MODAL PARA VER DETALLE DIARIO -->
+<div class="modal-overlay" id="modalDetalleDiario">
+  <div class="modal-content">
+    <button class="modal-close-detalle" id="cerrarDetalleDiario">✕</button>
+    <div class="detalle-header" style="justify-content: center;">
+      <span class="detalle-fecha" id="detalleFechaDiario">📅 DD/MM/YYYY</span>
+    </div>
+    <div id="detalleContenidoDiario"></div>
+  </div>
 </div>
 
 <!-- MODAL PARA BORRAR REGISTROS -->
@@ -674,7 +691,25 @@
   let enTrabajo = true;
   let tiempoInicio = null;
   let tiempoTranscurrido = 0;
-  let horaInicioReal = null; // Nueva variable para guardar hora exacta de inicio
+  let horaInicioReal = null;
+
+  // Recuperar estado del cronómetro al cargar la página
+  function recuperarEstadoCrono(){
+    const estadoGuardado = localStorage.getItem('estadoCrono');
+    if(estadoGuardado){
+      const estado = JSON.parse(estadoGuardado);
+      if(estado.activo){
+        cronoActivo = true;
+        enTrabajo = estado.enTrabajo;
+        horaInicioReal = estado.horaInicio;
+        tiempoInicio = Date.now() - (Date.now() - estado.horaInicio); // Ajustar para que el contador funcione
+        tiempoTranscurrido = 0;
+        
+        document.getElementById('botonCrono').textContent = '⏹ PARAR';
+        actualizarReloj();
+      }
+    }
+  }
 
   function formatearTiempo(ms){
     const totalSegundos = Math.floor(ms / 1000);
@@ -697,10 +732,11 @@
 
     if(cronoActivo){
       const ahora = Date.now();
-      const total = tiempoTranscurrido + (ahora - tiempoInicio);
+      const total = ahora - horaInicioReal; // Calcular desde la hora de inicio guardada
       tiempoReloj.textContent = formatearTiempo(total);
       iconoReloj.textContent = enTrabajo ? '🔧' : '🛏️';
-      estadoCrono.textContent = enTrabajo ? '⏱️ Trabajando...' : '⏱️ Descansando...';
+      const horaInicioFormateada = formatearHora(horaInicioReal);
+      estadoCrono.textContent = enTrabajo ? `⏱️ Trabajando desde ${horaInicioFormateada}` : `⏱️ Descansando desde ${horaInicioFormateada}`;
       reloj.classList.add('activo');
       requestAnimationFrame(actualizarReloj);
     } else {
@@ -712,37 +748,55 @@
     const hoy = document.getElementById('fecha').value || new Date().toISOString().split('T')[0];
 
     if(!cronoActivo){
+      // INICIO - Guardar inmediatamente
       cronoActivo = true;
-      tiempoInicio = Date.now();
-      horaInicioReal = tiempoInicio; // Guardamos hora exacta de inicio
+      const ahora = Date.now();
+      tiempoInicio = ahora;
+      horaInicioReal = ahora;
+      
+      // Guardar estado en localStorage para recuperarlo si se cierra la app
+      localStorage.setItem('estadoCrono', JSON.stringify({
+        activo: true,
+        enTrabajo: enTrabajo,
+        horaInicio: horaInicioReal,
+        fecha: hoy
+      }));
+      
       this.textContent = '⏹ PARAR';
       actualizarReloj();
     } else {
+      // PARAR - Guardar hora de fin y calcular tiempo
       cronoActivo = false;
       const ahora = Date.now();
-      tiempoTranscurrido += (ahora - tiempoInicio);
+      const tiempoTotal = (ahora - horaInicioReal) / 1000 / 3600; // En horas
 
       const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
-      const tiempoTotal = Math.round(tiempoTranscurrido / 1000 / 3600 * 100) / 100;
       
       // Guardamos con datos extendidos
       registrosCrono.push({
         fecha: hoy,
         tipo: enTrabajo ? 'trabajo' : 'descanso',
-        tiempo: tiempoTotal,
+        tiempo: Math.round(tiempoTotal * 100) / 100,
         timestamp: ahora,
-        horaInicio: formatearHora(horaInicioReal), // Hora exacta de inicio
-        horaFin: formatearHora(ahora), // Hora exacta de fin
+        horaInicio: formatearHora(horaInicioReal),
+        horaFin: formatearHora(ahora),
         timestampInicio: horaInicioReal,
         timestampFin: ahora
       });
       
       localStorage.setItem('registrosCrono', JSON.stringify(registrosCrono));
+      
+      // Limpiar estado guardado
+      localStorage.removeItem('estadoCrono');
 
       enTrabajo = !enTrabajo;
       tiempoTranscurrido = 0;
       horaInicioReal = null;
       this.textContent = '▶ INICIO';
+      
+      // Resetear display
+      document.getElementById('tiempoReloj').textContent = '00:00:00';
+      document.getElementById('estadoCrono').textContent = 'Presiona para comenzar';
       actualizarReloj();
     }
   };
@@ -1146,7 +1200,218 @@
     document.getElementById('resumenRealResultado').innerHTML = html;
   };
 
+  // FUNCIONALIDAD DE RESUMEN DIARIO (Últimos 10 días)
+  document.getElementById('btnMostrarDiarios').onclick = function(){
+    cargarUltimosDias();
+  };
+
+  function cargarUltimosDias(){
+    const registros = JSON.parse(localStorage.getItem('registros') || '[]');
+    const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
+    
+    // Combinar y obtener últimos 10 registros únicos por fecha
+    const fechasUnicas = new Set();
+    const registrosCombinados = [];
+
+    // Agregar fechas de registros manuales
+    registros.forEach(r => {
+      if(!fechasUnicas.has(r.fecha)){
+        fechasUnicas.add(r.fecha);
+        registrosCombinados.push({
+          fecha: r.fecha,
+          datosManual: r,
+          datosCrono: registrosCrono.filter(rc => rc.fecha === r.fecha)
+        });
+      }
+    });
+
+    // Agregar fechas solo de cronómetro que no estén en manual
+    registrosCrono.forEach(rc => {
+      if(!fechasUnicas.has(rc.fecha)){
+        fechasUnicas.add(rc.fecha);
+        registrosCombinados.push({
+          fecha: rc.fecha,
+          datosManual: null,
+          datosCrono: registrosCrono.filter(r => r.fecha === rc.fecha)
+        });
+      }
+    });
+
+    // Ordenar por fecha descendente y tomar últimos 10
+    registrosCombinados.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+    const ultimos10 = registrosCombinados.slice(0, 10);
+
+    const listaDias = document.getElementById('listaDiasResumen');
+    
+    if(ultimos10.length === 0){
+      listaDias.innerHTML = '<div class="mensaje-vacio">📭 No hay registros para mostrar</div>';
+      return;
+    }
+
+    listaDias.innerHTML = '';
+    
+    ultimos10.forEach((reg) => {
+      const div = document.createElement('div');
+      div.className = 'registro-item';
+      
+      const fechaFormateada = new Date(reg.fecha + 'T00:00:00').toLocaleDateString('es-ES');
+      const trabajo = reg.datosCrono.filter(c => c.tipo === 'trabajo');
+      const horasTrabajadas = trabajo.reduce((sum, rc) => sum + rc.tiempo, 0).toFixed(2);
+      
+      div.innerHTML = `
+        <div class="registro-fecha">📅 ${fechaFormateada}</div>
+        <div class="registro-horas">⏱️ ${horasTrabajadas}h trabajadas</div>
+      `;
+      
+      div.onclick = () => mostrarDetalleDiario(reg);
+      listaDias.appendChild(div);
+    });
+  }
+
+  function mostrarDetalleDiario(registro){
+    const fechaFormateada = new Date(registro.fecha + 'T00:00:00').toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    document.getElementById('detalleFechaDiario').textContent = `📅 ${fechaFormateada}`;
+    
+    let html = '';
+    
+    // Obtener todos los registros del cronómetro de esta fecha
+    const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
+    const todosCrono = registrosCrono.filter(rc => rc.fecha === registro.fecha);
+    
+    // Sección de cronómetro
+    if(todosCrono && todosCrono.length > 0){
+      html += '<div class="detalle-seccion">';
+      html += '<div class="detalle-seccion-titulo">⏱️ Registro del Cronómetro</div>';
+      
+      // Separar trabajo y descanso
+      const trabajo = todosCrono.filter(c => c.tipo === 'trabajo');
+      const descanso = todosCrono.filter(c => c.tipo === 'descanso');
+      
+      // Mostrar períodos de TRABAJO
+      if(trabajo.length > 0){
+        trabajo.forEach((crono, idx) => {
+          if(trabajo.length > 1){
+            html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
+              <span class="detalle-dato-label">🔧 Sesión de Trabajo ${idx + 1}</span>
+            </div>`;
+          }
+          if(crono.horaInicio){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🔧 Hora de inicio:</span>
+              <span class="detalle-dato-valor">${crono.horaInicio}</span>
+            </div>`;
+          }
+          if(crono.horaFin){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🔧 Hora de fin:</span>
+              <span class="detalle-dato-valor">${crono.horaFin}</span>
+            </div>`;
+          }
+          html += `<div class="detalle-dato">
+            <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
+            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+          </div>`;
+        });
+        
+        const totalTrabajo = trabajo.reduce((sum, rc) => sum + rc.tiempo, 0);
+        if(trabajo.length > 1){
+          html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
+            <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalTrabajo.toFixed(2)}h</span>
+          </div>`;
+        }
+      }
+      
+      // Mostrar períodos de DESCANSO
+      if(descanso.length > 0){
+        html += `<div style="height: 20px;"></div>`;
+        descanso.forEach((crono, idx) => {
+          if(descanso.length > 1){
+            html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
+              <span class="detalle-dato-label">🛏️ Sesión de Descanso ${idx + 1}</span>
+            </div>`;
+          }
+          if(crono.horaInicio){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🛏️ Hora de inicio:</span>
+              <span class="detalle-dato-valor">${crono.horaInicio}</span>
+            </div>`;
+          }
+          if(crono.horaFin){
+            html += `<div class="detalle-dato">
+              <span class="detalle-dato-label">🛏️ Hora de fin:</span>
+              <span class="detalle-dato-valor">${crono.horaFin}</span>
+            </div>`;
+          }
+          html += `<div class="detalle-dato">
+            <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
+            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+          </div>`;
+        });
+        
+        const totalDescanso = descanso.reduce((sum, rc) => sum + rc.tiempo, 0);
+        if(descanso.length > 1){
+          html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
+            <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalDescanso.toFixed(2)}h</span>
+          </div>`;
+        }
+      }
+      
+      html += '</div>';
+    }
+    
+    // Sección de datos manuales
+    if(registro.datosManual){
+      html += '<div class="detalle-seccion">';
+      html += '<div class="detalle-seccion-titulo">📝 Datos Manuales</div>';
+      
+      if(registro.datosManual.nocturnas && parseInt(registro.datosManual.nocturnas) > 0){
+        html += `<div class="detalle-dato">
+          <span class="detalle-dato-label">🌙 Horas nocturnas:</span>
+          <span class="detalle-dato-valor">${registro.datosManual.nocturnas} horas</span>
+        </div>`;
+      }
+      
+      html += `<div class="detalle-dato">
+        <span class="detalle-dato-label">🛏️ Dieta pernocta:</span>
+        <span class="detalle-dato-valor">${registro.datosManual.dieta_pernocta === 'camion' ? 'En camión' : 'En casa'}</span>
+      </div>`;
+      
+      if(registro.datosManual.festivo){
+        html += `<div class="detalle-dato">
+          <span class="detalle-dato-label">🎉 Festivo:</span>
+          <span class="detalle-dato-valor">Sí</span>
+        </div>`;
+      }
+      
+      if(registro.datosManual.sexto){
+        html += `<div class="detalle-dato">
+          <span class="detalle-dato-label">⚡ Sexto día consecutivo:</span>
+          <span class="detalle-dato-valor">Sí</span>
+        </div>`;
+      }
+      
+      html += '</div>';
+    }
+    
+    document.getElementById('detalleContenidoDiario').innerHTML = html;
+    document.getElementById('modalDetalleDiario').classList.add('active');
+  }
+
+  document.getElementById('cerrarDetalleDiario').onclick = function(){
+    document.getElementById('modalDetalleDiario').classList.remove('active');
+  };
+
+  // Cerrar modal al hacer clic fuera
+  document.getElementById('modalDetalleDiario').onclick = function(e){
+    if(e.target === this){
+      this.classList.remove('active');
+    }
+  };
+
   cargarHistorial();
+  recuperarEstadoCrono(); // Recuperar estado del cronómetro si estaba activo
 </script>
 
 </body>
