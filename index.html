@@ -462,6 +462,7 @@
       <button id="botonCrono">⏱️</button>
     </div>
     <div class="estado-crono" id="estadoCrono">Presiona el reloj para comenzar</div>
+    <div class="estado-crono" id="horaInicio" style="font-size: 0.85em; margin-top: 5px; color: #ff8c42;"></div>
 
     <!-- Panel de ajuste manual -->
     <div class="panel-ajuste" id="panelAjuste">
@@ -536,6 +537,50 @@
   let modoEdicion = false;
   let diaEditando = null;
 
+  // ========== PERSISTENCIA DEL CRONÓMETRO ==========
+  
+  function guardarEstadoCrono() {
+    const estado = {
+      cronoActivo: cronoActivo,
+      enTrabajo: enTrabajo,
+      tiempoInicio: tiempoInicio,
+      tiempoTranscurrido: tiempoTranscurrido,
+      sesionActual: sesionActual
+    };
+    localStorage.setItem('estadoCrono', JSON.stringify(estado));
+  }
+
+  function cargarEstadoCrono() {
+    const estadoGuardado = localStorage.getItem('estadoCrono');
+    if (estadoGuardado) {
+      const estado = JSON.parse(estadoGuardado);
+      cronoActivo = estado.cronoActivo;
+      enTrabajo = estado.enTrabajo;
+      tiempoInicio = estado.tiempoInicio;
+      tiempoTranscurrido = estado.tiempoTranscurrido;
+      sesionActual = estado.sesionActual;
+      
+      if (cronoActivo) {
+        actualizarReloj();
+      } else if (sesionActual) {
+        // Mostrar última hora de inicio aunque no esté activo
+        mostrarHoraInicio();
+      }
+    }
+  }
+
+  function mostrarHoraInicio() {
+    const horaInicioEl = document.getElementById('horaInicio');
+    if (sesionActual && sesionActual.fechaInicio) {
+      const fecha = new Date(sesionActual.fechaInicio);
+      const hora = fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+      const tipo = sesionActual.tipo === 'trabajo' ? 'Trabajo' : 'Descanso';
+      horaInicioEl.textContent = `Desde las ${hora}`;
+    } else {
+      horaInicioEl.textContent = '';
+    }
+  }
+
   // ========== FUNCIONES DE UTILIDAD ==========
   
   function formatearTiempo(ms){
@@ -596,14 +641,21 @@
       tiempoReloj.textContent = formatearTiempo(total);
       iconoReloj.textContent = enTrabajo ? '🔧' : '🛏️';
       estadoCrono.textContent = enTrabajo ? '⏱️ Trabajando...' : '⏱️ Descansando...';
+      mostrarHoraInicio();
       reloj.classList.add('activo');
+      guardarEstadoCrono();
       requestAnimationFrame(actualizarReloj);
     } else {
       reloj.classList.remove('activo');
       iconoReloj.textContent = '⏱️';
       if (!sesionActual) {
         estadoCrono.textContent = 'Presiona el reloj para comenzar';
+        document.getElementById('horaInicio').textContent = '';
+      } else {
+        estadoCrono.textContent = enTrabajo ? '⏱️ Trabajo pausado' : '⏱️ Descanso pausado';
+        mostrarHoraInicio();
       }
+      guardarEstadoCrono();
     }
   }
 
@@ -618,8 +670,10 @@
           fechaInicio: new Date(tiempoInicio),
           tipo: 'trabajo'
         };
+        enTrabajo = true;
       }
       
+      guardarEstadoCrono();
       actualizarReloj();
     } else {
       // Detener cronómetro
@@ -647,6 +701,7 @@
         cronoActivo = true;
       }
       
+      guardarEstadoCrono();
       actualizarReloj();
       cargarHistorial();
     }
@@ -726,8 +781,12 @@
           tipo: 'trabajo'
         };
         enTrabajo = true;
+      } else {
+        // Si ya está activo, solo actualizar la hora de inicio
+        sesionActual.fechaInicio = fechaInicio;
       }
       
+      guardarEstadoCrono();
       actualizarReloj();
       document.getElementById('panelAjuste').classList.remove('activo');
       document.getElementById('ajusteInicio').value = '';
@@ -1171,6 +1230,7 @@
 
   // ========== INICIALIZACIÓN ==========
   cargarHistorial();
+  cargarEstadoCrono(); // Cargar estado del cronómetro al iniciar
 </script>
 
 </body>
