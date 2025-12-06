@@ -533,7 +533,7 @@
   let enTrabajo = true;
   let tiempoInicio = null;
   let tiempoTranscurrido = 0;
-  let sesionActual = null; // Para guardar inicio de sesión actual
+  let sesionActual = null;
   let modoEdicion = false;
   let diaEditando = null;
 
@@ -541,31 +541,58 @@
   
   function guardarEstadoCrono() {
     const estado = {
-      cronoActivo: cronoActivo,
-      enTrabajo: enTrabajo,
-      tiempoInicio: tiempoInicio,
-      tiempoTranscurrido: tiempoTranscurrido,
-      sesionActual: sesionActual
+      activo: cronoActivo,
+      esTrabajo: enTrabajo,
+      inicio: tiempoInicio, // timestamp en milisegundos
+      transcurrido: tiempoTranscurrido,
+      sesion: sesionActual ? {
+        inicio: sesionActual.fechaInicio ? new Date(sesionActual.fechaInicio).getTime() : Date.now(),
+        tipo: sesionActual.tipo
+      } : null
     };
     localStorage.setItem('estadoCrono', JSON.stringify(estado));
+    console.log('Estado guardado:', estado);
   }
 
   function cargarEstadoCrono() {
-    const estadoGuardado = localStorage.getItem('estadoCrono');
-    if (estadoGuardado) {
-      const estado = JSON.parse(estadoGuardado);
-      cronoActivo = estado.cronoActivo;
-      enTrabajo = estado.enTrabajo;
-      tiempoInicio = estado.tiempoInicio;
-      tiempoTranscurrido = estado.tiempoTranscurrido;
-      sesionActual = estado.sesionActual;
-      
-      if (cronoActivo) {
-        actualizarReloj();
-      } else if (sesionActual) {
-        // Mostrar última hora de inicio aunque no esté activo
-        mostrarHoraInicio();
+    try {
+      const estadoGuardado = localStorage.getItem('estadoCrono');
+      if (!estadoGuardado) {
+        console.log('No hay estado guardado');
+        return;
       }
+      
+      const estado = JSON.parse(estadoGuardado);
+      console.log('Estado cargado:', estado);
+      
+      if (estado.sesion) {
+        // Hay una sesión guardada
+        sesionActual = {
+          fechaInicio: new Date(estado.sesion.inicio),
+          tipo: estado.sesion.tipo
+        };
+        enTrabajo = estado.esTrabajo;
+        
+        if (estado.activo) {
+          // El cronómetro estaba activo, recalcular tiempo
+          const ahora = Date.now();
+          const tiempoDesdeInicio = ahora - estado.inicio;
+          
+          tiempoInicio = ahora;
+          tiempoTranscurrido = estado.transcurrido + tiempoDesdeInicio;
+          cronoActivo = true;
+          
+          console.log('Cronómetro reactivado. Tiempo acumulado:', tiempoTranscurrido);
+          actualizarReloj();
+        } else {
+          // Estaba pausado
+          tiempoTranscurrido = estado.transcurrido;
+          mostrarHoraInicio();
+        }
+      }
+    } catch(e) {
+      console.error('Error al cargar estado:', e);
+      localStorage.removeItem('estadoCrono');
     }
   }
 
@@ -574,7 +601,6 @@
     if (sesionActual && sesionActual.fechaInicio) {
       const fecha = new Date(sesionActual.fechaInicio);
       const hora = fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-      const tipo = sesionActual.tipo === 'trabajo' ? 'Trabajo' : 'Descanso';
       horaInicioEl.textContent = `Desde las ${hora}`;
     } else {
       horaInicioEl.textContent = '';
@@ -637,13 +663,14 @@
 
     if(cronoActivo){
       const ahora = Date.now();
-      const total = tiempoTranscurrido + (ahora - tiempoInicio);
+      const tiempoActual = ahora - tiempoInicio;
+      const total = tiempoTranscurrido + tiempoActual;
+      
       tiempoReloj.textContent = formatearTiempo(total);
       iconoReloj.textContent = enTrabajo ? '🔧' : '🛏️';
       estadoCrono.textContent = enTrabajo ? '⏱️ Trabajando...' : '⏱️ Descansando...';
       mostrarHoraInicio();
       reloj.classList.add('activo');
-      guardarEstadoCrono();
       requestAnimationFrame(actualizarReloj);
     } else {
       reloj.classList.remove('activo');
@@ -655,7 +682,6 @@
         estadoCrono.textContent = enTrabajo ? '⏱️ Trabajo pausado' : '⏱️ Descanso pausado';
         mostrarHoraInicio();
       }
-      guardarEstadoCrono();
     }
   }
 
@@ -663,11 +689,12 @@
     if(!cronoActivo){
       // Iniciar cronómetro
       cronoActivo = true;
-      tiempoInicio = Date.now();
+      const ahora = Date.now();
+      tiempoInicio = ahora;
       
       if (!sesionActual) {
         sesionActual = {
-          fechaInicio: new Date(tiempoInicio),
+          fechaInicio: new Date(ahora),
           tipo: 'trabajo'
         };
         enTrabajo = true;
@@ -677,9 +704,10 @@
       actualizarReloj();
     } else {
       // Detener cronómetro
-      cronoActivo = false;
       const ahora = Date.now();
-      tiempoTranscurrido += (ahora - tiempoInicio);
+      const tiempoActual = ahora - tiempoInicio;
+      tiempoTranscurrido += tiempoActual;
+      cronoActivo = false;
       
       if (sesionActual) {
         const fechaFin = new Date(ahora);
@@ -1229,8 +1257,22 @@
   };
 
   // ========== INICIALIZACIÓN ==========
-  cargarHistorial();
-  cargarEstadoCrono(); // Cargar estado del cronómetro al iniciar
+  
+  // Proteger contra errores de carga
+  window.addEventListener('error', function(e) {
+    console.error('Error detectado:', e.message);
+  });
+  
+  // Cargar historial y estado
+  try {
+    cargarHistorial();
+    cargarEstadoCrono();
+    console.log('Aplicación inicializada correctamente');
+  } catch(e) {
+    console.error('Error al inicializar:', e);
+    // Limpiar estado corrupto
+    localStorage.removeItem('estadoCrono');
+  }
 </script>
 
 </body>
