@@ -537,70 +537,79 @@
   let modoEdicion = false;
   let diaEditando = null;
 
-  // ========== PERSISTENCIA ==========
+  // ========== GUARDADO EN LOCAL ==========
   
-  function guardarEstadoCronometro() {
-    if (sesionActual && sesionActual.fechaInicio) {
-      const timestamp = sesionActual.fechaInicio.getTime();
-      
-      // Validar que el timestamp sea válido
-      if (isNaN(timestamp) || timestamp <= 0) {
-        console.log('Timestamp inválido, no se guarda');
-        return;
-      }
-      
-      const estado = {
-        activo: cronoActivo,
-        esTrabajo: enTrabajo,
-        inicioSesion: timestamp,
-        tipo: sesionActual.tipo
-      };
-      localStorage.setItem('estadoCrono', JSON.stringify(estado));
-    }
+  function guardarInicioEnLocal() {
+    if (!sesionActual) return;
+    
+    const datos = {
+      horaInicio: sesionActual.fechaInicio.getTime(),
+      tipo: sesionActual.tipo,
+      estado: 'activo',
+      esTrabajo: enTrabajo
+    };
+    
+    localStorage.setItem('cronoActivo', JSON.stringify(datos));
+    console.log('✅ Guardado inicio:', new Date(datos.horaInicio).toLocaleString());
   }
   
-  function cargarEstadoCronometro() {
-    const guardado = localStorage.getItem('estadoCrono');
+  function guardarFinEnLocal() {
+    const guardado = localStorage.getItem('cronoActivo');
     if (!guardado) return;
     
+    const datos = JSON.parse(guardado);
+    datos.horaFin = Date.now();
+    datos.estado = 'completado';
+    
+    localStorage.setItem('cronoActivo', JSON.stringify(datos));
+    console.log('✅ Guardado fin:', new Date(datos.horaFin).toLocaleString());
+  }
+  
+  function cargarDesdeLoca() {
+    const guardado = localStorage.getItem('cronoActivo');
+    if (!guardado) {
+      console.log('No hay datos guardados');
+      return;
+    }
+    
     try {
-      const estado = JSON.parse(guardado);
+      const datos = JSON.parse(guardado);
+      console.log('📂 Datos cargados:', datos);
       
-      // VALIDACIONES ESTRICTAS
-      if (!estado.inicioSesion || isNaN(estado.inicioSesion) || estado.inicioSesion <= 0) {
-        console.log('Datos corruptos, limpiando...');
-        localStorage.removeItem('estadoCrono');
+      // Validar que horaInicio existe y es válida
+      if (!datos.horaInicio || isNaN(datos.horaInicio)) {
+        console.log('❌ Datos inválidos, limpiando...');
+        localStorage.removeItem('cronoActivo');
         return;
       }
       
-      const fechaInicio = new Date(estado.inicioSesion);
-      
-      // Verificar que la fecha sea válida
-      if (isNaN(fechaInicio.getTime())) {
-        console.log('Fecha inválida, limpiando...');
-        localStorage.removeItem('estadoCrono');
-        return;
-      }
+      const fechaInicio = new Date(datos.horaInicio);
       
       sesionActual = {
         fechaInicio: fechaInicio,
-        tipo: estado.tipo || 'trabajo'
+        tipo: datos.tipo || 'trabajo'
       };
-      enTrabajo = estado.esTrabajo !== false; // default true
       
-      if (estado.activo) {
-        // Calcular tiempo transcurrido
+      enTrabajo = datos.esTrabajo !== false;
+      
+      if (datos.estado === 'activo') {
+        // Cronómetro estaba activo, calcular tiempo transcurrido
         const ahora = Date.now();
-        tiempoTranscurrido = ahora - estado.inicioSesion;
+        tiempoTranscurrido = ahora - datos.horaInicio;
         tiempoInicio = ahora;
         cronoActivo = true;
+        
+        console.log('⏱️ Cronómetro restaurado. Tiempo:', formatearTiempo(tiempoTranscurrido));
         actualizarReloj();
-      } else {
+      } else if (datos.horaFin) {
+        // Estaba completado
+        tiempoTranscurrido = datos.horaFin - datos.horaInicio;
         mostrarHoraInicio();
       }
+      
     } catch(e) {
-      console.log('Error al cargar estado:', e);
-      localStorage.removeItem('estadoCrono');
+      console.log('❌ Error al cargar:', e);
+      localStorage.removeItem('cronoActivo');
     }
   }
 
@@ -702,30 +711,36 @@
 
   document.getElementById('botonCrono').onclick = function(){
     if(!cronoActivo){
-      // Iniciar cronómetro
+      // INICIAR cronómetro
       cronoActivo = true;
-      tiempoInicio = Date.now();
+      const ahora = Date.now();
+      tiempoInicio = ahora;
       
       if (!sesionActual) {
         sesionActual = {
-          fechaInicio: new Date(tiempoInicio),
+          fechaInicio: new Date(ahora),
           tipo: 'trabajo'
         };
       }
       
-      guardarEstadoCronometro();
+      // GUARDAR INICIO EN LOCAL
+      guardarInicioEnLocal();
+      
       actualizarReloj();
     } else {
-      // Detener cronómetro
+      // PARAR cronómetro
       cronoActivo = false;
       const ahora = Date.now();
       tiempoTranscurrido += (ahora - tiempoInicio);
+      
+      // GUARDAR FIN EN LOCAL
+      guardarFinEnLocal();
       
       if (sesionActual) {
         const fechaFin = new Date(ahora);
         const duracionHoras = tiempoTranscurrido / 1000 / 3600;
         
-        // Guardar la sesión
+        // Guardar la sesión en jornadas
         guardarSesion(sesionActual.fechaInicio, fechaFin, sesionActual.tipo, duracionHoras);
         
         // Cambiar automáticamente entre trabajo y descanso
@@ -739,9 +754,11 @@
         tiempoTranscurrido = 0;
         tiempoInicio = ahora;
         cronoActivo = true;
+        
+        // GUARDAR NUEVO INICIO EN LOCAL
+        guardarInicioEnLocal();
       }
       
-      guardarEstadoCronometro();
       actualizarReloj();
       cargarHistorial();
     }
@@ -1266,22 +1283,12 @@
 
   // ========== INICIALIZACIÓN ==========
   
-  // Limpiar datos corruptos si existen
-  const estadoGuardado = localStorage.getItem('estadoCrono');
-  if (estadoGuardado) {
-    try {
-      const estado = JSON.parse(estadoGuardado);
-      if (!estado.inicioSesion || isNaN(estado.inicioSesion)) {
-        console.log('Limpiando datos corruptos al iniciar...');
-        localStorage.removeItem('estadoCrono');
-      }
-    } catch(e) {
-      localStorage.removeItem('estadoCrono');
-    }
-  }
+  // Limpiar datos de versiones anteriores
+  localStorage.removeItem('estadoCrono');
   
+  // Cargar datos
   cargarHistorial();
-  cargarEstadoCronometro();
+  cargarDesdeLoca();
 </script>
 
 </body>
