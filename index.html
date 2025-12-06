@@ -537,6 +537,73 @@
   let modoEdicion = false;
   let diaEditando = null;
 
+  // ========== PERSISTENCIA ==========
+  
+  function guardarEstadoCronometro() {
+    if (sesionActual && sesionActual.fechaInicio) {
+      const timestamp = sesionActual.fechaInicio.getTime();
+      
+      // Validar que el timestamp sea válido
+      if (isNaN(timestamp) || timestamp <= 0) {
+        console.log('Timestamp inválido, no se guarda');
+        return;
+      }
+      
+      const estado = {
+        activo: cronoActivo,
+        esTrabajo: enTrabajo,
+        inicioSesion: timestamp,
+        tipo: sesionActual.tipo
+      };
+      localStorage.setItem('estadoCrono', JSON.stringify(estado));
+    }
+  }
+  
+  function cargarEstadoCronometro() {
+    const guardado = localStorage.getItem('estadoCrono');
+    if (!guardado) return;
+    
+    try {
+      const estado = JSON.parse(guardado);
+      
+      // VALIDACIONES ESTRICTAS
+      if (!estado.inicioSesion || isNaN(estado.inicioSesion) || estado.inicioSesion <= 0) {
+        console.log('Datos corruptos, limpiando...');
+        localStorage.removeItem('estadoCrono');
+        return;
+      }
+      
+      const fechaInicio = new Date(estado.inicioSesion);
+      
+      // Verificar que la fecha sea válida
+      if (isNaN(fechaInicio.getTime())) {
+        console.log('Fecha inválida, limpiando...');
+        localStorage.removeItem('estadoCrono');
+        return;
+      }
+      
+      sesionActual = {
+        fechaInicio: fechaInicio,
+        tipo: estado.tipo || 'trabajo'
+      };
+      enTrabajo = estado.esTrabajo !== false; // default true
+      
+      if (estado.activo) {
+        // Calcular tiempo transcurrido
+        const ahora = Date.now();
+        tiempoTranscurrido = ahora - estado.inicioSesion;
+        tiempoInicio = ahora;
+        cronoActivo = true;
+        actualizarReloj();
+      } else {
+        mostrarHoraInicio();
+      }
+    } catch(e) {
+      console.log('Error al cargar estado:', e);
+      localStorage.removeItem('estadoCrono');
+    }
+  }
+
   // ========== FUNCIONES DE UTILIDAD ==========
   
   function formatearTiempo(ms){
@@ -646,6 +713,7 @@
         };
       }
       
+      guardarEstadoCronometro();
       actualizarReloj();
     } else {
       // Detener cronómetro
@@ -673,6 +741,7 @@
         cronoActivo = true;
       }
       
+      guardarEstadoCronometro();
       actualizarReloj();
       cargarHistorial();
     }
@@ -1196,7 +1265,23 @@
   };
 
   // ========== INICIALIZACIÓN ==========
+  
+  // Limpiar datos corruptos si existen
+  const estadoGuardado = localStorage.getItem('estadoCrono');
+  if (estadoGuardado) {
+    try {
+      const estado = JSON.parse(estadoGuardado);
+      if (!estado.inicioSesion || isNaN(estado.inicioSesion)) {
+        console.log('Limpiando datos corruptos al iniciar...');
+        localStorage.removeItem('estadoCrono');
+      }
+    } catch(e) {
+      localStorage.removeItem('estadoCrono');
+    }
+  }
+  
   cargarHistorial();
+  cargarEstadoCronometro();
 </script>
 
 </body>
