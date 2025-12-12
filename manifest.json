@@ -1,27 +1,120 @@
 {
-  "name": "Regyster - Registro de Trabajo",
+  "name": "Regyster - Control de Horas de Trabajo",
   "short_name": "Regyster",
-  "description": "App para registrar horas de trabajo y descanso con cronómetro en tiempo real",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Aplicación para registro y control de horas de trabajo, descanso y horas nocturnas. Ideal para transportistas y profesionales que necesitan llevar un control preciso de su jornada laboral.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "theme_color": "#ff8c42",
+  "orientation": "portrait",
   "background_color": "#0a0e27",
+  "theme_color": "#ff8c42",
+  "lang": "es-ES",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities", "business"],
   "icons": [
     {
-      "src": "./icons/icon-192.png",
+      "src": "icons/icon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "./icons/icon-512.png",
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512x512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "categories": ["productivity", "utilities"],
-  "prefer_related_applications": false
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot-1.jpg",
+      "sizes": "1080x2340",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Pantalla principal con cronómetro de trabajo"
+    },
+    {
+      "src": "screenshots/screenshot-2.jpg",
+      "sizes": "1080x2340",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Calendario laboral 26-25"
+    },
+    {
+      "src": "screenshots/screenshot-3.jpg",
+      "sizes": "1080x2340",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Gráficas de horas trabajadas"
+    },
+    {
+      "src": "screenshots/screenshot-4.jpg",
+      "sizes": "1080x2340",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Ajustes y personalización"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Iniciar Trabajo",
+      "short_name": "Trabajo",
+      "description": "Iniciar el cronómetro de trabajo",
+      "url": "/?action=start",
+      "icons": [
+        {
+          "src": "icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Ver Calendario",
+      "short_name": "Calendario",
+      "description": "Ver el calendario laboral",
+      "url": "/?page=calendario",
+      "icons": [
+        {
+          "src": "icons/icon-96x96.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }
