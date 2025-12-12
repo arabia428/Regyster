@@ -1,10 +1,10 @@
-const CACHE_NAME = 'regyster-v2.1';
+const CACHE_NAME = 'regyster-v2.2';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/icons/icon-192.png',
+  '/icons/icon-512.png'
 ];
 
 // Instalación del Service Worker
@@ -73,8 +73,8 @@ self.addEventListener('push', (event) => {
     const data = event.data.json();
     const options = {
       body: data.body || 'Tienes una notificación de Regyster',
-      icon: '/icons/icon-192x192.png',
-      badge: '/icons/icon-96x96.png',
+      icon: '/icons/icon-192.png',
+      badge: '/icons/icon-192.png',
       vibrate: [100, 50, 100],
       data: {
         url: data.url || '/'
@@ -93,3 +93,4 @@ self.addEventListener('notificationclick', (event) => {
     clients.openWindow(event.notification.data.url || '/')
   );
 });
+
