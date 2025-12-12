@@ -1302,7 +1302,7 @@
 
     <label>🌙 Horas Nocturnas (automático)</label>
     <div class="nocturnas-display" id="nocturnasDisplay">
-      <span id="nocturnasValor">0.00</span>h
+      <span id="nocturnasValor">0h 0m 0s</span>
       <span class="nocturnas-info">(22:00 - 06:00)</span>
     </div>
 
@@ -1673,7 +1673,7 @@
   function actualizarDisplayNocturnas(){
     const fecha = document.getElementById('fecha').value || new Date().toISOString().split('T')[0];
     const horasNocturnas = obtenerHorasNocturnasDia(fecha);
-    document.getElementById('nocturnasValor').textContent = horasNocturnas.toFixed(2);
+    document.getElementById('nocturnasValor').textContent = formatearHorasDecimal(horasNocturnas);
   }
 
   // Actualizar cuando cambia la fecha
@@ -1735,6 +1735,35 @@
       return `${dias}d ${String(horas).padStart(2,'0')}:${String(minutos).padStart(2,'0')}:${String(segundos).padStart(2,'0')}`;
     }
     return `${String(horas).padStart(2,'0')}:${String(minutos).padStart(2,'0')}:${String(segundos).padStart(2,'0')}`;
+  }
+
+  // NUEVA FUNCIÓN: Convertir horas decimales a formato "Xh Ym Zs"
+  function formatearHorasDecimal(horasDecimal){
+    const totalSegundos = Math.round(horasDecimal * 3600);
+    const horas = Math.floor(totalSegundos / 3600);
+    const minutos = Math.floor((totalSegundos % 3600) / 60);
+    const segundos = totalSegundos % 60;
+    
+    if(horas > 0){
+      return `${horas}h ${minutos}m ${segundos}s`;
+    } else if(minutos > 0){
+      return `${minutos}m ${segundos}s`;
+    } else {
+      return `${segundos}s`;
+    }
+  }
+  
+  // Versión compacta sin segundos para estadísticas
+  function formatearHorasCompacto(horasDecimal){
+    const totalMinutos = Math.round(horasDecimal * 60);
+    const horas = Math.floor(totalMinutos / 60);
+    const minutos = totalMinutos % 60;
+    
+    if(horas > 0){
+      return `${horas}h ${minutos}m`;
+    } else {
+      return `${minutos}m`;
+    }
   }
 
   function formatearHora(timestamp){
@@ -1995,11 +2024,11 @@
       div.className = 'registro-item';
       
       const fechaFormateada = new Date(reg.fecha + 'T00:00:00').toLocaleDateString('es-ES');
-      const horasTrabajadas = reg.datosCrono.reduce((sum, rc) => sum + rc.tiempo, 0).toFixed(2);
+      const horasTrabajadas = formatearHorasDecimal(reg.datosCrono.reduce((sum, rc) => sum + rc.tiempo, 0));
       
       div.innerHTML = `
         <div class="registro-fecha">📅 ${fechaFormateada}</div>
-        <div class="registro-horas">⏱️ ${horasTrabajadas}h trabajadas</div>
+        <div class="registro-horas">⏱️ ${horasTrabajadas} trabajadas</div>
       `;
       
       div.onclick = () => mostrarDetalle(reg, index);
@@ -2047,7 +2076,7 @@
           }
           html += `<div class="detalle-dato">
             <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
-            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+            <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
         
@@ -2055,7 +2084,7 @@
         if(trabajo.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
             <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
-            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalTrabajo.toFixed(2)}h</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalTrabajo)}</span>
           </div>`;
         }
       }
@@ -2082,7 +2111,7 @@
           }
           html += `<div class="detalle-dato">
             <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
-            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+            <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
         
@@ -2090,7 +2119,7 @@
         if(descanso.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
             <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
-            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalDescanso.toFixed(2)}h</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalDescanso)}</span>
           </div>`;
         }
       }
@@ -2389,12 +2418,12 @@
         
         html += `<div class="edicion-fila">
           <span class="edicion-label">Horas trabajadas:</span>
-          <span class="edicion-valor-auto" id="horas-trabajo-${idx}">${crono.tiempo.toFixed(2)}h</span>
+          <span class="edicion-valor-auto" id="horas-trabajo-${idx}">${formatearHorasDecimal(crono.tiempo)}</span>
         </div>`;
         
         html += `<div class="edicion-fila">
           <span class="edicion-label">Horas nocturnas:</span>
-          <span class="edicion-valor-auto" id="horas-nocturnas-${idx}">${(crono.horasNocturnas || 0).toFixed(2)}h</span>
+          <span class="edicion-valor-auto" id="horas-nocturnas-${idx}">${formatearHorasDecimal(crono.horasNocturnas || 0)}</span>
         </div>`;
         
         html += '</div>';
@@ -2442,7 +2471,7 @@
         
         html += `<div class="edicion-fila">
           <span class="edicion-label">Duración:</span>
-          <span class="edicion-valor-auto">${crono.tiempo.toFixed(2)}h</span>
+          <span class="edicion-valor-auto">${formatearHorasDecimal(crono.tiempo)}</span>
         </div>`;
         
         html += '</div>';
@@ -2510,8 +2539,8 @@
       const horasTrabajadas = (timestampFin - timestampInicio) / 1000 / 3600;
       const horasNocturnas = calcularHorasNocturnas(timestampInicio, timestampFin);
       
-      document.getElementById('horas-trabajo-' + idx).textContent = horasTrabajadas.toFixed(2) + 'h';
-      document.getElementById('horas-nocturnas-' + idx).textContent = horasNocturnas.toFixed(2) + 'h';
+      document.getElementById('horas-trabajo-' + idx).textContent = formatearHorasDecimal(horasTrabajadas);
+      document.getElementById('horas-nocturnas-' + idx).textContent = formatearHorasDecimal(horasNocturnas);
     }
   };
   
@@ -2580,8 +2609,8 @@
       const horasTrabajadas = (timestampFin - timestampInicio) / 1000 / 3600;
       const horasNocturnas = calcularHorasNocturnas(timestampInicio, timestampFin);
       
-      document.getElementById('horas-trabajo-' + idx).textContent = horasTrabajadas.toFixed(2) + 'h';
-      document.getElementById('horas-nocturnas-' + idx).textContent = horasNocturnas.toFixed(2) + 'h';
+      document.getElementById('horas-trabajo-' + idx).textContent = formatearHorasDecimal(horasTrabajadas);
+      document.getElementById('horas-nocturnas-' + idx).textContent = formatearHorasDecimal(horasNocturnas);
     }
   };
   
@@ -2788,12 +2817,12 @@
             }
             html += `<div class="detalle-dato">
               <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
-              <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+              <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
             </div>`;
             if(crono.horasNocturnas !== undefined && crono.horasNocturnas > 0){
               html += `<div class="detalle-dato">
                 <span class="detalle-dato-label">🌙 Horas nocturnas:</span>
-                <span class="detalle-dato-valor">${crono.horasNocturnas.toFixed(2)}h</span>
+                <span class="detalle-dato-valor">${formatearHorasDecimal(crono.horasNocturnas)}</span>
               </div>`;
               totalNocturnas += crono.horasNocturnas;
             }
@@ -2803,12 +2832,12 @@
           if(trabajo.length > 1){
             html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
               <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
-              <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalTrabajo.toFixed(2)}h</span>
+              <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalTrabajo)}</span>
             </div>`;
             if(totalNocturnas > 0){
               html += `<div class="detalle-dato">
                 <span class="detalle-dato-label">🌙 TOTAL NOCTURNAS:</span>
-                <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalNocturnas.toFixed(2)}h</span>
+                <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalNocturnas)}</span>
               </div>`;
             }
           }
@@ -2836,7 +2865,7 @@
             }
             html += `<div class="detalle-dato">
               <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
-              <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+              <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
             </div>`;
           });
           
@@ -2844,7 +2873,7 @@
           if(descanso.length > 1){
             html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
               <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
-              <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalDescanso.toFixed(2)}h</span>
+              <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalDescanso)}</span>
             </div>`;
           }
         }
@@ -2991,11 +3020,11 @@
       
       const fechaFormateada = new Date(reg.fecha + 'T00:00:00').toLocaleDateString('es-ES');
       const trabajo = reg.datosCrono.filter(c => c.tipo === 'trabajo');
-      const horasTrabajadas = trabajo.reduce((sum, rc) => sum + rc.tiempo, 0).toFixed(2);
+      const horasTrabajadas = formatearHorasDecimal(trabajo.reduce((sum, rc) => sum + rc.tiempo, 0));
       
       div.innerHTML = `
         <div class="registro-fecha">📅 ${fechaFormateada}</div>
-        <div class="registro-horas">⏱️ ${horasTrabajadas}h trabajadas</div>
+        <div class="registro-horas">⏱️ ${horasTrabajadas} trabajadas</div>
       `;
       
       div.onclick = () => mostrarDetalleDiario(reg);
@@ -3040,7 +3069,7 @@
           }
           html += `<div class="detalle-dato">
             <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
-            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+            <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
         
@@ -3048,7 +3077,7 @@
         if(trabajo.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
             <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
-            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalTrabajo.toFixed(2)}h</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalTrabajo)}</span>
           </div>`;
         }
       }
@@ -3075,7 +3104,7 @@
           }
           html += `<div class="detalle-dato">
             <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
-            <span class="detalle-dato-valor">${crono.tiempo.toFixed(2)}h</span>
+            <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
         
@@ -3083,7 +3112,7 @@
         if(descanso.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
             <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
-            <span class="detalle-dato-valor" style="font-size: 1.1em;">${totalDescanso.toFixed(2)}h</span>
+            <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalDescanso)}</span>
           </div>`;
         }
       }
@@ -3258,12 +3287,12 @@
     const datos = obtenerDatosGrafica(periodo);
     
     // Actualizar estadísticas
-    document.getElementById('totalHorasTrabajo').textContent = datos.trabajo.total.toFixed(1) + 'h';
-    document.getElementById('promedioTrabajo').textContent = datos.trabajo.promedio.toFixed(1) + 'h';
+    document.getElementById('totalHorasTrabajo').textContent = formatearHorasCompacto(datos.trabajo.total);
+    document.getElementById('promedioTrabajo').textContent = formatearHorasCompacto(datos.trabajo.promedio);
     document.getElementById('diasTrabajados').textContent = datos.trabajo.dias;
     
-    document.getElementById('totalHorasDescanso').textContent = datos.descanso.total.toFixed(1) + 'h';
-    document.getElementById('promedioDescanso').textContent = datos.descanso.promedio.toFixed(1) + 'h';
+    document.getElementById('totalHorasDescanso').textContent = formatearHorasCompacto(datos.descanso.total);
+    document.getElementById('promedioDescanso').textContent = formatearHorasCompacto(datos.descanso.promedio);
     document.getElementById('diasDescanso').textContent = datos.descanso.dias;
     
     // Destruir gráficas anteriores
@@ -3440,10 +3469,17 @@
     const trabajos = datosExportar.registrosCrono.filter(r => r.tipo === 'trabajo');
     const descansos = datosExportar.registrosCrono.filter(r => r.tipo === 'descanso');
     
+    const totalTrabajo = trabajos.reduce((sum, r) => sum + r.tiempo, 0);
+    const totalDescanso = descansos.reduce((sum, r) => sum + r.tiempo, 0);
+    const totalNocturnas = trabajos.reduce((sum, r) => sum + (r.horasNocturnas || 0), 0);
+    
     datosExportar.resumen = {
-      totalHorasTrabajo: trabajos.reduce((sum, r) => sum + r.tiempo, 0).toFixed(2),
-      totalHorasDescanso: descansos.reduce((sum, r) => sum + r.tiempo, 0).toFixed(2),
-      totalHorasNocturnas: trabajos.reduce((sum, r) => sum + (r.horasNocturnas || 0), 0).toFixed(2),
+      totalHorasTrabajo: formatearHorasDecimal(totalTrabajo),
+      totalHorasTrabajoDecimal: totalTrabajo.toFixed(2),
+      totalHorasDescanso: formatearHorasDecimal(totalDescanso),
+      totalHorasDescansoDecimal: totalDescanso.toFixed(2),
+      totalHorasNocturnas: formatearHorasDecimal(totalNocturnas),
+      totalHorasNocturnasDecimal: totalNocturnas.toFixed(2),
       diasTrabajados: new Set(trabajos.map(r => r.fecha)).size,
       diasDescanso: new Set(descansos.map(r => r.fecha)).size,
       diasFestivos: datosExportar.registros.filter(r => r.festivo).length,
