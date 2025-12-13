@@ -1506,8 +1506,13 @@
       <input type="month" class="ajuste-input" id="mesExportar">
     </div>
     
-    <button class="btn-ajuste exportar" onclick="exportarDatos('mes')">📅 Exportar Mes Seleccionado</button>
-    <button class="btn-ajuste exportar" onclick="exportarDatos('todo')" style="margin-top: 8px;">📦 Exportar TODO</button>
+    <button class="btn-ajuste exportar" onclick="exportarDatos('mes')">📅 Exportar Mes Seleccionado (JSON)</button>
+    <button class="btn-ajuste exportar" onclick="exportarDatos('todo')" style="margin-top: 8px;">📦 Exportar TODO (JSON)</button>
+
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 140, 66, 0.3);">
+      <button class="btn-ajuste exportar" onclick="exportarPDF('mes')" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">📄 Exportar Mes a PDF</button>
+      <button class="btn-ajuste exportar" onclick="exportarPDF('todo')" style="margin-top: 8px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">📄 Exportar TODO a PDF</button>
+    </div>
   </div>
   
   <!-- Borrar Datos -->
@@ -1614,6 +1619,9 @@
 
 <!-- Chart.js para gráficas -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- jsPDF para exportar a PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
   // Registrar Service Worker
@@ -3502,6 +3510,200 @@
     alert('✅ Datos exportados correctamente');
   }
   window.exportarDatos = exportarDatos;
+
+  // ========== AJUSTES - EXPORTAR A PDF ==========
+  function exportarPDF(tipo){
+    const registros = JSON.parse(localStorage.getItem('registros') || '[]');
+    const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
+
+    let datosExportar = { registros: [], registrosCrono: [] };
+    let tituloDoc = '';
+
+    if(tipo === 'mes'){
+      const mesSeleccionado = document.getElementById('mesExportar').value;
+      if(!mesSeleccionado){
+        alert('⚠️ Selecciona un mes para exportar');
+        return;
+      }
+
+      datosExportar.registros = registros.filter(r => r.fecha.startsWith(mesSeleccionado));
+      datosExportar.registrosCrono = registrosCrono.filter(r => r.fecha.startsWith(mesSeleccionado));
+
+      const [año, mes] = mesSeleccionado.split('-');
+      const nombreMes = new Date(año, mes - 1).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
+      tituloDoc = `Regyster - ${nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1)}`;
+    } else {
+      datosExportar.registros = registros;
+      datosExportar.registrosCrono = registrosCrono;
+      tituloDoc = 'Regyster - Registro Completo';
+    }
+
+    // Calcular resúmenes
+    const trabajos = datosExportar.registrosCrono.filter(r => r.tipo === 'trabajo');
+    const descansos = datosExportar.registrosCrono.filter(r => r.tipo === 'descanso');
+
+    const totalTrabajo = trabajos.reduce((sum, r) => sum + r.tiempo, 0);
+    const totalDescanso = descansos.reduce((sum, r) => sum + r.tiempo, 0);
+    const totalNocturnas = trabajos.reduce((sum, r) => sum + (r.horasNocturnas || 0), 0);
+
+    // Crear PDF usando jsPDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    let yPos = 20;
+
+    // Título
+    doc.setFontSize(20);
+    doc.setTextColor(255, 140, 66);
+    doc.text(tituloDoc, 105, yPos, { align: 'center' });
+    yPos += 10;
+
+    // Fecha de exportación
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Exportado el: ${new Date().toLocaleString('es-ES')}`, 105, yPos, { align: 'center' });
+    yPos += 15;
+
+    // Resumen General
+    doc.setFontSize(14);
+    doc.setTextColor(255, 140, 66);
+    doc.text('RESUMEN GENERAL', 20, yPos);
+    yPos += 8;
+
+    doc.setFontSize(10);
+    doc.setTextColor(0, 0, 0);
+
+    const resumenLineas = [
+      `Total Horas de Trabajo: ${formatearHorasDecimal(totalTrabajo)} (${totalTrabajo.toFixed(2)}h)`,
+      `Total Horas de Descanso: ${formatearHorasDecimal(totalDescanso)} (${totalDescanso.toFixed(2)}h)`,
+      `Total Horas Nocturnas: ${formatearHorasDecimal(totalNocturnas)} (${totalNocturnas.toFixed(2)}h)`,
+      `Días Trabajados: ${new Set(trabajos.map(r => r.fecha)).size}`,
+      `Días de Descanso: ${new Set(descansos.map(r => r.fecha)).size}`,
+      `Días Festivos: ${datosExportar.registros.filter(r => r.festivo).length}`,
+      `Días Sexto Consecutivo: ${datosExportar.registros.filter(r => r.sexto).length}`,
+      `Días en Camión: ${datosExportar.registros.filter(r => r.dieta_pernocta === 'camion').length}`,
+      `Días en Casa: ${datosExportar.registros.filter(r => r.dieta_pernocta === 'casa').length}`
+    ];
+
+    resumenLineas.forEach(linea => {
+      doc.text(linea, 25, yPos);
+      yPos += 6;
+    });
+
+    yPos += 10;
+
+    // Detalle de Registros por Día
+    doc.setFontSize(14);
+    doc.setTextColor(255, 140, 66);
+    doc.text('DETALLE DE REGISTROS', 20, yPos);
+    yPos += 8;
+
+    // Agrupar registros por fecha
+    const registrosPorFecha = {};
+    datosExportar.registrosCrono.forEach(reg => {
+      if(!registrosPorFecha[reg.fecha]){
+        registrosPorFecha[reg.fecha] = { trabajos: [], descansos: [] };
+      }
+      if(reg.tipo === 'trabajo'){
+        registrosPorFecha[reg.fecha].trabajos.push(reg);
+      } else {
+        registrosPorFecha[reg.fecha].descansos.push(reg);
+      }
+    });
+
+    const fechasOrdenadas = Object.keys(registrosPorFecha).sort().reverse();
+
+    doc.setFontSize(9);
+    doc.setTextColor(0, 0, 0);
+
+    fechasOrdenadas.forEach(fecha => {
+      // Verificar si necesitamos nueva página
+      if(yPos > 270){
+        doc.addPage();
+        yPos = 20;
+      }
+
+      const fechaFormateada = new Date(fecha + 'T00:00:00').toLocaleDateString('es-ES', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      // Fecha como encabezado
+      doc.setFontSize(11);
+      doc.setTextColor(255, 140, 66);
+      doc.text(fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1), 20, yPos);
+      yPos += 6;
+
+      doc.setFontSize(9);
+      doc.setTextColor(0, 0, 0);
+
+      const regs = registrosPorFecha[fecha];
+
+      // Trabajos
+      if(regs.trabajos.length > 0){
+        const totalTrabajoFecha = regs.trabajos.reduce((sum, r) => sum + r.tiempo, 0);
+        const totalNocturnasFecha = regs.trabajos.reduce((sum, r) => sum + (r.horasNocturnas || 0), 0);
+
+        doc.text(`  Trabajo: ${formatearHorasDecimal(totalTrabajoFecha)}`, 25, yPos);
+        if(totalNocturnasFecha > 0){
+          doc.text(`(${formatearHorasDecimal(totalNocturnasFecha)} nocturnas)`, 80, yPos);
+        }
+        yPos += 5;
+
+        regs.trabajos.forEach(t => {
+          const inicio = t.horaInicio || '--:--';
+          const fin = t.horaFin || '--:--';
+          doc.setFontSize(8);
+          doc.setTextColor(80, 80, 80);
+          doc.text(`    ${inicio} - ${fin}`, 30, yPos);
+          yPos += 4;
+        });
+        doc.setFontSize(9);
+        doc.setTextColor(0, 0, 0);
+      }
+
+      // Descansos
+      if(regs.descansos.length > 0){
+        const totalDescansoFecha = regs.descansos.reduce((sum, r) => sum + r.tiempo, 0);
+        doc.text(`  Descanso: ${formatearHorasDecimal(totalDescansoFecha)}`, 25, yPos);
+        yPos += 5;
+
+        regs.descansos.forEach(d => {
+          const inicio = d.horaInicio || '--:--';
+          const fin = d.horaFin || '--:--';
+          doc.setFontSize(8);
+          doc.setTextColor(80, 80, 80);
+          doc.text(`    ${inicio} - ${fin}`, 30, yPos);
+          yPos += 4;
+        });
+        doc.setFontSize(9);
+        doc.setTextColor(0, 0, 0);
+      }
+
+      yPos += 5;
+    });
+
+    // Pie de página en todas las páginas
+    const pageCount = doc.internal.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++){
+      doc.setPage(i);
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text(`Generado por Regyster - Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+    }
+
+    // Guardar PDF
+    const nombreArchivo = tipo === 'mes'
+      ? `regyster_${document.getElementById('mesExportar').value}.pdf`
+      : `regyster_completo_${new Date().toISOString().split('T')[0]}.pdf`;
+
+    doc.save(nombreArchivo);
+
+    alert('✅ PDF exportado correctamente');
+  }
+  window.exportarPDF = exportarPDF;
 
   // ========== AJUSTES - BORRAR DATOS ==========
   function borrarTodosDatos(){
