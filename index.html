@@ -1283,8 +1283,463 @@
     font-size: 0.9em;
   }
 
+  /* ========== MODO CLARO ========== */
+  body.modo-claro {
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 50%, #d0d0d0 100%);
+    color: #333;
+  }
+
+  body.modo-claro .seccion,
+  body.modo-claro .ajuste-seccion,
+  body.modo-claro .grafica-seccion {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(240, 240, 240, 0.9) 100%);
+    border-color: rgba(255, 140, 66, 0.5);
+  }
+
+  body.modo-claro .nav-bar {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  }
+
+  body.modo-claro .modal-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(245, 245, 245, 0.98) 100%);
+  }
+
+  body.modo-claro select,
+  body.modo-claro input[type="date"],
+  body.modo-claro input[type="month"],
+  body.modo-claro .ajuste-input,
+  body.modo-claro .ajuste-select,
+  body.modo-claro .edicion-input,
+  body.modo-claro .edicion-select {
+    background: rgba(255, 255, 255, 0.9);
+    color: #ff6b35;
+    border-color: rgba(255, 140, 66, 0.6);
+  }
+
+  body.modo-claro .entry,
+  body.modo-claro .detalle-seccion,
+  body.modo-claro .registro-item,
+  body.modo-claro .stat-box,
+  body.modo-claro .grafica-stat {
+    background: rgba(255, 140, 66, 0.15);
+  }
+
+  body.modo-claro .info-version,
+  body.modo-claro .ajuste-toggle-label {
+    color: #555;
+  }
+
+  /* ========== ANIMACIONES CONFIGURABLES ========== */
+  body.anim-rapidas * {
+    animation-duration: 0.5s !important;
+  }
+
+  body.anim-lentas * {
+    animation-duration: 4s !important;
+  }
+
+  body.anim-off *,
+  body.anim-off *::before,
+  body.anim-off *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  body.anim-off .seccion::before {
+    display: none;
+  }
+
+  /* ========== EFECTOS NEÓN CONFIGURABLES ========== */
+  body.neon-off .titulo-neon,
+  body.neon-off .titulo-neon-led {
+    animation: none !important;
+    text-shadow: none !important;
+  }
+
+  /* ========== TOGGLE SWITCH ESTILO iOS ========== */
+  .toggle-switch {
+    position: relative;
+    width: 60px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    border: 2px solid rgba(255, 140, 66, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .toggle-switch.activo {
+    background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+    border-color: #ff8c42;
+  }
+
+  .toggle-switch .toggle-slider {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    background: #fff;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+
+  .toggle-switch.activo .toggle-slider {
+    left: calc(100% - 26px);
+  }
+
+  .ajuste-toggle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 140, 66, 0.1);
+  }
+
+  .ajuste-toggle-container:last-child {
+    border-bottom: none;
+  }
+
+  .ajuste-toggle-label {
+    color: #e0e0e0;
+    font-weight: 600;
+    font-size: 0.95em;
+  }
+
+  /* ========== STICKMAN ESPÍA - EASTER EGG ========== */
+  .stickman-container {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    transition: transform 0.8s ease-in-out;
+  }
+
+  .stickman {
+    width: 25px;
+    height: 40px;
+    position: relative;
+  }
+
+  /* Cabeza */
+  .stickman-head {
+    width: 12px;
+    height: 12px;
+    background: #ff8c42;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: moverCabeza 0.8s ease-in-out infinite;
+  }
+
+  /* Cuerpo */
+  .stickman-body {
+    width: 3px;
+    height: 15px;
+    background: #ff8c42;
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+  }
+
+  /* Brazos */
+  .stickman-arm {
+    width: 12px;
+    height: 3px;
+    background: #ff8c42;
+    position: absolute;
+    top: 14px;
+    border-radius: 2px;
+    transform-origin: center;
+  }
+
+  .stickman-arm.left {
+    left: -2px;
+    animation: moverBrazoIzq 0.6s ease-in-out infinite;
+  }
+
+  .stickman-arm.right {
+    right: -2px;
+    animation: moverBrazoDer 0.7s ease-in-out infinite;
+  }
+
+  /* Piernas */
+  .stickman-leg {
+    width: 3px;
+    height: 14px;
+    background: #ff8c42;
+    position: absolute;
+    top: 25px;
+    border-radius: 2px;
+  }
+
+  .stickman-leg.left {
+    left: 6px;
+    transform: rotate(-10deg);
+  }
+
+  .stickman-leg.right {
+    right: 6px;
+    transform: rotate(10deg);
+  }
+
+  /* Animaciones del stickman */
+  @keyframes moverCabeza {
+    0%, 100% { transform: translateX(-50%) rotate(0deg); }
+    25% { transform: translateX(-50%) rotate(-10deg); }
+    75% { transform: translateX(-50%) rotate(10deg); }
+  }
+
+  @keyframes moverBrazoIzq {
+    0%, 100% { transform: rotate(-20deg); }
+    50% { transform: rotate(20deg); }
+  }
+
+  @keyframes moverBrazoDer {
+    0%, 100% { transform: rotate(20deg); }
+    50% { transform: rotate(-20deg); }
+  }
+
+  /* Posiciones de aparición */
+  .stickman-container.desde-izquierda {
+    left: 0;
+    top: 50%;
+    transform: translateX(-100%) translateY(-50%);
+  }
+
+  .stickman-container.desde-izquierda.visible {
+    transform: translateX(-30%) translateY(-50%);
+  }
+
+  .stickman-container.desde-derecha {
+    right: 0;
+    left: auto;
+    top: 50%;
+    transform: translateX(100%) translateY(-50%);
+  }
+
+  .stickman-container.desde-derecha.visible {
+    transform: translateX(30%) translateY(-50%);
+  }
+
+  .stickman-container.desde-arriba {
+    top: 60px;
+    left: 50%;
+    transform: translateY(-100%) translateX(-50%);
+  }
+
+  .stickman-container.desde-arriba.visible {
+    transform: translateY(-30%) translateX(-50%);
+  }
+
+  .stickman-container.desde-abajo {
+    bottom: 70px;
+    top: auto;
+    left: 50%;
+    transform: translateY(100%) translateX(-50%);
+  }
+
+  .stickman-container.desde-abajo.visible {
+    transform: translateY(30%) translateX(-50%);
+  }
+
+  /* Rotaciones según dirección */
+  .stickman-container.desde-derecha .stickman {
+    transform: scaleX(-1);
+  }
+
+  .stickman-container.desde-arriba .stickman {
+    transform: rotate(90deg);
+  }
+
+  .stickman-container.desde-abajo .stickman {
+    transform: rotate(-90deg);
+  }
+
   .info-version strong {
     color: #ff8c42;
+  }
+
+  /* Efecto neón parpadeante para título Gráficas */
+  .titulo-neon {
+    text-shadow: 0 0 10px #ff8c42, 0 0 20px #ff8c42, 0 0 30px #ff8c42, 0 0 40px #ff6b35;
+    animation: neonPulse 2s ease-in-out infinite;
+  }
+
+  /* Efecto neón LED para título Resúmenes */
+  .titulo-neon-led {
+    text-shadow: 0 0 5px #ff8c42, 0 0 10px #ff8c42, 0 0 20px #ff8c42, 0 0 30px #ff6b35, 0 0 40px #ff6b35;
+    animation: neonLED 1.5s ease-in-out infinite;
+  }
+
+  @keyframes neonLED {
+    0% { 
+      opacity: 1;
+      text-shadow: 0 0 5px #ff8c42, 0 0 10px #ff8c42, 0 0 20px #ff8c42, 0 0 30px #ff6b35, 0 0 40px #ff6b35;
+    }
+    50% { 
+      opacity: 0.1;
+      text-shadow: 0 0 2px #ff8c42, 0 0 5px #ff8c42;
+    }
+    100% { 
+      opacity: 1;
+      text-shadow: 0 0 5px #ff8c42, 0 0 10px #ff8c42, 0 0 20px #ff8c42, 0 0 30px #ff6b35, 0 0 40px #ff6b35;
+    }
+  }
+
+  @keyframes neonPulse {
+    0%, 100% { 
+      opacity: 1;
+      text-shadow: 0 0 10px #ff8c42, 0 0 20px #ff8c42, 0 0 30px #ff8c42, 0 0 40px #ff6b35;
+    }
+    50% { 
+      opacity: 0.1;
+      text-shadow: 0 0 5px #ff8c42, 0 0 10px #ff8c42;
+    }
+  }
+
+  @keyframes fadeInEaster {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeOutEaster {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.8); }
+  }
+
+  /* Efecto Glitch para Easter Egg */
+  .texto-transicion {
+    position: relative;
+  }
+
+  .glitch-out {
+    animation: glitchOut 0.8s ease-in-out forwards;
+  }
+
+  .glitch-in {
+    animation: glitchIn 0.8s ease-in-out forwards;
+  }
+
+  @keyframes glitchOut {
+    0% {
+      opacity: 1;
+      transform: translate(0);
+      filter: blur(0);
+    }
+    10% {
+      transform: translate(-5px, 2px);
+      filter: blur(0);
+    }
+    20% {
+      transform: translate(5px, -2px);
+      opacity: 0.8;
+      filter: blur(1px);
+    }
+    30% {
+      transform: translate(-3px, 3px) skewX(5deg);
+      filter: blur(2px);
+    }
+    40% {
+      transform: translate(3px, -1px) skewX(-5deg);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translate(-2px, 2px) skewX(10deg);
+      filter: blur(3px);
+      opacity: 0.4;
+    }
+    60% {
+      transform: translate(4px, -3px) skewX(-10deg) scaleX(1.1);
+      filter: blur(4px);
+    }
+    70% {
+      transform: translate(-4px, 1px) skewX(15deg) scaleY(0.9);
+      opacity: 0.2;
+    }
+    80% {
+      transform: translate(2px, -2px) skewX(-15deg) scale(0.95);
+      filter: blur(6px);
+    }
+    90% {
+      transform: translate(0) scale(0.9);
+      filter: blur(8px);
+      opacity: 0.1;
+    }
+    100% {
+      opacity: 0;
+      transform: scale(0.8);
+      filter: blur(10px);
+    }
+  }
+
+  @keyframes glitchIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+      filter: blur(10px);
+    }
+    10% {
+      transform: translate(2px, -2px) scale(0.9);
+      filter: blur(8px);
+      opacity: 0.1;
+    }
+    20% {
+      transform: translate(-4px, 1px) skewX(-15deg) scale(0.95);
+      filter: blur(6px);
+      opacity: 0.2;
+    }
+    30% {
+      transform: translate(4px, -3px) skewX(15deg) scaleY(0.9);
+      filter: blur(4px);
+    }
+    40% {
+      transform: translate(-2px, 2px) skewX(-10deg) scaleX(1.1);
+      opacity: 0.4;
+    }
+    50% {
+      transform: translate(3px, -1px) skewX(10deg);
+      filter: blur(3px);
+      opacity: 0.6;
+    }
+    60% {
+      transform: translate(-3px, 3px) skewX(-5deg);
+      filter: blur(2px);
+    }
+    70% {
+      transform: translate(5px, -2px);
+      opacity: 0.8;
+      filter: blur(1px);
+    }
+    80% {
+      transform: translate(-5px, 2px) skewX(5deg);
+      filter: blur(0);
+    }
+    90% {
+      transform: translate(2px, -1px);
+      opacity: 0.9;
+    }
+    100% {
+      opacity: 1;
+      transform: translate(0);
+      filter: blur(0);
+    }
+  }
+
+  .easter-msg {
+    color: #ff8c42;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 140, 66, 0.5);
+  }
+
+  #textoSecreto {
+    padding: 20px 0;
   }
 </style>
 </head>
@@ -1317,7 +1772,7 @@
     </label>
 
     <label class="checkbox-label">
-      <input type="checkbox" id="sexto" /> ⚡ Sexto día consecutivo
+      <input type="checkbox" id="sexto" /> 6️⃣ Sexto día consecutivo
     </label>
 
     <div class="cronometro-container">
@@ -1345,7 +1800,7 @@
 
   <div class="separador"></div>
 
-  <h2>📊 Resúmenes</h2>
+  <h2 class="titulo-neon-led">RESÚMENES</h2>
 
   <div class="seccion">
     <label>Resumen Normal (Mes Completo)</label>
@@ -1376,7 +1831,7 @@
 <div class="pagina" id="paginaGraficas">
 <div class="graficas-container">
   
-  <h2>📈 Gráficas</h2>
+  <h2 class="titulo-neon">GRÁFICAS</h2>
   
   <div class="periodo-selector">
     <button class="periodo-btn active" data-periodo="semana">Semana</button>
@@ -1466,6 +1921,40 @@
   <div class="ajuste-seccion">
     <div class="ajuste-seccion-titulo">🎨 Personalización</div>
     
+    <div class="ajuste-toggle-container">
+      <span class="ajuste-toggle-label">🌙 Modo Oscuro / ☀️ Claro</span>
+      <div class="toggle-switch" id="toggleModoClaro" onclick="toggleModoClaro()">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+    
+    <div class="ajuste-toggle-container">
+      <span class="ajuste-toggle-label">✨ Efectos Neón</span>
+      <div class="toggle-switch activo" id="toggleNeon" onclick="toggleNeon()">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+    
+    <div class="ajuste-item">
+      <label class="ajuste-label">⚡ Velocidad Animaciones</label>
+      <select class="ajuste-select" id="velocidadAnimaciones" onchange="cambiarVelocidadAnimaciones()">
+        <option value="normales">Normales</option>
+        <option value="rapidas">Rápidas</option>
+        <option value="lentas">Lentas</option>
+        <option value="off">Desactivadas</option>
+      </select>
+    </div>
+    
+    <div class="ajuste-item">
+      <label class="ajuste-label">🕐 Formato de Horas</label>
+      <select class="ajuste-select" id="formatoHoras" onchange="cambiarFormatoHoras()">
+        <option value="tradicional">Tradicional (8h 30m 15s)</option>
+        <option value="decimal">Decimal (8.50h)</option>
+      </select>
+    </div>
+    
+    <div class="separador" style="margin: 20px 0; opacity: 0.3;"></div>
+    
     <div class="ajuste-item">
       <label class="ajuste-label">Color principal</label>
       <div class="ajuste-color-preview">
@@ -1497,21 +1986,136 @@
     <button class="btn-ajuste" onclick="resetearPersonalizacion()" style="background: rgba(255,140,66,0.2); color: #ff8c42; margin-top: 8px;">🔄 Restaurar Predeterminados</button>
   </div>
   
-  <!-- Exportar Datos -->
+  <!-- Configuración de Horarios y Ciclos -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">📤 Exportar Datos</div>
+    <div class="ajuste-seccion-titulo">⏰ Horarios y Ciclos</div>
+    
+    <div class="ajuste-item">
+      <label class="ajuste-label">🌙 Hora INICIO nocturnas</label>
+      <select class="ajuste-select" id="horaInicioNocturnas" onchange="guardarConfigHorarios()">
+        <option value="20">20:00</option>
+        <option value="21">21:00</option>
+        <option value="22" selected>22:00 (Por defecto)</option>
+        <option value="23">23:00</option>
+      </select>
+    </div>
+    
+    <div class="ajuste-item">
+      <label class="ajuste-label">🌅 Hora FIN nocturnas</label>
+      <select class="ajuste-select" id="horaFinNocturnas" onchange="guardarConfigHorarios()">
+        <option value="5">05:00</option>
+        <option value="6" selected>06:00 (Por defecto)</option>
+        <option value="7">07:00</option>
+        <option value="8">08:00</option>
+      </select>
+    </div>
+    
+    <div class="ajuste-item">
+      <label class="ajuste-label">📅 Día inicio de ciclo laboral</label>
+      <select class="ajuste-select" id="diaInicioCiclo" onchange="guardarConfigHorarios()">
+        <option value="1">Día 1</option>
+        <option value="15">Día 15</option>
+        <option value="20">Día 20</option>
+        <option value="25">Día 25</option>
+        <option value="26" selected>Día 26 (Por defecto)</option>
+        <option value="27">Día 27</option>
+        <option value="28">Día 28</option>
+      </select>
+    </div>
+    
+    <p style="color: #888; font-size: 0.8em; margin-top: 15px; font-style: italic;">
+      💡 El ciclo laboral va desde el día seleccionado del mes anterior hasta el día anterior del mes actual.
+    </p>
+  </div>
+  
+  <!-- Importar/Exportar Datos -->
+  <div class="ajuste-seccion">
+    <div class="ajuste-seccion-titulo">📦 Importar / Exportar Datos</div>
+    
+    <div class="ajuste-item">
+      <label class="ajuste-label">📥 Importar datos desde archivo</label>
+      <input type="file" id="archivoImportar" accept=".json" style="display: none;" onchange="importarDatos(event)">
+      <button class="btn-ajuste" onclick="document.getElementById('archivoImportar').click()" style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); border: 2px solid #BA68C8;">
+        📥 Seleccionar Archivo JSON
+      </button>
+      <p style="color: #888; font-size: 0.8em; margin-top: 8px; font-style: italic;">
+        ⚠️ Esto reemplazará todos los datos actuales
+      </p>
+    </div>
+    
+    <div class="separador" style="margin: 20px 0; opacity: 0.3;"></div>
     
     <div class="ajuste-item">
       <label class="ajuste-label">Seleccionar mes a exportar</label>
       <input type="month" class="ajuste-input" id="mesExportar">
     </div>
     
-    <button class="btn-ajuste exportar" onclick="exportarDatos('mes')">📅 Exportar Mes Seleccionado (JSON)</button>
-    <button class="btn-ajuste exportar" onclick="exportarDatos('todo')" style="margin-top: 8px;">📦 Exportar TODO (JSON)</button>
-
-    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 140, 66, 0.3);">
-      <button class="btn-ajuste exportar" onclick="exportarPDF('mes')" style="background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">📄 Exportar Mes a PDF</button>
-      <button class="btn-ajuste exportar" onclick="exportarPDF('todo')" style="margin-top: 8px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);">📄 Exportar TODO a PDF</button>
+    <button class="btn-ajuste exportar" onclick="exportarDatos('mes')">📅 Exportar Mes JSON</button>
+    <button class="btn-ajuste exportar" onclick="exportarDatos('todo')" style="margin-top: 8px;">📦 Exportar TODO JSON</button>
+    <button class="btn-ajuste exportar" onclick="exportarPDF('mes')" style="margin-top: 8px; background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%); border: 2px solid #F06292;">📄 Exportar Mes PDF</button>
+    <button class="btn-ajuste exportar" onclick="exportarPDF('todo')" style="margin-top: 8px; background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%); border: 2px solid #F06292;">📄 Exportar TODO PDF</button>
+  </div>
+  
+  <!-- Notificaciones y Alertas -->
+  <div class="ajuste-seccion">
+    <div class="ajuste-seccion-titulo">🔔 Notificaciones y Alertas</div>
+    
+    <div class="ajuste-toggle-container">
+      <span class="ajuste-toggle-label">📳 Vibrar al fichar</span>
+      <div class="toggle-switch activo" id="toggleVibrar" onclick="toggleVibrar()">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+    
+    <div class="ajuste-toggle-container">
+      <span class="ajuste-toggle-label">🔊 Sonido al fichar</span>
+      <div class="toggle-switch" id="toggleSonido" onclick="toggleSonido()">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+    
+    <div class="separador" style="margin: 15px 0; opacity: 0.3;"></div>
+    
+    <div class="ajuste-toggle-container">
+      <span class="ajuste-toggle-label">⚠️ Aviso límite horas diarias</span>
+      <div class="toggle-switch" id="toggleLimiteHoras" onclick="toggleLimiteHoras()">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+    
+    <div class="ajuste-item" id="configLimiteHoras" style="display: none; margin-top: 10px;">
+      <label class="ajuste-label">Avisar al superar:</label>
+      <select class="ajuste-select" id="limiteHorasDiarias" onchange="guardarLimiteHoras()">
+        <option value="8">8 horas</option>
+        <option value="9">9 horas</option>
+        <option value="10" selected>10 horas</option>
+        <option value="11">11 horas</option>
+        <option value="12">12 horas</option>
+        <option value="13">13 horas</option>
+        <option value="14">14 horas</option>
+      </select>
+    </div>
+    
+    <div class="separador" style="margin: 15px 0; opacity: 0.3;"></div>
+    
+    <div class="ajuste-toggle-container">
+      <span class="ajuste-toggle-label">⏰ Recordatorio de fichaje</span>
+      <div class="toggle-switch" id="toggleRecordatorio" onclick="toggleRecordatorio()">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+    
+    <div class="ajuste-item" id="configRecordatorio" style="display: none; margin-top: 10px;">
+      <label class="ajuste-label">Recordar si no ficho después de:</label>
+      <select class="ajuste-select" id="tiempoRecordatorio" onchange="guardarRecordatorio()">
+        <option value="30">30 minutos</option>
+        <option value="60" selected>1 hora</option>
+        <option value="120">2 horas</option>
+        <option value="180">3 horas</option>
+      </select>
+      <p style="color: #888; font-size: 0.8em; margin-top: 8px; font-style: italic;">
+        💡 Recibirás un aviso si llevas mucho tiempo sin registrar actividad
+      </p>
     </div>
   </div>
   
@@ -1531,15 +2135,21 @@
   <div class="ajuste-seccion">
     <div class="ajuste-seccion-titulo">ℹ️ Información</div>
     
-    <div class="info-version">
-      <strong>Regyster</strong><br>
-      Versión 2.0<br><br>
-      Desarrollado con ❤️ y mucho ☕<br>
-      Para Mi Rey 👑<br><br>
-      <span style="font-size: 0.8em; opacity: 0.7;">
-        App de registro de trabajo y descanso<br>
-        Funciona 100% offline • PWA
-      </span>
+    <div class="info-version" id="infoVersion">
+      <div id="textoNormal" class="texto-transicion">
+        <strong>Regyster</strong><br>
+        Versión 2.0<br><br>
+        Aplicación profesional para el control<br>
+        de jornadas laborales<br><br>
+        <span style="font-size: 0.8em; opacity: 0.7;">
+          Registro de trabajo y descanso<br>
+          Funciona 100% offline • PWA
+        </span>
+      </div>
+      <div id="textoSecreto" class="texto-transicion" style="display: none;">
+        <span class="easter-msg">Desarrollado con ❤️ y mucho ☕</span><br>
+        <span class="easter-msg">Para Mi Rey 👑</span>
+      </div>
     </div>
   </div>
 
@@ -1617,11 +2227,20 @@
   </button>
 </nav>
 
+<!-- STICKMAN ESPÍA - EASTER EGG -->
+<div class="stickman-container" id="stickmanContainer">
+  <div class="stickman">
+    <div class="stickman-head"></div>
+    <div class="stickman-body"></div>
+    <div class="stickman-arm left"></div>
+    <div class="stickman-arm right"></div>
+    <div class="stickman-leg left"></div>
+    <div class="stickman-leg right"></div>
+  </div>
+</div>
+
 <!-- Chart.js para gráficas -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<!-- jsPDF para exportar a PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
   // Registrar Service Worker
@@ -1633,10 +2252,10 @@
     });
   }
 
-  // Función para calcular horas nocturnas (22:00 - 06:00)
+  // Función para calcular horas nocturnas (configurable)
   function calcularHorasNocturnas(timestampInicio, timestampFin){
-    const HORA_INICIO_NOCTURNA = 22; // 22:00
-    const HORA_FIN_NOCTURNA = 6;     // 06:00
+    const HORA_INICIO_NOCTURNA = parseInt(localStorage.getItem('horaInicioNocturnas') || '22');
+    const HORA_FIN_NOCTURNA = parseInt(localStorage.getItem('horaFinNocturnas') || '6');
     
     let horasNocturnas = 0;
     
@@ -1867,6 +2486,9 @@
         ultimoFinTrabajo: null
       }));
       
+      // Efectos al fichar
+      efectosAlFichar();
+      
       this.textContent = '⏹ PARAR';
       
     } else {
@@ -1909,6 +2531,12 @@
       // Actualizar display de horas nocturnas
       actualizarDisplayNocturnas();
       
+      // Efectos al fichar
+      efectosAlFichar();
+      
+      // Verificar límite de horas
+      verificarLimiteHoras();
+      
       this.textContent = '▶ INICIAR TRABAJO';
     }
   };
@@ -1944,18 +2572,32 @@
       return;
     }
 
-    if(cronometroTrabajando){
-      if(!confirm('⚠️ El cronómetro está activo. ¿Deseas guardar igualmente?\n\nRecomendación: Para el cronómetro primero para incluir el tiempo trabajado.')){
-        return;
-      }
-    }
-
+    // Guardar sin importar el estado del cronómetro - datos manuales independientes
     const registros = JSON.parse(localStorage.getItem('registros') || "[]");
-    registros.push({fecha, nocturnas: noct, dieta_pernocta: dieta, festivo: fest, sexto: sexto});
+    
+    // Buscar si ya existe un registro para esta fecha
+    const indiceExistente = registros.findIndex(r => r.fecha === fecha);
+    
+    if(indiceExistente !== -1){
+      // Actualizar registro existente
+      registros[indiceExistente].dieta_pernocta = dieta;
+      registros[indiceExistente].festivo = fest;
+      registros[indiceExistente].sexto = sexto;
+    } else {
+      // Crear nuevo registro
+      registros.push({
+        fecha: fecha, 
+        nocturnas: 0, 
+        dieta_pernocta: dieta, 
+        festivo: fest, 
+        sexto: sexto
+      });
+    }
+    
     localStorage.setItem('registros', JSON.stringify(registros));
 
     cargarHistorial();
-    alert('Guardado correctamente');
+    alert('✅ Guardado correctamente');
   };
 
   // FUNCIONALIDAD DE BORRADO
@@ -2259,18 +2901,20 @@
   function obtenerDiasDelCiclo(mesSeleccionado){
     // mesSeleccionado viene en formato "YYYY-MM"
     const [anio, mes] = mesSeleccionado.split('-').map(Number);
+    const diaInicio = parseInt(localStorage.getItem('diaInicioCiclo') || '26');
+    const diaFin = diaInicio - 1 || 31; // El día anterior al inicio
     
-    // Fecha inicio: día 26 del mes ANTERIOR
+    // Fecha inicio: día configurado del mes ANTERIOR
     let fechaInicio;
     if(mes === 1){
       // Si es enero, el mes anterior es diciembre del año anterior
-      fechaInicio = new Date(anio - 1, 11, 26); // Diciembre es mes 11 (0-indexed)
+      fechaInicio = new Date(anio - 1, 11, diaInicio);
     } else {
-      fechaInicio = new Date(anio, mes - 2, 26); // mes - 2 porque mes es 1-indexed y Date es 0-indexed
+      fechaInicio = new Date(anio, mes - 2, diaInicio);
     }
     
-    // Fecha fin: día 25 del mes seleccionado
-    const fechaFin = new Date(anio, mes - 1, 25);
+    // Fecha fin: día anterior al inicio del mes seleccionado
+    const fechaFin = new Date(anio, mes - 1, diaFin);
     
     // Generar array de días
     const dias = [];
@@ -2328,7 +2972,9 @@
     }
     
     let html = '<div class="calendario-container">';
-    html += `<div class="calendario-header">📅 ${nombresMeses[mesAnterior - 1]} 26 → ${nombresMeses[mes - 1]} 25 (${anio})</div>`;
+    const diaInicio = parseInt(localStorage.getItem('diaInicioCiclo') || '26');
+    const diaFin = diaInicio - 1 || 31;
+    html += `<div class="calendario-header">📅 ${nombresMeses[mesAnterior - 1]} ${diaInicio} → ${nombresMeses[mes - 1]} ${diaFin} (${anio})</div>`;
     
     // Grid del calendario
     html += '<div class="calendario-grid">';
@@ -2518,7 +3164,7 @@
     html += `<div class="edicion-fila">
       <label class="edicion-checkbox-container">
         <input type="checkbox" class="edicion-checkbox" id="edicion-sexto" ${sextoValor ? 'checked' : ''}>
-        <span>⚡ Sexto día consecutivo</span>
+        <span>6️⃣ Sexto día consecutivo</span>
       </label>
     </div>`;
     
@@ -3511,197 +4157,330 @@
   }
   window.exportarDatos = exportarDatos;
 
-  // ========== AJUSTES - EXPORTAR A PDF ==========
+  // ========== EXPORTAR A PDF ==========
   function exportarPDF(tipo){
     const registros = JSON.parse(localStorage.getItem('registros') || '[]');
     const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
-
-    let datosExportar = { registros: [], registrosCrono: [] };
-    let tituloDoc = '';
-
+    
+    let registrosFiltrados = [];
+    let registrosCronoFiltrados = [];
+    let nombreArchivo = 'regyster_';
+    let tituloDocumento = '';
+    
     if(tipo === 'mes'){
       const mesSeleccionado = document.getElementById('mesExportar').value;
       if(!mesSeleccionado){
         alert('⚠️ Selecciona un mes para exportar');
         return;
       }
-
-      datosExportar.registros = registros.filter(r => r.fecha.startsWith(mesSeleccionado));
-      datosExportar.registrosCrono = registrosCrono.filter(r => r.fecha.startsWith(mesSeleccionado));
-
-      const [año, mes] = mesSeleccionado.split('-');
-      const nombreMes = new Date(año, mes - 1).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' });
-      tituloDoc = `Regyster - ${nombreMes.charAt(0).toUpperCase() + nombreMes.slice(1)}`;
+      
+      registrosFiltrados = registros.filter(r => r.fecha.startsWith(mesSeleccionado));
+      registrosCronoFiltrados = registrosCrono.filter(r => r.fecha.startsWith(mesSeleccionado));
+      nombreArchivo += mesSeleccionado;
+      
+      // Formatear mes para el título
+      const [year, month] = mesSeleccionado.split('-');
+      const meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      tituloDocumento = `Registro de ${meses[parseInt(month)-1]} ${year}`;
     } else {
-      datosExportar.registros = registros;
-      datosExportar.registrosCrono = registrosCrono;
-      tituloDoc = 'Regyster - Registro Completo';
+      registrosFiltrados = registros;
+      registrosCronoFiltrados = registrosCrono;
+      nombreArchivo += 'completo_' + new Date().toISOString().split('T')[0];
+      tituloDocumento = 'Registro Completo de Trabajo';
     }
-
+    
     // Calcular resúmenes
-    const trabajos = datosExportar.registrosCrono.filter(r => r.tipo === 'trabajo');
-    const descansos = datosExportar.registrosCrono.filter(r => r.tipo === 'descanso');
-
+    const trabajos = registrosCronoFiltrados.filter(r => r.tipo === 'trabajo');
+    const descansos = registrosCronoFiltrados.filter(r => r.tipo === 'descanso');
+    
     const totalTrabajo = trabajos.reduce((sum, r) => sum + r.tiempo, 0);
     const totalDescanso = descansos.reduce((sum, r) => sum + r.tiempo, 0);
     const totalNocturnas = trabajos.reduce((sum, r) => sum + (r.horasNocturnas || 0), 0);
+    
+    // Crear contenido HTML para el PDF
+    let htmlContent = `
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>${tituloDocumento}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: Arial, sans-serif; 
+      padding: 30px; 
+      background: white;
+      color: #000;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #ff8c42;
+      padding-bottom: 20px;
+    }
+    .header h1 {
+      color: #ff8c42;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .header p {
+      color: #666;
+      font-size: 12px;
+    }
+    .resumen {
+      background: #f5f5f5;
+      border: 2px solid #ff8c42;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    .resumen h2 {
+      color: #ff8c42;
+      font-size: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    .resumen-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    .resumen-item {
+      background: white;
+      padding: 12px;
+      border-left: 4px solid #ff8c42;
+      border-radius: 4px;
+    }
+    .resumen-item strong {
+      color: #ff8c42;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+    .resumen-item span {
+      font-size: 18px;
+      font-weight: bold;
+      color: #000;
+    }
+    .seccion {
+      margin-bottom: 30px;
+    }
+    .seccion h3 {
+      color: #ff8c42;
+      font-size: 18px;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #ff8c42;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th {
+      background: #ff8c42;
+      color: white;
+      padding: 10px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    td {
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+      font-size: 11px;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: bold;
+      margin-right: 5px;
+    }
+    .badge-trabajo { background: #4CAF50; color: white; }
+    .badge-descanso { background: #2196F3; color: white; }
+    .badge-festivo { background: #FF9800; color: white; }
+    .badge-sexto { background: #9C27B0; color: white; }
+    .badge-camion { background: #F44336; color: white; }
+    .badge-casa { background: #00BCD4; color: white; }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 2px solid #ddd;
+      color: #666;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📊 ${tituloDocumento}</h1>
+    <p>Generado el ${new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} a las ${new Date().toLocaleTimeString('es-ES')}</p>
+  </div>
 
-    // Crear PDF usando jsPDF
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+  <div class="resumen">
+    <h2>📈 Resumen Global</h2>
+    <div class="resumen-grid">
+      <div class="resumen-item">
+        <strong>⏰ Horas de Trabajo</strong>
+        <span>${formatearHorasDecimal(totalTrabajo)}</span>
+      </div>
+      <div class="resumen-item">
+        <strong>💤 Horas de Descanso</strong>
+        <span>${formatearHorasDecimal(totalDescanso)}</span>
+      </div>
+      <div class="resumen-item">
+        <strong>🌙 Horas Nocturnas</strong>
+        <span>${formatearHorasDecimal(totalNocturnas)}</span>
+      </div>
+      <div class="resumen-item">
+        <strong>📅 Días Trabajados</strong>
+        <span>${new Set(trabajos.map(r => r.fecha)).size} días</span>
+      </div>
+      <div class="resumen-item">
+        <strong>🎉 Días Festivos</strong>
+        <span>${registrosFiltrados.filter(r => r.festivo).length} días</span>
+      </div>
+      <div class="resumen-item">
+        <strong>📆 Sextos Días</strong>
+        <span>${registrosFiltrados.filter(r => r.sexto).length} días</span>
+      </div>
+      <div class="resumen-item">
+        <strong>🚛 Pernoctas Camión</strong>
+        <span>${registrosFiltrados.filter(r => r.dieta_pernocta === 'camion').length} días</span>
+      </div>
+      <div class="resumen-item">
+        <strong>🏠 Pernoctas Casa</strong>
+        <span>${registrosFiltrados.filter(r => r.dieta_pernocta === 'casa').length} días</span>
+      </div>
+    </div>
+  </div>
+`;
 
-    let yPos = 20;
-
-    // Título
-    doc.setFontSize(20);
-    doc.setTextColor(255, 140, 66);
-    doc.text(tituloDoc, 105, yPos, { align: 'center' });
-    yPos += 10;
-
-    // Fecha de exportación
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Exportado el: ${new Date().toLocaleString('es-ES')}`, 105, yPos, { align: 'center' });
-    yPos += 15;
-
-    // Resumen General
-    doc.setFontSize(14);
-    doc.setTextColor(255, 140, 66);
-    doc.text('RESUMEN GENERAL', 20, yPos);
-    yPos += 8;
-
-    doc.setFontSize(10);
-    doc.setTextColor(0, 0, 0);
-
-    const resumenLineas = [
-      `Total Horas de Trabajo: ${formatearHorasDecimal(totalTrabajo)} (${totalTrabajo.toFixed(2)}h)`,
-      `Total Horas de Descanso: ${formatearHorasDecimal(totalDescanso)} (${totalDescanso.toFixed(2)}h)`,
-      `Total Horas Nocturnas: ${formatearHorasDecimal(totalNocturnas)} (${totalNocturnas.toFixed(2)}h)`,
-      `Días Trabajados: ${new Set(trabajos.map(r => r.fecha)).size}`,
-      `Días de Descanso: ${new Set(descansos.map(r => r.fecha)).size}`,
-      `Días Festivos: ${datosExportar.registros.filter(r => r.festivo).length}`,
-      `Días Sexto Consecutivo: ${datosExportar.registros.filter(r => r.sexto).length}`,
-      `Días en Camión: ${datosExportar.registros.filter(r => r.dieta_pernocta === 'camion').length}`,
-      `Días en Casa: ${datosExportar.registros.filter(r => r.dieta_pernocta === 'casa').length}`
-    ];
-
-    resumenLineas.forEach(linea => {
-      doc.text(linea, 25, yPos);
-      yPos += 6;
-    });
-
-    yPos += 10;
-
-    // Detalle de Registros por Día
-    doc.setFontSize(14);
-    doc.setTextColor(255, 140, 66);
-    doc.text('DETALLE DE REGISTROS', 20, yPos);
-    yPos += 8;
-
-    // Agrupar registros por fecha
-    const registrosPorFecha = {};
-    datosExportar.registrosCrono.forEach(reg => {
-      if(!registrosPorFecha[reg.fecha]){
-        registrosPorFecha[reg.fecha] = { trabajos: [], descansos: [] };
-      }
-      if(reg.tipo === 'trabajo'){
-        registrosPorFecha[reg.fecha].trabajos.push(reg);
-      } else {
-        registrosPorFecha[reg.fecha].descansos.push(reg);
-      }
-    });
-
-    const fechasOrdenadas = Object.keys(registrosPorFecha).sort().reverse();
-
-    doc.setFontSize(9);
-    doc.setTextColor(0, 0, 0);
-
-    fechasOrdenadas.forEach(fecha => {
-      // Verificar si necesitamos nueva página
-      if(yPos > 270){
-        doc.addPage();
-        yPos = 20;
-      }
-
-      const fechaFormateada = new Date(fecha + 'T00:00:00').toLocaleDateString('es-ES', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+    // Registros cronómetro agrupados por fecha
+    if(registrosCronoFiltrados.length > 0){
+      htmlContent += `
+  <div class="seccion">
+    <h3>⏱️ Registros de Cronómetro</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Hora Inicio</th>
+          <th>Hora Fin</th>
+          <th>Duración</th>
+          <th>Nocturnas</th>
+        </tr>
+      </thead>
+      <tbody>
+`;
+      
+      // Ordenar por fecha descendente
+      registrosCronoFiltrados.sort((a, b) => b.fecha.localeCompare(a.fecha) || b.horaInicio.localeCompare(a.horaInicio));
+      
+      registrosCronoFiltrados.forEach(r => {
+        const fechaFormateada = new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: '2-digit', month: 'short' });
+        htmlContent += `
+        <tr>
+          <td>${fechaFormateada}</td>
+          <td><span class="badge badge-${r.tipo}">${r.tipo === 'trabajo' ? '⏰ TRABAJO' : '💤 DESCANSO'}</span></td>
+          <td>${r.horaInicio}</td>
+          <td>${r.horaFin}</td>
+          <td><strong>${formatearHorasDecimal(r.tiempo)}</strong></td>
+          <td>${r.horasNocturnas ? formatearHorasDecimal(r.horasNocturnas) : '-'}</td>
+        </tr>
+`;
       });
-
-      // Fecha como encabezado
-      doc.setFontSize(11);
-      doc.setTextColor(255, 140, 66);
-      doc.text(fechaFormateada.charAt(0).toUpperCase() + fechaFormateada.slice(1), 20, yPos);
-      yPos += 6;
-
-      doc.setFontSize(9);
-      doc.setTextColor(0, 0, 0);
-
-      const regs = registrosPorFecha[fecha];
-
-      // Trabajos
-      if(regs.trabajos.length > 0){
-        const totalTrabajoFecha = regs.trabajos.reduce((sum, r) => sum + r.tiempo, 0);
-        const totalNocturnasFecha = regs.trabajos.reduce((sum, r) => sum + (r.horasNocturnas || 0), 0);
-
-        doc.text(`  Trabajo: ${formatearHorasDecimal(totalTrabajoFecha)}`, 25, yPos);
-        if(totalNocturnasFecha > 0){
-          doc.text(`(${formatearHorasDecimal(totalNocturnasFecha)} nocturnas)`, 80, yPos);
-        }
-        yPos += 5;
-
-        regs.trabajos.forEach(t => {
-          const inicio = t.horaInicio || '--:--';
-          const fin = t.horaFin || '--:--';
-          doc.setFontSize(8);
-          doc.setTextColor(80, 80, 80);
-          doc.text(`    ${inicio} - ${fin}`, 30, yPos);
-          yPos += 4;
-        });
-        doc.setFontSize(9);
-        doc.setTextColor(0, 0, 0);
-      }
-
-      // Descansos
-      if(regs.descansos.length > 0){
-        const totalDescansoFecha = regs.descansos.reduce((sum, r) => sum + r.tiempo, 0);
-        doc.text(`  Descanso: ${formatearHorasDecimal(totalDescansoFecha)}`, 25, yPos);
-        yPos += 5;
-
-        regs.descansos.forEach(d => {
-          const inicio = d.horaInicio || '--:--';
-          const fin = d.horaFin || '--:--';
-          doc.setFontSize(8);
-          doc.setTextColor(80, 80, 80);
-          doc.text(`    ${inicio} - ${fin}`, 30, yPos);
-          yPos += 4;
-        });
-        doc.setFontSize(9);
-        doc.setTextColor(0, 0, 0);
-      }
-
-      yPos += 5;
-    });
-
-    // Pie de página en todas las páginas
-    const pageCount = doc.internal.getNumberOfPages();
-    for(let i = 1; i <= pageCount; i++){
-      doc.setPage(i);
-      doc.setFontSize(8);
-      doc.setTextColor(150, 150, 150);
-      doc.text(`Generado por Regyster - Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+      
+      htmlContent += `
+      </tbody>
+    </table>
+  </div>
+`;
     }
 
-    // Guardar PDF
-    const nombreArchivo = tipo === 'mes'
-      ? `regyster_${document.getElementById('mesExportar').value}.pdf`
-      : `regyster_completo_${new Date().toISOString().split('T')[0]}.pdf`;
+    // Registros manuales
+    if(registrosFiltrados.length > 0){
+      htmlContent += `
+  <div class="seccion">
+    <h3>📝 Registros Manuales</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Pernocta/Dieta</th>
+          <th>Festivo</th>
+          <th>Sexto Día</th>
+        </tr>
+      </thead>
+      <tbody>
+`;
+      
+      // Ordenar por fecha descendente
+      registrosFiltrados.sort((a, b) => b.fecha.localeCompare(a.fecha));
+      
+      registrosFiltrados.forEach(r => {
+        const fechaFormateada = new Date(r.fecha + 'T00:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+        let badges = '';
+        
+        if(r.dieta_pernocta === 'camion') badges += '<span class="badge badge-camion">🚛 CAMIÓN</span>';
+        if(r.dieta_pernocta === 'casa') badges += '<span class="badge badge-casa">🏠 CASA</span>';
+        if(r.festivo) badges += '<span class="badge badge-festivo">🎉 FESTIVO</span>';
+        if(r.sexto) badges += '<span class="badge badge-sexto">📆 SEXTO</span>';
+        
+        htmlContent += `
+        <tr>
+          <td>${fechaFormateada}</td>
+          <td>${r.dieta_pernocta === 'camion' ? '🚛 Camión' : (r.dieta_pernocta === 'casa' ? '🏠 Casa' : '-')}</td>
+          <td>${r.festivo ? '✅ Sí' : '-'}</td>
+          <td>${r.sexto ? '✅ Sí' : '-'}</td>
+        </tr>
+`;
+      });
+      
+      htmlContent += `
+      </tbody>
+    </table>
+  </div>
+`;
+    }
 
-    doc.save(nombreArchivo);
+    htmlContent += `
+  <div class="footer">
+    <p><strong>Regyster</strong> - Sistema de Registro de Trabajo v2.0</p>
+    <p>Documento generado automáticamente - Todos los derechos reservados</p>
+  </div>
+</body>
+</html>
+`;
 
-    alert('✅ PDF exportado correctamente');
+    // Crear un iframe oculto para imprimir
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
+    const iframeDoc = iframe.contentWindow.document;
+    iframeDoc.open();
+    iframeDoc.write(htmlContent);
+    iframeDoc.close();
+    
+    // Esperar a que cargue y ejecutar impresión
+    iframe.onload = function() {
+      setTimeout(() => {
+        iframe.contentWindow.print();
+        
+        // Dar tiempo para que se abra el diálogo de impresión/PDF
+        setTimeout(() => {
+          document.body.removeChild(iframe);
+        }, 1000);
+      }, 500);
+    };
   }
   window.exportarPDF = exportarPDF;
 
@@ -3752,7 +4531,512 @@
     location.reload(true);
   }
   window.limpiarCache = limpiarCache;
+
+  // ========== NUEVOS AJUSTES - TANDA 1 ==========
+  
+  // Toggle Modo Claro/Oscuro
+  function toggleModoClaro(){
+    const toggle = document.getElementById('toggleModoClaro');
+    toggle.classList.toggle('activo');
+    document.body.classList.toggle('modo-claro');
+    
+    // Guardar preferencia
+    localStorage.setItem('modoClaro', document.body.classList.contains('modo-claro'));
+  }
+  window.toggleModoClaro = toggleModoClaro;
+  
+  // Toggle Efectos Neón
+  function toggleNeon(){
+    const toggle = document.getElementById('toggleNeon');
+    toggle.classList.toggle('activo');
+    document.body.classList.toggle('neon-off');
+    
+    // Guardar preferencia (activo = neón encendido)
+    localStorage.setItem('neonOff', document.body.classList.contains('neon-off'));
+  }
+  window.toggleNeon = toggleNeon;
+  
+  // Cambiar Velocidad de Animaciones
+  function cambiarVelocidadAnimaciones(){
+    const velocidad = document.getElementById('velocidadAnimaciones').value;
+    
+    // Quitar todas las clases de animación
+    document.body.classList.remove('anim-rapidas', 'anim-lentas', 'anim-off');
+    
+    // Añadir la clase correspondiente
+    if(velocidad === 'rapidas'){
+      document.body.classList.add('anim-rapidas');
+    } else if(velocidad === 'lentas'){
+      document.body.classList.add('anim-lentas');
+    } else if(velocidad === 'off'){
+      document.body.classList.add('anim-off');
+    }
+    
+    // Guardar preferencia
+    localStorage.setItem('velocidadAnimaciones', velocidad);
+  }
+  window.cambiarVelocidadAnimaciones = cambiarVelocidadAnimaciones;
+  
+  // Cambiar Formato de Horas
+  function cambiarFormatoHoras(){
+    const formato = document.getElementById('formatoHoras').value;
+    localStorage.setItem('formatoHoras', formato);
+    
+    // Actualizar displays
+    actualizarDisplayNocturnas();
+  }
+  window.cambiarFormatoHoras = cambiarFormatoHoras;
+  
+  // Función modificada para formatear horas según preferencia
+  window.formatearHorasSegunPreferencia = function(horasDecimal){
+    const formato = localStorage.getItem('formatoHoras') || 'tradicional';
+    
+    if(formato === 'decimal'){
+      return horasDecimal.toFixed(2) + 'h';
+    } else {
+      return formatearHorasDecimal(horasDecimal);
+    }
+  };
+  
+  // Cargar ajustes guardados al iniciar
+  function cargarAjustesNuevos(){
+    // Modo claro
+    const modoClaro = localStorage.getItem('modoClaro') === 'true';
+    if(modoClaro){
+      document.body.classList.add('modo-claro');
+      document.getElementById('toggleModoClaro').classList.add('activo');
+    }
+    
+    // Neón
+    const neonOff = localStorage.getItem('neonOff') === 'true';
+    if(neonOff){
+      document.body.classList.add('neon-off');
+      document.getElementById('toggleNeon').classList.remove('activo');
+    }
+    
+    // Velocidad animaciones
+    const velocidad = localStorage.getItem('velocidadAnimaciones') || 'normales';
+    document.getElementById('velocidadAnimaciones').value = velocidad;
+    if(velocidad !== 'normales'){
+      cambiarVelocidadAnimaciones();
+    }
+    
+    // Formato horas
+    const formato = localStorage.getItem('formatoHoras') || 'tradicional';
+    document.getElementById('formatoHoras').value = formato;
+  }
+  
+  // Ejecutar al cargar la página
+  cargarAjustesNuevos();
+
+  // ========== TANDA 2: HORARIOS Y CICLOS ==========
+  
+  // Guardar configuración de horarios
+  function guardarConfigHorarios(){
+    const horaInicio = document.getElementById('horaInicioNocturnas').value;
+    const horaFin = document.getElementById('horaFinNocturnas').value;
+    const diaInicio = document.getElementById('diaInicioCiclo').value;
+    
+    localStorage.setItem('horaInicioNocturnas', horaInicio);
+    localStorage.setItem('horaFinNocturnas', horaFin);
+    localStorage.setItem('diaInicioCiclo', diaInicio);
+    
+    // Actualizar el display de nocturnas
+    actualizarDisplayNocturnas();
+  }
+  window.guardarConfigHorarios = guardarConfigHorarios;
+  
+  // Cargar configuración de horarios al iniciar
+  function cargarConfigHorarios(){
+    const horaInicio = localStorage.getItem('horaInicioNocturnas') || '22';
+    const horaFin = localStorage.getItem('horaFinNocturnas') || '6';
+    const diaInicio = localStorage.getItem('diaInicioCiclo') || '26';
+    
+    document.getElementById('horaInicioNocturnas').value = horaInicio;
+    document.getElementById('horaFinNocturnas').value = horaFin;
+    document.getElementById('diaInicioCiclo').value = diaInicio;
+  }
+  cargarConfigHorarios();
+  
+  // Importar datos desde archivo JSON
+  function importarDatos(event){
+    const archivo = event.target.files[0];
+    if(!archivo){
+      return;
+    }
+    
+    if(!archivo.name.endsWith('.json')){
+      alert('⚠️ Por favor selecciona un archivo .json válido');
+      return;
+    }
+    
+    if(!confirm('⚠️ ATENCIÓN: Esto reemplazará TODOS tus datos actuales.\n\n¿Estás seguro de que quieres continuar?')){
+      event.target.value = '';
+      return;
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onload = function(e){
+      try {
+        const datos = JSON.parse(e.target.result);
+        
+        // Validar estructura del archivo
+        if(!datos.registros && !datos.registrosCrono){
+          throw new Error('Estructura de archivo inválida');
+        }
+        
+        // Importar registros
+        if(datos.registros){
+          localStorage.setItem('registros', JSON.stringify(datos.registros));
+        }
+        
+        // Importar registros del cronómetro
+        if(datos.registrosCrono){
+          localStorage.setItem('registrosCrono', JSON.stringify(datos.registrosCrono));
+        }
+        
+        // Mostrar resumen de importación
+        const totalRegistros = datos.registros ? datos.registros.length : 0;
+        const totalCrono = datos.registrosCrono ? datos.registrosCrono.length : 0;
+        
+        alert(`✅ Datos importados correctamente!\n\n📋 Registros manuales: ${totalRegistros}\n⏱️ Registros cronómetro: ${totalCrono}\n\nLa página se recargará para aplicar los cambios.`);
+        
+        // Recargar página
+        location.reload();
+        
+      } catch(error){
+        alert('❌ Error al importar: El archivo no tiene un formato válido.\n\nAsegúrate de que sea un archivo exportado desde Regyster.');
+        console.error('Error de importación:', error);
+      }
+    };
+    
+    reader.onerror = function(){
+      alert('❌ Error al leer el archivo');
+    };
+    
+    reader.readAsText(archivo);
+    event.target.value = '';
+  }
+  window.importarDatos = importarDatos;
+
+  // ========== TANDA 3: NOTIFICACIONES Y ALERTAS ==========
+  
+  // Toggle Vibración
+  function toggleVibrar(){
+    const toggle = document.getElementById('toggleVibrar');
+    toggle.classList.toggle('activo');
+    localStorage.setItem('vibrarAlFichar', toggle.classList.contains('activo'));
+  }
+  window.toggleVibrar = toggleVibrar;
+  
+  // Toggle Sonido
+  function toggleSonido(){
+    const toggle = document.getElementById('toggleSonido');
+    toggle.classList.toggle('activo');
+    localStorage.setItem('sonidoAlFichar', toggle.classList.contains('activo'));
+  }
+  window.toggleSonido = toggleSonido;
+  
+  // Toggle Límite de Horas
+  function toggleLimiteHoras(){
+    const toggle = document.getElementById('toggleLimiteHoras');
+    toggle.classList.toggle('activo');
+    const activo = toggle.classList.contains('activo');
+    localStorage.setItem('limiteHorasActivo', activo);
+    document.getElementById('configLimiteHoras').style.display = activo ? 'block' : 'none';
+  }
+  window.toggleLimiteHoras = toggleLimiteHoras;
+  
+  function guardarLimiteHoras(){
+    const limite = document.getElementById('limiteHorasDiarias').value;
+    localStorage.setItem('limiteHorasDiarias', limite);
+  }
+  window.guardarLimiteHoras = guardarLimiteHoras;
+  
+  // Toggle Recordatorio
+  function toggleRecordatorio(){
+    const toggle = document.getElementById('toggleRecordatorio');
+    toggle.classList.toggle('activo');
+    const activo = toggle.classList.contains('activo');
+    localStorage.setItem('recordatorioActivo', activo);
+    document.getElementById('configRecordatorio').style.display = activo ? 'block' : 'none';
+    
+    if(activo){
+      iniciarRecordatorio();
+    } else {
+      detenerRecordatorio();
+    }
+  }
+  window.toggleRecordatorio = toggleRecordatorio;
+  
+  function guardarRecordatorio(){
+    const tiempo = document.getElementById('tiempoRecordatorio').value;
+    localStorage.setItem('tiempoRecordatorio', tiempo);
+    if(localStorage.getItem('recordatorioActivo') === 'true'){
+      iniciarRecordatorio();
+    }
+  }
+  window.guardarRecordatorio = guardarRecordatorio;
+  
+  // Sistema de recordatorio
+  let intervaloRecordatorio = null;
+  
+  function iniciarRecordatorio(){
+    detenerRecordatorio();
+    const minutos = parseInt(localStorage.getItem('tiempoRecordatorio') || '60');
+    
+    intervaloRecordatorio = setInterval(() => {
+      // Verificar si hay actividad reciente
+      const estadoCrono = JSON.parse(localStorage.getItem('estadoCrono') || '{}');
+      const ahora = Date.now();
+      
+      // Si está trabajando, no mostrar recordatorio
+      if(estadoCrono.trabajando) return;
+      
+      // Si hay un último fin de trabajo, verificar tiempo transcurrido
+      if(estadoCrono.ultimoFinTrabajo){
+        const tiempoTranscurrido = (ahora - estadoCrono.ultimoFinTrabajo) / 1000 / 60;
+        if(tiempoTranscurrido >= minutos){
+          mostrarRecordatorio();
+        }
+      }
+    }, 60000); // Verificar cada minuto
+  }
+  
+  function detenerRecordatorio(){
+    if(intervaloRecordatorio){
+      clearInterval(intervaloRecordatorio);
+      intervaloRecordatorio = null;
+    }
+  }
+  
+  function mostrarRecordatorio(){
+    if('Notification' in window && Notification.permission === 'granted'){
+      new Notification('⏰ Regyster - Recordatorio', {
+        body: '¿Has empezado a trabajar? No olvides fichar.',
+        icon: 'icons/icon-192.png'
+      });
+    } else {
+      // Fallback: vibración si está activa
+      if(localStorage.getItem('vibrarAlFichar') === 'true' && navigator.vibrate){
+        navigator.vibrate([200, 100, 200, 100, 200]);
+      }
+    }
+  }
+  
+  // Función para ejecutar al fichar (vibración y sonido)
+  function efectosAlFichar(){
+    // Vibración
+    if(localStorage.getItem('vibrarAlFichar') === 'true' && navigator.vibrate){
+      navigator.vibrate(200);
+    }
+    
+    // Sonido
+    if(localStorage.getItem('sonidoAlFichar') === 'true'){
+      reproducirSonidoFichaje();
+    }
+  }
+  
+  // Crear sonido de fichaje
+  function reproducirSonidoFichaje(){
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch(e){
+      console.log('Audio no disponible');
+    }
+  }
+  
+  // Verificar límite de horas
+  function verificarLimiteHoras(){
+    if(localStorage.getItem('limiteHorasActivo') !== 'true') return;
+    
+    const limite = parseInt(localStorage.getItem('limiteHorasDiarias') || '10');
+    const fechaHoy = new Date().toISOString().split('T')[0];
+    const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
+    
+    const trabajoHoy = registrosCrono.filter(r => r.fecha === fechaHoy && r.tipo === 'trabajo');
+    const horasHoy = trabajoHoy.reduce((sum, r) => sum + r.tiempo, 0);
+    
+    if(horasHoy >= limite){
+      alert(`⚠️ ¡ATENCIÓN!\n\nHas superado el límite de ${limite} horas diarias.\n\nHoras trabajadas hoy: ${formatearHorasDecimal(horasHoy)}\n\n¡Recuerda descansar!`);
+      
+      if(navigator.vibrate){
+        navigator.vibrate([500, 200, 500, 200, 500]);
+      }
+    }
+  }
+  
+  // Cargar configuración de notificaciones al iniciar
+  function cargarConfigNotificaciones(){
+    // Vibración (activa por defecto)
+    const vibrar = localStorage.getItem('vibrarAlFichar');
+    if(vibrar === null){
+      localStorage.setItem('vibrarAlFichar', 'true');
+    } else if(vibrar === 'false'){
+      document.getElementById('toggleVibrar').classList.remove('activo');
+    }
+    
+    // Sonido
+    if(localStorage.getItem('sonidoAlFichar') === 'true'){
+      document.getElementById('toggleSonido').classList.add('activo');
+    }
+    
+    // Límite de horas
+    if(localStorage.getItem('limiteHorasActivo') === 'true'){
+      document.getElementById('toggleLimiteHoras').classList.add('activo');
+      document.getElementById('configLimiteHoras').style.display = 'block';
+    }
+    const limite = localStorage.getItem('limiteHorasDiarias') || '10';
+    document.getElementById('limiteHorasDiarias').value = limite;
+    
+    // Recordatorio
+    if(localStorage.getItem('recordatorioActivo') === 'true'){
+      document.getElementById('toggleRecordatorio').classList.add('activo');
+      document.getElementById('configRecordatorio').style.display = 'block';
+      iniciarRecordatorio();
+      
+      // Solicitar permisos de notificación
+      if('Notification' in window && Notification.permission === 'default'){
+        Notification.requestPermission();
+      }
+    }
+    const tiempo = localStorage.getItem('tiempoRecordatorio') || '60';
+    document.getElementById('tiempoRecordatorio').value = tiempo;
+  }
+  cargarConfigNotificaciones();
+
+  // ========== STICKMAN ESPÍA - EASTER EGG ==========
+  const stickmanContainer = document.getElementById('stickmanContainer');
+  const direcciones = ['desde-izquierda', 'desde-derecha', 'desde-arriba', 'desde-abajo'];
+  let stickmanActivo = false;
+
+  function mostrarStickman(){
+    if(stickmanActivo) return;
+    stickmanActivo = true;
+
+    // Quitar direcciones anteriores
+    direcciones.forEach(d => stickmanContainer.classList.remove(d));
+    stickmanContainer.classList.remove('visible');
+
+    // Elegir dirección random
+    const direccion = direcciones[Math.floor(Math.random() * direcciones.length)];
+    
+    // Posición vertical/horizontal random dentro del viewport
+    if(direccion === 'desde-izquierda' || direccion === 'desde-derecha'){
+      const topPos = 100 + Math.random() * (window.innerHeight - 250);
+      stickmanContainer.style.top = topPos + 'px';
+      stickmanContainer.style.bottom = 'auto';
+      stickmanContainer.style.left = direccion === 'desde-izquierda' ? '0' : 'auto';
+      stickmanContainer.style.right = direccion === 'desde-derecha' ? '0' : 'auto';
+    } else {
+      const leftPos = 50 + Math.random() * (window.innerWidth - 100);
+      stickmanContainer.style.left = leftPos + 'px';
+      stickmanContainer.style.right = 'auto';
+      if(direccion === 'desde-arriba'){
+        stickmanContainer.style.top = '60px';
+        stickmanContainer.style.bottom = 'auto';
+      } else {
+        stickmanContainer.style.bottom = '70px';
+        stickmanContainer.style.top = 'auto';
+      }
+    }
+
+    // Añadir dirección y mostrar
+    stickmanContainer.classList.add(direccion);
+    
+    // Pequeño delay para que la transición funcione
+    setTimeout(() => {
+      stickmanContainer.classList.add('visible');
+    }, 50);
+
+    // Esconderse después de 3-4 segundos
+    const tiempoEspiando = 3000 + Math.random() * 1000;
+    
+    setTimeout(() => {
+      stickmanContainer.classList.remove('visible');
+      
+      // Marcar como inactivo después de la animación de esconderse
+      setTimeout(() => {
+        stickmanActivo = false;
+      }, 800);
+    }, tiempoEspiando);
+  }
+
+  // Iniciar el ciclo del stickman espía (cada 15 segundos)
+  setInterval(mostrarStickman, 15000);
+  
+  // Primera aparición después de 5 segundos
+  setTimeout(mostrarStickman, 5000);
+
+  // ========== EASTER EGG - NUESTRA FIRMA SECRETA ==========
+  let clicksEasterEgg = 0;
+  let timerEasterEgg = null;
+  let easterEggActivo = false;
+  
+  document.getElementById('infoVersion').addEventListener('click', function(e) {
+    if(easterEggActivo) return;
+    
+    clicksEasterEgg++;
+    
+    if(timerEasterEgg) clearTimeout(timerEasterEgg);
+    
+    timerEasterEgg = setTimeout(() => {
+      clicksEasterEgg = 0;
+    }, 1000);
+    
+    if(clicksEasterEgg >= 4) {
+      clicksEasterEgg = 0;
+      easterEggActivo = true;
+      
+      const textoNormal = document.getElementById('textoNormal');
+      const textoSecreto = document.getElementById('textoSecreto');
+      
+      // Glitch out del texto normal
+      textoNormal.classList.add('glitch-out');
+      
+      setTimeout(() => {
+        textoNormal.style.display = 'none';
+        textoSecreto.style.display = 'block';
+        textoSecreto.classList.add('glitch-in');
+        
+        // Después de 20 segundos, volver al texto normal
+        setTimeout(() => {
+          textoSecreto.classList.remove('glitch-in');
+          textoSecreto.classList.add('glitch-out');
+          
+          setTimeout(() => {
+            textoSecreto.style.display = 'none';
+            textoSecreto.classList.remove('glitch-out');
+            textoNormal.style.display = 'block';
+            textoNormal.classList.remove('glitch-out');
+            textoNormal.classList.add('glitch-in');
+            
+            setTimeout(() => {
+              textoNormal.classList.remove('glitch-in');
+              easterEggActivo = false;
+            }, 800);
+          }, 800);
+        }, 20000);
+      }, 800);
+    }
+  });
 </script>
 
 </body>
 </html>
+
