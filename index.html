@@ -4427,28 +4427,81 @@
     loadingMsg.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #ff8c42; color: white; padding: 20px 40px; border-radius: 10px; font-size: 18px; font-weight: bold; z-index: 10000; box-shadow: 0 4px 20px rgba(0,0,0,0.3);';
     document.body.appendChild(loadingMsg);
 
+    // Detectar si es móvil
+    const esMobil = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const esIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
     // Configuración de html2pdf
     const opciones = {
       margin: 10,
       filename: nombreArchivo + '.pdf',
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+      html2canvas: { scale: esMobil ? 1.5 : 2, useCORS: true, letterRendering: true },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
 
     // Generar PDF
-    html2pdf().set(opciones).from(elemento.querySelector('#pdf-content')).save().then(() => {
-      // Limpiar elementos temporales
+    html2pdf().set(opciones).from(elemento.querySelector('#pdf-content')).outputPdf('blob').then((pdfBlob) => {
+      // Limpiar elemento temporal
       document.body.removeChild(elemento);
-      document.body.removeChild(loadingMsg);
 
-      // Mensaje de éxito
-      alert('✅ PDF exportado correctamente: ' + nombreArchivo + '.pdf');
+      // Crear blob con tipo correcto
+      const blob = new Blob([pdfBlob], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const nombreCompleto = nombreArchivo + '.pdf';
+
+      // Si es iOS y soporta Web Share API, ofrecer compartir
+      if (esIOS && navigator.share) {
+        // Crear File desde Blob para compartir en iOS
+        const file = new File([blob], nombreCompleto, { type: 'application/pdf' });
+
+        navigator.share({
+          title: 'Regyster - ' + tituloDocumento,
+          text: 'Exportación de registros de trabajo',
+          files: [file]
+        }).then(() => {
+          document.body.removeChild(loadingMsg);
+          console.log('PDF compartido correctamente');
+        }).catch((error) => {
+          // Si falla compartir, intentar descarga normal
+          console.log('No se pudo compartir, descargando...', error);
+          descargarPDF(url, nombreCompleto);
+        });
+      } else {
+        // Descarga normal para Android y escritorio
+        descargarPDF(url, nombreCompleto);
+      }
+
+      // Función auxiliar para descargar
+      function descargarPDF(url, nombre) {
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = nombre;
+        document.body.appendChild(a);
+        a.click();
+
+        // Limpiar
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          document.body.removeChild(loadingMsg);
+
+          // Mensaje específico según plataforma
+          if (esMobil) {
+            alert('✅ PDF guardado en Descargas: ' + nombre + '\n\n📁 Revisa la carpeta de Descargas de tu dispositivo.');
+          } else {
+            alert('✅ PDF exportado correctamente: ' + nombre);
+          }
+        }, 100);
+      }
     }).catch(error => {
       console.error('Error al generar PDF:', error);
       document.body.removeChild(elemento);
-      document.body.removeChild(loadingMsg);
-      alert('❌ Error al generar el PDF. Por favor, inténtalo de nuevo.');
+      if (document.body.contains(loadingMsg)) {
+        document.body.removeChild(loadingMsg);
+      }
+      alert('❌ Error al generar el PDF. Por favor, inténtalo de nuevo.\n\nDetalles: ' + error.message);
     });
   }
   window.exportarPDF = exportarPDF;
