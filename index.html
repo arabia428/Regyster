@@ -1413,99 +1413,190 @@
     position: fixed;
     z-index: 9999;
     pointer-events: none;
-    transition: transform 0.8s ease-in-out;
+    transition: transform 1s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
   .stickman {
-    width: 25px;
-    height: 40px;
+    width: 50px;
+    height: 70px;
     position: relative;
+    filter: drop-shadow(0 2px 8px rgba(255, 140, 66, 0.3));
   }
 
-  /* Cabeza */
+  /* Cabeza - Más grande y expresiva */
   .stickman-head {
-    width: 12px;
-    height: 12px;
-    background: #ff8c42;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
     border-radius: 50%;
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    animation: moverCabeza 0.8s ease-in-out infinite;
+    animation: cabeceaEspia 2.5s ease-in-out infinite;
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.2);
   }
 
-  /* Cuerpo */
-  .stickman-body {
-    width: 3px;
-    height: 15px;
-    background: #ff8c42;
+  /* Ojos - Animados y curiosos */
+  .stickman-eye {
+    width: 5px;
+    height: 5px;
+    background: #0a0e27;
+    border-radius: 50%;
     position: absolute;
-    top: 11px;
+    top: 10px;
+    animation: mirarAlrededor 3s ease-in-out infinite;
+  }
+
+  .stickman-eye.left {
+    left: 6px;
+  }
+
+  .stickman-eye.right {
+    right: 6px;
+  }
+
+  /* Hombros - Para dar volumen */
+  .stickman-shoulders {
+    width: 22px;
+    height: 10px;
+    background: linear-gradient(180deg, #ff8c42 0%, #ff7a42 100%);
+    border-radius: 5px 5px 0 0;
+    position: absolute;
+    top: 24px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 2px;
   }
 
-  /* Brazos */
-  .stickman-arm {
-    width: 12px;
-    height: 3px;
-    background: #ff8c42;
+  /* Cuerpo - Solo parte superior visible */
+  .stickman-body {
+    width: 18px;
+    height: 25px;
+    background: linear-gradient(180deg, #ff7a42 0%, #ff6b35 100%);
     position: absolute;
-    top: 14px;
-    border-radius: 2px;
-    transform-origin: center;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 0 4px 4px;
+    animation: respirar 3s ease-in-out infinite;
   }
 
-  .stickman-arm.left {
-    left: -2px;
-    animation: moverBrazoIzq 0.6s ease-in-out infinite;
-  }
-
-  .stickman-arm.right {
-    right: -2px;
-    animation: moverBrazoDer 0.7s ease-in-out infinite;
-  }
-
-  /* Piernas */
-  .stickman-leg {
-    width: 3px;
-    height: 14px;
-    background: #ff8c42;
+  /* Brazo visible - El que se asoma */
+  .stickman-arm.visible-arm {
+    width: 16px;
+    height: 5px;
+    background: linear-gradient(90deg, #ff8c42 0%, #ff7a42 100%);
     position: absolute;
-    top: 25px;
-    border-radius: 2px;
+    top: 35px;
+    left: -8px;
+    border-radius: 3px;
+    transform-origin: right center;
+    animation: saludarEspia 2s ease-in-out infinite;
   }
 
-  .stickman-leg.left {
-    left: 6px;
-    transform: rotate(-10deg);
+  /* Mano - Pequeño detalle */
+  .stickman-hand {
+    width: 7px;
+    height: 7px;
+    background: #ff8c42;
+    border-radius: 50%;
+    position: absolute;
+    top: 33px;
+    left: -12px;
+    animation: moverMano 2s ease-in-out infinite;
   }
 
-  .stickman-leg.right {
-    right: 6px;
-    transform: rotate(10deg);
+  /* ========== ANIMACIONES MEJORADAS ========== */
+
+  /* Cabeza que mira curiosamente */
+  @keyframes cabeceaEspia {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0) rotate(0deg);
+    }
+    15% {
+      transform: translateX(-50%) translateY(2px) rotate(-8deg);
+    }
+    30% {
+      transform: translateX(-50%) translateY(0) rotate(0deg);
+    }
+    45% {
+      transform: translateX(-50%) translateY(1px) rotate(5deg);
+    }
+    60% {
+      transform: translateX(-50%) translateY(0) rotate(0deg);
+    }
+    75% {
+      transform: translateX(-50%) translateY(-1px) rotate(-3deg);
+    }
   }
 
-  /* Animaciones del stickman */
-  @keyframes moverCabeza {
-    0%, 100% { transform: translateX(-50%) rotate(0deg); }
-    25% { transform: translateX(-50%) rotate(-10deg); }
-    75% { transform: translateX(-50%) rotate(10deg); }
+  /* Ojos que miran alrededor espiando */
+  @keyframes mirarAlrededor {
+    0%, 100% {
+      transform: translateX(0) scale(1);
+    }
+    20% {
+      transform: translateX(1px) scale(1.1);
+    }
+    40% {
+      transform: translateX(-1px) scale(1);
+    }
+    50% {
+      transform: translateX(0) scaleY(0.3);
+    }
+    55% {
+      transform: translateX(0) scale(1);
+    }
+    70% {
+      transform: translateX(1px) scale(1.1);
+    }
   }
 
-  @keyframes moverBrazoIzq {
-    0%, 100% { transform: rotate(-20deg); }
-    50% { transform: rotate(20deg); }
+  /* Respiración sutil del cuerpo */
+  @keyframes respirar {
+    0%, 100% {
+      transform: translateX(-50%) scaleY(1);
+    }
+    50% {
+      transform: translateX(-50%) scaleY(1.05);
+    }
   }
 
-  @keyframes moverBrazoDer {
-    0%, 100% { transform: rotate(20deg); }
-    50% { transform: rotate(-20deg); }
+  /* Brazo que saluda o señala */
+  @keyframes saludarEspia {
+    0%, 100% {
+      transform: rotate(-20deg);
+    }
+    25% {
+      transform: rotate(-5deg);
+    }
+    50% {
+      transform: rotate(-25deg);
+    }
+    75% {
+      transform: rotate(-10deg);
+    }
   }
 
-  /* Posiciones de aparición */
+  /* Mano que se mueve con el brazo */
+  @keyframes moverMano {
+    0%, 100% {
+      transform: rotate(-15deg) translateY(0);
+    }
+    25% {
+      transform: rotate(5deg) translateY(-2px);
+    }
+    50% {
+      transform: rotate(-20deg) translateY(0);
+    }
+    75% {
+      transform: rotate(0deg) translateY(-1px);
+    }
+  }
+
+  /* ========== POSICIONES DE APARICIÓN - SOLO LATERALES ========== */
+
+  /* Desde la izquierda */
   .stickman-container.desde-izquierda {
     left: 0;
     top: 50%;
@@ -1513,9 +1604,10 @@
   }
 
   .stickman-container.desde-izquierda.visible {
-    transform: translateX(-30%) translateY(-50%);
+    transform: translateX(0%) translateY(-50%);
   }
 
+  /* Desde la derecha */
   .stickman-container.desde-derecha {
     right: 0;
     left: auto;
@@ -1524,41 +1616,12 @@
   }
 
   .stickman-container.desde-derecha.visible {
-    transform: translateX(30%) translateY(-50%);
+    transform: translateX(0%) translateY(-50%);
   }
 
-  .stickman-container.desde-arriba {
-    top: 60px;
-    left: 50%;
-    transform: translateY(-100%) translateX(-50%);
-  }
-
-  .stickman-container.desde-arriba.visible {
-    transform: translateY(-30%) translateX(-50%);
-  }
-
-  .stickman-container.desde-abajo {
-    bottom: 70px;
-    top: auto;
-    left: 50%;
-    transform: translateY(100%) translateX(-50%);
-  }
-
-  .stickman-container.desde-abajo.visible {
-    transform: translateY(30%) translateX(-50%);
-  }
-
-  /* Rotaciones según dirección */
+  /* Invertir horizontalmente cuando viene desde la derecha */
   .stickman-container.desde-derecha .stickman {
     transform: scaleX(-1);
-  }
-
-  .stickman-container.desde-arriba .stickman {
-    transform: rotate(90deg);
-  }
-
-  .stickman-container.desde-abajo .stickman {
-    transform: rotate(-90deg);
   }
 
   .info-version strong {
@@ -2230,12 +2293,14 @@
 <!-- STICKMAN ESPÍA - EASTER EGG -->
 <div class="stickman-container" id="stickmanContainer">
   <div class="stickman">
-    <div class="stickman-head"></div>
+    <div class="stickman-head">
+      <div class="stickman-eye left"></div>
+      <div class="stickman-eye right"></div>
+    </div>
+    <div class="stickman-shoulders"></div>
     <div class="stickman-body"></div>
-    <div class="stickman-arm left"></div>
-    <div class="stickman-arm right"></div>
-    <div class="stickman-leg left"></div>
-    <div class="stickman-leg right"></div>
+    <div class="stickman-arm visible-arm"></div>
+    <div class="stickman-hand"></div>
   </div>
 </div>
 
@@ -4922,7 +4987,7 @@
 
   // ========== STICKMAN ESPÍA - EASTER EGG ==========
   const stickmanContainer = document.getElementById('stickmanContainer');
-  const direcciones = ['desde-izquierda', 'desde-derecha', 'desde-arriba', 'desde-abajo'];
+  const direcciones = ['desde-izquierda', 'desde-derecha'];
   let stickmanActivo = false;
 
   function mostrarStickman(){
@@ -4933,53 +4998,40 @@
     direcciones.forEach(d => stickmanContainer.classList.remove(d));
     stickmanContainer.classList.remove('visible');
 
-    // Elegir dirección random
+    // Elegir dirección random (solo izquierda o derecha)
     const direccion = direcciones[Math.floor(Math.random() * direcciones.length)];
-    
-    // Posición vertical/horizontal random dentro del viewport
-    if(direccion === 'desde-izquierda' || direccion === 'desde-derecha'){
-      const topPos = 100 + Math.random() * (window.innerHeight - 250);
-      stickmanContainer.style.top = topPos + 'px';
-      stickmanContainer.style.bottom = 'auto';
-      stickmanContainer.style.left = direccion === 'desde-izquierda' ? '0' : 'auto';
-      stickmanContainer.style.right = direccion === 'desde-derecha' ? '0' : 'auto';
-    } else {
-      const leftPos = 50 + Math.random() * (window.innerWidth - 100);
-      stickmanContainer.style.left = leftPos + 'px';
-      stickmanContainer.style.right = 'auto';
-      if(direccion === 'desde-arriba'){
-        stickmanContainer.style.top = '60px';
-        stickmanContainer.style.bottom = 'auto';
-      } else {
-        stickmanContainer.style.bottom = '70px';
-        stickmanContainer.style.top = 'auto';
-      }
-    }
+
+    // Posición vertical random dentro del viewport (evitando header y footer)
+    const topPos = 120 + Math.random() * (window.innerHeight - 280);
+    stickmanContainer.style.top = topPos + 'px';
+    stickmanContainer.style.bottom = 'auto';
+    stickmanContainer.style.left = direccion === 'desde-izquierda' ? '0' : 'auto';
+    stickmanContainer.style.right = direccion === 'desde-derecha' ? '0' : 'auto';
 
     // Añadir dirección y mostrar
     stickmanContainer.classList.add(direccion);
-    
-    // Pequeño delay para que la transición funcione
+
+    // Pequeño delay para que la transición funcione con efecto bounce
     setTimeout(() => {
       stickmanContainer.classList.add('visible');
-    }, 50);
+    }, 100);
 
-    // Esconderse después de 3-4 segundos
-    const tiempoEspiando = 3000 + Math.random() * 1000;
-    
+    // Esconderse después de 3.5-5 segundos (más tiempo para disfrutar la animación)
+    const tiempoEspiando = 3500 + Math.random() * 1500;
+
     setTimeout(() => {
       stickmanContainer.classList.remove('visible');
-      
+
       // Marcar como inactivo después de la animación de esconderse
       setTimeout(() => {
         stickmanActivo = false;
-      }, 800);
+      }, 1000); // 1 segundo para la transición de salida
     }, tiempoEspiando);
   }
 
   // Iniciar el ciclo del stickman espía (cada 15 segundos)
   setInterval(mostrarStickman, 15000);
-  
+
   // Primera aparición después de 5 segundos
   setTimeout(mostrarStickman, 5000);
 
