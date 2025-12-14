@@ -4159,17 +4159,17 @@
   function exportarDatos(tipo){
     const registros = JSON.parse(localStorage.getItem('registros') || '[]');
     const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
-    
+
     let datosExportar = { registros: [], registrosCrono: [] };
     let nombreArchivo = 'regyster_';
-    
+
     if(tipo === 'mes'){
       const mesSeleccionado = document.getElementById('mesExportar').value;
       if(!mesSeleccionado){
         alert('⚠️ Selecciona un mes para exportar');
         return;
       }
-      
+
       datosExportar.registros = registros.filter(r => r.fecha.startsWith(mesSeleccionado));
       datosExportar.registrosCrono = registrosCrono.filter(r => r.fecha.startsWith(mesSeleccionado));
       nombreArchivo += mesSeleccionado;
@@ -4178,7 +4178,7 @@
       datosExportar.registrosCrono = registrosCrono;
       nombreArchivo += 'completo_' + new Date().toISOString().split('T')[0];
     }
-    
+
     // Añadir metadatos
     datosExportar.metadata = {
       exportadoEl: new Date().toISOString(),
@@ -4186,15 +4186,15 @@
       totalRegistros: datosExportar.registros.length,
       totalCrono: datosExportar.registrosCrono.length
     };
-    
+
     // Calcular resúmenes
     const trabajos = datosExportar.registrosCrono.filter(r => r.tipo === 'trabajo');
     const descansos = datosExportar.registrosCrono.filter(r => r.tipo === 'descanso');
-    
+
     const totalTrabajo = trabajos.reduce((sum, r) => sum + r.tiempo, 0);
     const totalDescanso = descansos.reduce((sum, r) => sum + r.tiempo, 0);
     const totalNocturnas = trabajos.reduce((sum, r) => sum + (r.horasNocturnas || 0), 0);
-    
+
     datosExportar.resumen = {
       totalHorasTrabajo: formatearHorasDecimal(totalTrabajo),
       totalHorasTrabajoDecimal: totalTrabajo.toFixed(2),
@@ -4209,19 +4209,155 @@
       diasCamion: datosExportar.registros.filter(r => r.dieta_pernocta === 'camion').length,
       diasCasa: datosExportar.registros.filter(r => r.dieta_pernocta === 'casa').length
     };
-    
-    // Crear archivo y descargar
-    const blob = new Blob([JSON.stringify(datosExportar, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = nombreArchivo + '.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert('✅ Datos exportados correctamente');
+
+    const jsonString = JSON.stringify(datosExportar, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const nombreCompleto = nombreArchivo + '.json';
+
+    // Intentar compartir con Web Share API (funciona mejor en Native Alpha y móviles)
+    if (navigator.share && navigator.canShare) {
+      const file = new File([blob], nombreCompleto, { type: 'application/json' });
+
+      // Verificar si se pueden compartir archivos
+      if (navigator.canShare({ files: [file] })) {
+        navigator.share({
+          title: 'Regyster - Exportación de Datos',
+          text: 'Datos exportados desde Regyster',
+          files: [file]
+        }).then(() => {
+          console.log('JSON compartido correctamente');
+          alert('✅ Archivo JSON compartido correctamente');
+        }).catch((error) => {
+          console.log('Error al compartir, intentando método alternativo:', error);
+          descargarJSONAlternativo(jsonString, nombreCompleto);
+        });
+      } else {
+        // Web Share API no soporta archivos, usar método alternativo
+        descargarJSONAlternativo(jsonString, nombreCompleto);
+      }
+    } else {
+      // Web Share API no disponible, usar método alternativo
+      descargarJSONAlternativo(jsonString, nombreCompleto);
+    }
+
+    // Método alternativo: abrir en nueva ventana con opción de copiar/guardar
+    function descargarJSONAlternativo(contenido, nombre) {
+      // Crear data URL
+      const dataUrl = 'data:application/json;charset=utf-8,' + encodeURIComponent(contenido);
+
+      // Intentar descarga tradicional primero
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = nombre;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+
+      try {
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          alert('✅ Datos exportados correctamente: ' + nombre + '\n\n📁 Revisa tu carpeta de Descargas');
+        }, 100);
+      } catch (error) {
+        document.body.removeChild(a);
+
+        // Si falla, mostrar en nueva ventana para copiar manualmente
+        const ventana = window.open('', '_blank');
+        if (ventana) {
+          ventana.document.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Exportación JSON - Regyster</title>
+              <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  padding: 20px;
+                  background: #0a0e27;
+                  color: white;
+                }
+                h2 { color: #ff8c42; }
+                .instrucciones {
+                  background: #1a1e37;
+                  padding: 15px;
+                  border-left: 4px solid #ff8c42;
+                  margin-bottom: 20px;
+                  border-radius: 5px;
+                }
+                textarea {
+                  width: 100%;
+                  height: 400px;
+                  padding: 10px;
+                  font-family: monospace;
+                  font-size: 12px;
+                  background: #1a1e37;
+                  color: #fff;
+                  border: 2px solid #ff8c42;
+                  border-radius: 5px;
+                }
+                .botones {
+                  margin-top: 15px;
+                  display: flex;
+                  gap: 10px;
+                  flex-wrap: wrap;
+                }
+                button {
+                  background: #ff8c42;
+                  color: white;
+                  border: none;
+                  padding: 12px 24px;
+                  border-radius: 5px;
+                  cursor: pointer;
+                  font-weight: bold;
+                  font-size: 14px;
+                }
+                button:hover {
+                  background: #ff6b35;
+                }
+              </style>
+            </head>
+            <body>
+              <h2>📦 Exportación de Datos JSON</h2>
+              <div class="instrucciones">
+                <strong>📱 Instrucciones para Native Alpha:</strong><br>
+                1. Mantén presionado el texto de abajo y selecciona "Copiar todo"<br>
+                2. Abre una app de notas o editor de texto<br>
+                3. Pega el contenido<br>
+                4. Guarda el archivo como: <strong>${nombre}</strong>
+              </div>
+              <textarea id="contenidoJSON" readonly>${contenido.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
+              <div class="botones">
+                <button onclick="copiarContenido()">📋 Copiar Todo</button>
+                <button onclick="descargarArchivo()">💾 Intentar Descargar</button>
+                <button onclick="window.close()">❌ Cerrar</button>
+              </div>
+              <script>
+                function copiarContenido() {
+                  const textarea = document.getElementById('contenidoJSON');
+                  textarea.select();
+                  document.execCommand('copy');
+                  alert('✅ Contenido copiado al portapapeles');
+                }
+
+                function descargarArchivo() {
+                  const a = document.createElement('a');
+                  a.href = '${dataUrl}';
+                  a.download = '${nombre}';
+                  a.click();
+                  alert('📥 Descarga iniciada. Revisa tu carpeta de Descargas.');
+                }
+              </script>
+            </body>
+            </html>
+          `);
+          alert('⚠️ Descarga automática no disponible.\n\nSe abrió una nueva ventana con el contenido.\nPuedes copiar el texto y guardarlo manualmente.');
+        } else {
+          alert('❌ No se pudo exportar el archivo.\n\nPor favor, verifica los permisos de la app o intenta desde el navegador.');
+        }
+      }
+    }
   }
   window.exportarDatos = exportarDatos;
 
@@ -4447,61 +4583,86 @@
 
       // Crear blob con tipo correcto
       const blob = new Blob([pdfBlob], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
       const nombreCompleto = nombreArchivo + '.pdf';
 
-      // Si es iOS y soporta Web Share API, ofrecer compartir
-      if (esIOS && navigator.share) {
-        // Crear File desde Blob para compartir en iOS
+      // Intentar compartir con Web Share API (funciona en Android e iOS)
+      if (navigator.share && navigator.canShare) {
         const file = new File([blob], nombreCompleto, { type: 'application/pdf' });
 
-        navigator.share({
-          title: 'Regyster - ' + tituloDocumento,
-          text: 'Exportación de registros de trabajo',
-          files: [file]
-        }).then(() => {
-          document.body.removeChild(loadingMsg);
-          console.log('PDF compartido correctamente');
-        }).catch((error) => {
-          // Si falla compartir, intentar descarga normal
-          console.log('No se pudo compartir, descargando...', error);
-          descargarPDF(url, nombreCompleto);
-        });
+        // Verificar si se pueden compartir archivos
+        if (navigator.canShare({ files: [file] })) {
+          navigator.share({
+            title: 'Regyster - ' + tituloDocumento,
+            text: 'Exportación de registros de trabajo en PDF',
+            files: [file]
+          }).then(() => {
+            document.body.removeChild(loadingMsg);
+            console.log('PDF compartido correctamente');
+          }).catch((error) => {
+            // Si el usuario cancela o falla, intentar método alternativo
+            console.log('Error al compartir, intentando descarga alternativa:', error);
+            descargarPDFAlternativo(blob, nombreCompleto);
+          });
+        } else {
+          // Web Share API no soporta archivos, usar método alternativo
+          descargarPDFAlternativo(blob, nombreCompleto);
+        }
       } else {
-        // Descarga normal para Android y escritorio
-        descargarPDF(url, nombreCompleto);
+        // Web Share API no disponible, usar método alternativo
+        descargarPDFAlternativo(blob, nombreCompleto);
       }
 
-      // Función auxiliar para descargar
-      function descargarPDF(url, nombre) {
+      // Función auxiliar para descargar con fallback mejorado
+      function descargarPDFAlternativo(blob, nombre) {
+        const url = URL.createObjectURL(blob);
+
+        // Intentar descarga tradicional
         const a = document.createElement('a');
         a.style.display = 'none';
         a.href = url;
         a.download = nombre;
         document.body.appendChild(a);
-        a.click();
 
-        // Limpiar
-        setTimeout(() => {
+        try {
+          a.click();
+          setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            document.body.removeChild(loadingMsg);
+
+            // Mensaje específico según plataforma
+            if (esMobil) {
+              alert('✅ PDF guardado: ' + nombre + '\n\n📁 Revisa tu carpeta de Descargas\n\n💡 Si no aparece, prueba compartir desde el navegador o abrir desde otra app.');
+            } else {
+              alert('✅ PDF exportado correctamente: ' + nombre);
+            }
+          }, 100);
+        } catch (error) {
           document.body.removeChild(a);
           URL.revokeObjectURL(url);
+
+          // Si falla la descarga, abrir en nueva pestaña
+          const pdfUrl = URL.createObjectURL(blob);
+          const ventana = window.open(pdfUrl, '_blank');
+
           document.body.removeChild(loadingMsg);
 
-          // Mensaje específico según plataforma
-          if (esMobil) {
-            alert('✅ PDF guardado en Descargas: ' + nombre + '\n\n📁 Revisa la carpeta de Descargas de tu dispositivo.');
+          if (ventana) {
+            alert('✅ PDF generado correctamente\n\n📄 Se ha abierto en una nueva pestaña\n\n💾 Desde ahí puedes:\n- Descargarlo\n- Compartirlo\n- Imprimirlo');
           } else {
-            alert('✅ PDF exportado correctamente: ' + nombre);
+            alert('⚠️ No se pudo descargar automáticamente\n\nPrueba estos métodos:\n1. Habilita ventanas emergentes\n2. Usa el navegador nativo (Chrome/Safari)\n3. Intenta exportar como JSON');
           }
-        }, 100);
+        }
       }
     }).catch(error => {
       console.error('Error al generar PDF:', error);
-      document.body.removeChild(elemento);
+      if (document.body.contains(elemento)) {
+        document.body.removeChild(elemento);
+      }
       if (document.body.contains(loadingMsg)) {
         document.body.removeChild(loadingMsg);
       }
-      alert('❌ Error al generar el PDF. Por favor, inténtalo de nuevo.\n\nDetalles: ' + error.message);
+      alert('❌ Error al generar el PDF\n\nDetalles: ' + error.message + '\n\n💡 Intenta:\n1. Exportar como JSON\n2. Usar menos datos (solo un mes)\n3. Abrir desde navegador nativo');
     });
   }
   window.exportarPDF = exportarPDF;
