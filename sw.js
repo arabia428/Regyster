@@ -1,10 +1,23 @@
-const CACHE_NAME = 'regyster-v2.5';
+const CACHE_NAME = 'regyster-v3.0';
 const urlsToCache = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  '/icons/icon-512.png',
+  // CSS Modules
+  '/css/base.css',
+  '/css/themes.css',
+  '/css/forms.css',
+  '/css/cronometro.css',
+  '/css/components.css',
+  '/css/pages.css',
+  '/css/stickman.css',
+  // JavaScript Modules
+  '/js/app.js',
+  '/js/core.js',
+  '/js/navegacion.js',
+  '/js/stickman.js'
 ];
 
 // Instalación del Service Worker
