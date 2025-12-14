@@ -1,6 +1,5 @@
-/* ========== REGYSTER - FUNCIONES PRINCIPALES ========== */
-/* Cronómetro, Historial, Calendario, Gráficas, Ajustes, Exportación */
-
+/* ========== REGYSTER - TODO EL CÓDIGO JAVASCRIPT ========== */
+  // Registrar Service Worker
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('sw.js').catch(err => {
@@ -2587,3 +2586,149 @@
       alert(`⚠️ ¡ATENCIÓN!\n\nHas superado el límite de ${limite} horas diarias.\n\nHoras trabajadas hoy: ${formatearHorasDecimal(horasHoy)}\n\n¡Recuerda descansar!`);
       
       if(navigator.vibrate){
+        navigator.vibrate([500, 200, 500, 200, 500]);
+      }
+    }
+  }
+  
+  // Cargar configuración de notificaciones al iniciar
+  function cargarConfigNotificaciones(){
+    // Vibración (activa por defecto)
+    const vibrar = localStorage.getItem('vibrarAlFichar');
+    if(vibrar === null){
+      localStorage.setItem('vibrarAlFichar', 'true');
+    } else if(vibrar === 'false'){
+      document.getElementById('toggleVibrar').classList.remove('activo');
+    }
+    
+    // Sonido
+    if(localStorage.getItem('sonidoAlFichar') === 'true'){
+      document.getElementById('toggleSonido').classList.add('activo');
+    }
+    
+    // Límite de horas
+    if(localStorage.getItem('limiteHorasActivo') === 'true'){
+      document.getElementById('toggleLimiteHoras').classList.add('activo');
+      document.getElementById('configLimiteHoras').style.display = 'block';
+    }
+    const limite = localStorage.getItem('limiteHorasDiarias') || '10';
+    document.getElementById('limiteHorasDiarias').value = limite;
+    
+    // Recordatorio
+    if(localStorage.getItem('recordatorioActivo') === 'true'){
+      document.getElementById('toggleRecordatorio').classList.add('activo');
+      document.getElementById('configRecordatorio').style.display = 'block';
+      iniciarRecordatorio();
+      
+      // Solicitar permisos de notificación
+      if('Notification' in window && Notification.permission === 'default'){
+        Notification.requestPermission();
+      }
+    }
+    const tiempo = localStorage.getItem('tiempoRecordatorio') || '60';
+    document.getElementById('tiempoRecordatorio').value = tiempo;
+  }
+  cargarConfigNotificaciones();
+
+  // ========== STICKMAN ESPÍA - EASTER EGG ==========
+  const stickmanContainer = document.getElementById('stickmanContainer');
+  const direcciones = ['desde-izquierda', 'desde-derecha'];
+  let stickmanActivo = false;
+
+  function mostrarStickman(){
+    if(stickmanActivo) return;
+    stickmanActivo = true;
+
+    // Quitar direcciones anteriores
+    direcciones.forEach(d => stickmanContainer.classList.remove(d));
+    stickmanContainer.classList.remove('visible');
+
+    // Elegir dirección random (solo izquierda o derecha)
+    const direccion = direcciones[Math.floor(Math.random() * direcciones.length)];
+
+    // Posición vertical random dentro del viewport (evitando header y footer)
+    const topPos = 120 + Math.random() * (window.innerHeight - 280);
+    stickmanContainer.style.top = topPos + 'px';
+    stickmanContainer.style.bottom = 'auto';
+    stickmanContainer.style.left = direccion === 'desde-izquierda' ? '0' : 'auto';
+    stickmanContainer.style.right = direccion === 'desde-derecha' ? '0' : 'auto';
+
+    // Añadir dirección y mostrar
+    stickmanContainer.classList.add(direccion);
+
+    // Pequeño delay para que la transición funcione con efecto bounce
+    setTimeout(() => {
+      stickmanContainer.classList.add('visible');
+    }, 100);
+
+    // Esconderse después de 3.5-5 segundos (más tiempo para disfrutar la animación)
+    const tiempoEspiando = 3500 + Math.random() * 1500;
+
+    setTimeout(() => {
+      stickmanContainer.classList.remove('visible');
+
+      // Marcar como inactivo después de la animación de esconderse
+      setTimeout(() => {
+        stickmanActivo = false;
+      }, 1000); // 1 segundo para la transición de salida
+    }, tiempoEspiando);
+  }
+
+  // Iniciar el ciclo del stickman espía (cada 15 segundos)
+  setInterval(mostrarStickman, 15000);
+
+  // Primera aparición después de 5 segundos
+  setTimeout(mostrarStickman, 5000);
+
+  // ========== EASTER EGG - NUESTRA FIRMA SECRETA ==========
+  let clicksEasterEgg = 0;
+  let timerEasterEgg = null;
+  let easterEggActivo = false;
+  
+  document.getElementById('infoVersion').addEventListener('click', function(e) {
+    if(easterEggActivo) return;
+    
+    clicksEasterEgg++;
+    
+    if(timerEasterEgg) clearTimeout(timerEasterEgg);
+    
+    timerEasterEgg = setTimeout(() => {
+      clicksEasterEgg = 0;
+    }, 1000);
+    
+    if(clicksEasterEgg >= 4) {
+      clicksEasterEgg = 0;
+      easterEggActivo = true;
+      
+      const textoNormal = document.getElementById('textoNormal');
+      const textoSecreto = document.getElementById('textoSecreto');
+      
+      // Glitch out del texto normal
+      textoNormal.classList.add('glitch-out');
+      
+      setTimeout(() => {
+        textoNormal.style.display = 'none';
+        textoSecreto.style.display = 'block';
+        textoSecreto.classList.add('glitch-in');
+        
+        // Después de 20 segundos, volver al texto normal
+        setTimeout(() => {
+          textoSecreto.classList.remove('glitch-in');
+          textoSecreto.classList.add('glitch-out');
+          
+          setTimeout(() => {
+            textoSecreto.style.display = 'none';
+            textoSecreto.classList.remove('glitch-out');
+            textoNormal.style.display = 'block';
+            textoNormal.classList.remove('glitch-out');
+            textoNormal.classList.add('glitch-in');
+            
+            setTimeout(() => {
+              textoNormal.classList.remove('glitch-in');
+              easterEggActivo = false;
+            }, 800);
+          }, 800);
+        }, 20000);
+      }, 800);
+    }
+  });
