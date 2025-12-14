@@ -5,19 +5,9 @@ const urlsToCache = [
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  // CSS Modules
-  '/css/base.css',
-  '/css/themes.css',
-  '/css/forms.css',
-  '/css/cronometro.css',
-  '/css/components.css',
-  '/css/pages.css',
-  '/css/stickman.css',
-  // JavaScript Modules
-  '/js/app.js',
-  '/js/core.js',
-  '/js/navegacion.js',
-  '/js/stickman.js'
+  // CSS y JS
+  '/css/all-styles.css',
+  '/js/all-scripts.js'
 ];
 
 // Instalación del Service Worker
