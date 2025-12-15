@@ -22,27 +22,27 @@
   <h2>⚔️ Regyster ⚔️</h2>
 
   <div class="seccion">
-    <label>📅 Fecha</label>
+    <label data-i18n="date">📅 Fecha</label>
     <input type="date" id="fecha" />
 
-    <label>🌙 Horas Nocturnas (automático)</label>
+    <label data-i18n="night_hours_auto">🌙 Horas Nocturnas (automático)</label>
     <div class="nocturnas-display" id="nocturnasDisplay">
       <span id="nocturnasValor">0h 0m 0s</span>
       <span class="nocturnas-info">(22:00 - 06:00)</span>
     </div>
 
-    <label>🛏️ Dieta Pernocta</label>
+    <label data-i18n="diet_overnight">🛏️ Dieta Pernocta</label>
     <select id="dieta_pernocta">
-      <option value="casa">En casa</option>
-      <option value="camion">En camión</option>
+      <option value="casa" data-i18n="at_home">En casa</option>
+      <option value="camion" data-i18n="in_truck">En camión</option>
     </select>
 
     <label class="checkbox-label">
-      <input type="checkbox" id="festivo" /> 🎉 Festivo
+      <input type="checkbox" id="festivo" /> <span data-i18n="holiday">🎉 Festivo</span>
     </label>
 
     <label class="checkbox-label">
-      <input type="checkbox" id="sexto" /> 6️⃣ Sexto día consecutivo
+      <input type="checkbox" id="sexto" /> <span data-i18n="sixth_day">6️⃣ Sexto día consecutivo</span>
     </label>
 
     <div class="cronometro-container">
@@ -50,12 +50,12 @@
         <div class="icono-reloj" id="iconoReloj">🔧</div>
         <div class="tiempo-reloj" id="tiempoReloj">00:00:00</div>
       </div>
-      <button id="botonCrono">▶ INICIAR TRABAJO</button>
+      <button id="botonCrono" data-i18n="start_work">▶ INICIAR TRABAJO</button>
     </div>
-    <div class="estado-crono" id="estadoCrono">Presiona para comenzar</div>
+    <div class="estado-crono" id="estadoCrono" data-i18n="press_to_start">Presiona para comenzar</div>
 
-    <button id="botonGuardar">💾 GUARDAR</button>
-    <button id="botonBorrar">🗑️ BORRAR REGISTROS</button>
+    <button id="botonGuardar" data-i18n="save">💾 GUARDAR</button>
+    <button id="botonBorrar" data-i18n="delete_records">🗑️ BORRAR REGISTROS</button>
   </div>
 
   <div class="separador"></div>
@@ -70,26 +70,26 @@
 
   <div class="separador"></div>
 
-  <h2 class="titulo-neon-led">RESÚMENES</h2>
+  <h2 class="titulo-neon-led" data-i18n="summaries">RESÚMENES</h2>
 
   <div class="seccion">
-    <label>Resumen Normal (Mes Completo)</label>
+    <label data-i18n="normal_summary">Resumen Normal (Mes Completo)</label>
     <input type="month" id="mesResumen" />
-    <button id="resumenMes">📈 Mostrar Resumen Mensual</button>
+    <button id="resumenMes" data-i18n="show_monthly_summary">📈 Mostrar Resumen Mensual</button>
     <div id="resumen"></div>
   </div>
 
   <div class="seccion">
-    <label>📅 Calendario 26→25 (Ciclo Laboral)</label>
+    <label data-i18n="calendar_26_25">📅 Calendario 26→25 (Ciclo Laboral)</label>
     <input type="month" id="mesResumenReal" />
-    <button id="resumenReal">📅 Mostrar Calendario 26→25</button>
+    <button id="resumenReal" data-i18n="show_calendar_26_25">📅 Mostrar Calendario 26→25</button>
     <div id="resumenRealResultado"></div>
   </div>
 
   <!-- Resumen Diario oculto - funcionalidad sigue disponible pero no se muestra en pantalla principal -->
   <div class="seccion" style="display: none;">
-    <label>📅 Resumen Diario</label>
-    <button id="btnMostrarDiarios">📅 Mostrar Resúmenes Diarios</button>
+    <label data-i18n="daily_summary">📅 Resumen Diario</label>
+    <button id="btnMostrarDiarios" data-i18n="show_daily_summaries">📅 Mostrar Resúmenes Diarios</button>
     <div id="listaDiasResumen"></div>
   </div>
 
@@ -100,54 +100,54 @@
 <!-- ========== PÁGINA 2: GRÁFICAS ========== -->
 <div class="pagina" id="paginaGraficas">
 <div class="graficas-container">
-  
-  <h2 class="titulo-neon">GRÁFICAS</h2>
-  
+
+  <h2 class="titulo-neon" data-i18n="charts">GRÁFICAS</h2>
+
   <div class="periodo-selector">
-    <button class="periodo-btn active" data-periodo="semana">Semana</button>
-    <button class="periodo-btn" data-periodo="mes">Mes</button>
-    <button class="periodo-btn" data-periodo="anio">Año</button>
-    <button class="periodo-btn" data-periodo="todo">Todo</button>
+    <button class="periodo-btn active" data-periodo="semana" data-i18n="week">Semana</button>
+    <button class="periodo-btn" data-periodo="mes" data-i18n="month">Mes</button>
+    <button class="periodo-btn" data-periodo="anio" data-i18n="year">Año</button>
+    <button class="periodo-btn" data-periodo="todo" data-i18n="all">Todo</button>
   </div>
-  
+
   <div class="grafica-seccion">
-    <div class="grafica-titulo">🔧 Horas de Trabajo</div>
+    <div class="grafica-titulo" data-i18n="work_hours">🔧 Horas de Trabajo</div>
     <div class="grafica-canvas-container">
       <canvas id="graficaTrabajo"></canvas>
     </div>
     <div class="grafica-stats" id="statsTrabajo">
       <div class="grafica-stat">
         <div class="grafica-stat-valor" id="totalHorasTrabajo">0</div>
-        <div class="grafica-stat-label">Total Horas</div>
+        <div class="grafica-stat-label" data-i18n="total_hours">Total Horas</div>
       </div>
       <div class="grafica-stat">
         <div class="grafica-stat-valor" id="promedioTrabajo">0</div>
-        <div class="grafica-stat-label">Promedio/Día</div>
+        <div class="grafica-stat-label" data-i18n="average_day">Promedio/Día</div>
       </div>
       <div class="grafica-stat">
         <div class="grafica-stat-valor" id="diasTrabajados">0</div>
-        <div class="grafica-stat-label">Días Trabajados</div>
+        <div class="grafica-stat-label" data-i18n="days_worked">Días Trabajados</div>
       </div>
     </div>
   </div>
-  
+
   <div class="grafica-seccion">
-    <div class="grafica-titulo">🛏️ Horas de Descanso</div>
+    <div class="grafica-titulo" data-i18n="rest_hours">🛏️ Horas de Descanso</div>
     <div class="grafica-canvas-container">
       <canvas id="graficaDescanso"></canvas>
     </div>
     <div class="grafica-stats" id="statsDescanso">
       <div class="grafica-stat">
         <div class="grafica-stat-valor" id="totalHorasDescanso">0</div>
-        <div class="grafica-stat-label">Total Horas</div>
+        <div class="grafica-stat-label" data-i18n="total_hours">Total Horas</div>
       </div>
       <div class="grafica-stat">
         <div class="grafica-stat-valor" id="promedioDescanso">0</div>
-        <div class="grafica-stat-label">Promedio/Día</div>
+        <div class="grafica-stat-label" data-i18n="average_day">Promedio/Día</div>
       </div>
       <div class="grafica-stat">
         <div class="grafica-stat-valor" id="diasDescanso">0</div>
-        <div class="grafica-stat-label">Días Descanso</div>
+        <div class="grafica-stat-label" data-i18n="days_rest">Días Descanso</div>
       </div>
     </div>
   </div>
@@ -159,21 +159,17 @@
 <!-- ========== PÁGINA 3: PRÓXIMAMENTE ========== -->
 <div class="pagina" id="paginaProximamente">
 <div class="proximamente-container">
-  
+
   <div class="proximamente-icono">🔮</div>
-  
-  <div class="proximamente-titulo">Próximamente...</div>
-  
+
+  <div class="proximamente-titulo" data-i18n="coming_soon">Próximamente...</div>
+
   <div class="proximamente-mensaje">
-    Esta página está reservada para futuras funcionalidades épicas que aún no se me han ocurrido.
+    <span data-i18n="coming_soon_msg">Esta página está reservada para futuras funcionalidades épicas que aún no se me han ocurrido.</span>
     <br><br>
-    Cuando la inspiración golpee como un rayo en mitad de la noche (o en un descanso del camión), 
-    aquí aparecerá algo increíble.
+    <span data-i18n="coming_soon_msg2">Cuando la inspiración golpee como un rayo en mitad de la noche (o en un descanso del camión), aquí aparecerá algo increíble.</span>
     <span class="sarcastico">
-      "De momento, disfruta del vacío existencial de esta página. 
-      Es minimalismo llevado al extremo. Muy zen. Muy moderno. 
-      Básicamente, no hay nada porque aún no me ha dado por añadir nada. 
-      Pero hey, ¡el icono flota! Eso cuenta como feature, ¿no?" 🎭
+      <span data-i18n="coming_soon_sarcastic">"De momento, disfruta del vacío existencial de esta página. Es minimalismo llevado al extremo. Muy zen. Muy moderno. Básicamente, no hay nada porque aún no me ha dado por añadir nada. Pero hey, ¡el icono flota! Eso cuenta como feature, ¿no?" 🎭</span>
     </span>
   </div>
 
@@ -185,14 +181,14 @@
 <div class="pagina" id="paginaAjustes">
 <div class="ajustes-container">
   
-  <h2>⚙️ Ajustes</h2>
-  
+  <h2 data-i18n="settings">⚙️ Ajustes</h2>
+
   <!-- Idioma / Language -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">🌐 Idioma / Language</div>
+    <div class="ajuste-seccion-titulo" data-i18n="language">🌐 Idioma / Language</div>
 
     <div class="ajuste-item">
-      <label class="ajuste-label">Seleccionar idioma / Select language</label>
+      <label class="ajuste-label" data-i18n="select_language">Seleccionar idioma / Select language</label>
       <select class="ajuste-select" id="selectorIdioma" onchange="changeLanguage(this.value)">
         <option value="es">🇪🇸 Español</option>
         <option value="en">🇬🇧 English</option>
@@ -206,79 +202,79 @@
 
   <!-- Personalización -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">🎨 Personalización</div>
+    <div class="ajuste-seccion-titulo" data-i18n="customization">🎨 Personalización</div>
 
     <div class="ajuste-toggle-container">
-      <span class="ajuste-toggle-label">🌙 Modo Oscuro / ☀️ Claro</span>
+      <span class="ajuste-toggle-label" data-i18n-template="dark_mode_light_mode">🌙 Modo Oscuro / ☀️ Claro</span>
       <div class="toggle-switch" id="toggleModoClaro" onclick="toggleModoClaro()">
         <div class="toggle-slider"></div>
       </div>
     </div>
-    
+
     <div class="ajuste-toggle-container">
-      <span class="ajuste-toggle-label">✨ Efectos Neón</span>
+      <span class="ajuste-toggle-label" data-i18n="neon_effects">✨ Efectos Neón</span>
       <div class="toggle-switch activo" id="toggleNeon" onclick="toggleNeon()">
         <div class="toggle-slider"></div>
       </div>
     </div>
-    
+
     <div class="ajuste-item">
-      <label class="ajuste-label">⚡ Velocidad Animaciones</label>
+      <label class="ajuste-label" data-i18n="animation_speed">⚡ Velocidad Animaciones</label>
       <select class="ajuste-select" id="velocidadAnimaciones" onchange="cambiarVelocidadAnimaciones()">
-        <option value="normales">Normales</option>
-        <option value="rapidas">Rápidas</option>
-        <option value="lentas">Lentas</option>
-        <option value="off">Desactivadas</option>
+        <option value="normales" data-i18n="normal">Normales</option>
+        <option value="rapidas" data-i18n="fast">Rápidas</option>
+        <option value="lentas" data-i18n="slow">Lentas</option>
+        <option value="off" data-i18n="disabled">Desactivadas</option>
       </select>
     </div>
-    
+
     <div class="ajuste-item">
-      <label class="ajuste-label">🕐 Formato de Horas</label>
+      <label class="ajuste-label" data-i18n="time_format">🕐 Formato de Horas</label>
       <select class="ajuste-select" id="formatoHoras" onchange="cambiarFormatoHoras()">
-        <option value="tradicional">Tradicional (8h 30m 15s)</option>
-        <option value="decimal">Decimal (8.50h)</option>
+        <option value="tradicional" data-i18n="traditional">Tradicional (8h 30m 15s)</option>
+        <option value="decimal" data-i18n="decimal">Decimal (8.50h)</option>
       </select>
     </div>
     
     <div class="separador" style="margin: 20px 0; opacity: 0.3;"></div>
     
     <div class="ajuste-item">
-      <label class="ajuste-label">Color principal</label>
+      <label class="ajuste-label" data-i18n="main_color">Color principal</label>
       <div class="ajuste-color-preview">
         <input type="color" id="colorPrincipal" value="#ff8c42">
         <span id="colorPrincipalHex">#ff8c42</span>
       </div>
     </div>
-    
+
     <div class="ajuste-item">
-      <label class="ajuste-label">Tamaño de texto</label>
+      <label class="ajuste-label" data-i18n="text_size">Tamaño de texto</label>
       <div class="ajuste-range-container">
         <input type="range" class="ajuste-range" id="tamanoTexto" min="12" max="20" value="16">
         <span class="ajuste-range-valor" id="tamanoTextoValor">16px</span>
       </div>
     </div>
-    
+
     <div class="ajuste-item">
-      <label class="ajuste-label">Fuente</label>
+      <label class="ajuste-label" data-i18n="font">Fuente</label>
       <select class="ajuste-select" id="fuenteTexto">
-        <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI (Por defecto)</option>
+        <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" data-i18n-template="font_default">Segoe UI (Por defecto)</option>
         <option value="'Arial', sans-serif">Arial</option>
         <option value="'Roboto', sans-serif">Roboto</option>
         <option value="'Courier New', monospace">Courier New (Monospace)</option>
         <option value="'Georgia', serif">Georgia (Serif)</option>
       </select>
     </div>
-    
-    <button class="btn-ajuste" onclick="aplicarPersonalizacion()">✨ Aplicar Cambios</button>
-    <button class="btn-ajuste" onclick="resetearPersonalizacion()" style="background: rgba(255,140,66,0.2); color: #ff8c42; margin-top: 8px;">🔄 Restaurar Predeterminados</button>
+
+    <button class="btn-ajuste" onclick="aplicarPersonalizacion()" data-i18n="apply_changes">✨ Aplicar Cambios</button>
+    <button class="btn-ajuste" onclick="resetearPersonalizacion()" style="background: rgba(255,140,66,0.2); color: #ff8c42; margin-top: 8px;" data-i18n="restore_defaults">🔄 Restaurar Predeterminados</button>
   </div>
   
   <!-- Configuración de Horarios y Ciclos -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">⏰ Horarios y Ciclos</div>
-    
+    <div class="ajuste-seccion-titulo" data-i18n="schedules_cycles">⏰ Horarios y Ciclos</div>
+
     <div class="ajuste-item">
-      <label class="ajuste-label">🌙 Hora INICIO nocturnas</label>
+      <label class="ajuste-label" data-i18n="night_start_hour">🌙 Hora INICIO nocturnas</label>
       <select class="ajuste-select" id="horaInicioNocturnas" onchange="guardarConfigHorarios()">
         <option value="20">20:00</option>
         <option value="21">21:00</option>
@@ -286,9 +282,9 @@
         <option value="23">23:00</option>
       </select>
     </div>
-    
+
     <div class="ajuste-item">
-      <label class="ajuste-label">🌅 Hora FIN nocturnas</label>
+      <label class="ajuste-label" data-i18n="night_end_hour">🌅 Hora FIN nocturnas</label>
       <select class="ajuste-select" id="horaFinNocturnas" onchange="guardarConfigHorarios()">
         <option value="5">05:00</option>
         <option value="6" selected>06:00 (Por defecto)</option>
@@ -296,9 +292,9 @@
         <option value="8">08:00</option>
       </select>
     </div>
-    
+
     <div class="ajuste-item">
-      <label class="ajuste-label">📅 Día inicio de ciclo laboral</label>
+      <label class="ajuste-label" data-i18n="cycle_start_day">📅 Día inicio de ciclo laboral</label>
       <select class="ajuste-select" id="diaInicioCiclo" onchange="guardarConfigHorarios()">
         <option value="1">Día 1</option>
         <option value="15">Día 15</option>
@@ -309,69 +305,69 @@
         <option value="28">Día 28</option>
       </select>
     </div>
-    
-    <p style="color: #888; font-size: 0.8em; margin-top: 15px; font-style: italic;">
+
+    <p style="color: #888; font-size: 0.8em; margin-top: 15px; font-style: italic;" data-i18n="cycle_info">
       💡 El ciclo laboral va desde el día seleccionado del mes anterior hasta el día anterior del mes actual.
     </p>
   </div>
   
   <!-- Importar/Exportar Datos -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">📦 Importar / Exportar Datos</div>
-    
+    <div class="ajuste-seccion-titulo" data-i18n="import_export">📦 Importar / Exportar Datos</div>
+
     <div class="ajuste-item">
-      <label class="ajuste-label">📥 Importar datos desde archivo</label>
+      <label class="ajuste-label" data-i18n="import_from_file">📥 Importar datos desde archivo</label>
       <input type="file" id="archivoImportar" accept=".json" style="display: none;" onchange="importarDatos(event)">
-      <button class="btn-ajuste" onclick="document.getElementById('archivoImportar').click()" style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); border: 2px solid #BA68C8;">
+      <button class="btn-ajuste" onclick="document.getElementById('archivoImportar').click()" style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); border: 2px solid #BA68C8;" data-i18n="select_json_file">
         📥 Seleccionar Archivo JSON
       </button>
-      <p style="color: #888; font-size: 0.8em; margin-top: 8px; font-style: italic;">
+      <p style="color: #888; font-size: 0.8em; margin-top: 8px; font-style: italic;" data-i18n="import_warning">
         ⚠️ Esto reemplazará todos los datos actuales
       </p>
     </div>
-    
+
     <div class="separador" style="margin: 20px 0; opacity: 0.3;"></div>
-    
+
     <div class="ajuste-item">
-      <label class="ajuste-label">Seleccionar mes a exportar</label>
+      <label class="ajuste-label" data-i18n="select_month_export">Seleccionar mes a exportar</label>
       <input type="month" class="ajuste-input" id="mesExportar">
     </div>
-    
-    <button class="btn-ajuste exportar" onclick="exportarDatos('mes')">📅 Exportar Mes JSON</button>
-    <button class="btn-ajuste exportar" onclick="exportarDatos('todo')" style="margin-top: 8px;">📦 Exportar TODO JSON</button>
-    <button class="btn-ajuste exportar" onclick="exportarPDF('mes')" style="margin-top: 8px; background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%); border: 2px solid #F06292;">📄 Exportar Mes PDF</button>
-    <button class="btn-ajuste exportar" onclick="exportarPDF('todo')" style="margin-top: 8px; background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%); border: 2px solid #F06292;">📄 Exportar TODO PDF</button>
+
+    <button class="btn-ajuste exportar" onclick="exportarDatos('mes')" data-i18n="export_month_json">📅 Exportar Mes JSON</button>
+    <button class="btn-ajuste exportar" onclick="exportarDatos('todo')" style="margin-top: 8px;" data-i18n="export_all_json">📦 Exportar TODO JSON</button>
+    <button class="btn-ajuste exportar" onclick="exportarPDF('mes')" style="margin-top: 8px; background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%); border: 2px solid #F06292;" data-i18n="export_month_pdf">📄 Exportar Mes PDF</button>
+    <button class="btn-ajuste exportar" onclick="exportarPDF('todo')" style="margin-top: 8px; background: linear-gradient(135deg, #E91E63 0%, #C2185B 100%); border: 2px solid #F06292;" data-i18n="export_all_pdf">📄 Exportar TODO PDF</button>
   </div>
   
   <!-- Notificaciones y Alertas -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">🔔 Notificaciones y Alertas</div>
-    
+    <div class="ajuste-seccion-titulo" data-i18n="notifications_alerts">🔔 Notificaciones y Alertas</div>
+
     <div class="ajuste-toggle-container">
-      <span class="ajuste-toggle-label">📳 Vibrar al fichar</span>
+      <span class="ajuste-toggle-label" data-i18n="vibrate_on_clock">📳 Vibrar al fichar</span>
       <div class="toggle-switch activo" id="toggleVibrar" onclick="toggleVibrar()">
         <div class="toggle-slider"></div>
       </div>
     </div>
-    
+
     <div class="ajuste-toggle-container">
-      <span class="ajuste-toggle-label">🔊 Sonido al fichar</span>
+      <span class="ajuste-toggle-label" data-i18n="sound_on_clock">🔊 Sonido al fichar</span>
       <div class="toggle-switch" id="toggleSonido" onclick="toggleSonido()">
         <div class="toggle-slider"></div>
       </div>
     </div>
-    
+
     <div class="separador" style="margin: 15px 0; opacity: 0.3;"></div>
-    
+
     <div class="ajuste-toggle-container">
-      <span class="ajuste-toggle-label">⚠️ Aviso límite horas diarias</span>
+      <span class="ajuste-toggle-label" data-i18n="daily_limit_warning">⚠️ Aviso límite horas diarias</span>
       <div class="toggle-switch" id="toggleLimiteHoras" onclick="toggleLimiteHoras()">
         <div class="toggle-slider"></div>
       </div>
     </div>
-    
+
     <div class="ajuste-item" id="configLimiteHoras" style="display: none; margin-top: 10px;">
-      <label class="ajuste-label">Avisar al superar:</label>
+      <label class="ajuste-label" data-i18n="warning_exceed">Avisar al superar:</label>
       <select class="ajuste-select" id="limiteHorasDiarias" onchange="guardarLimiteHoras()">
         <option value="8">8 horas</option>
         <option value="9">9 horas</option>
@@ -382,25 +378,25 @@
         <option value="14">14 horas</option>
       </select>
     </div>
-    
+
     <div class="separador" style="margin: 15px 0; opacity: 0.3;"></div>
-    
+
     <div class="ajuste-toggle-container">
-      <span class="ajuste-toggle-label">⏰ Recordatorio de fichaje</span>
+      <span class="ajuste-toggle-label" data-i18n="clock_reminder">⏰ Recordatorio de fichaje</span>
       <div class="toggle-switch" id="toggleRecordatorio" onclick="toggleRecordatorio()">
         <div class="toggle-slider"></div>
       </div>
     </div>
-    
+
     <div class="ajuste-item" id="configRecordatorio" style="display: none; margin-top: 10px;">
-      <label class="ajuste-label">Recordar si no ficho después de:</label>
+      <label class="ajuste-label" data-i18n="reminder_no_clock">Recordar si no ficho después de:</label>
       <select class="ajuste-select" id="tiempoRecordatorio" onchange="guardarRecordatorio()">
         <option value="30">30 minutos</option>
         <option value="60" selected>1 hora</option>
         <option value="120">2 horas</option>
         <option value="180">3 horas</option>
       </select>
-      <p style="color: #888; font-size: 0.8em; margin-top: 8px; font-style: italic;">
+      <p style="color: #888; font-size: 0.8em; margin-top: 8px; font-style: italic;" data-i18n="reminder_info">
         💡 Recibirás un aviso si llevas mucho tiempo sin registrar actividad
       </p>
     </div>
@@ -408,34 +404,33 @@
   
   <!-- Borrar Datos -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">🗑️ Borrar Datos</div>
-    
-    <p style="color: #e0e0e0; margin-bottom: 15px; font-size: 0.9em;">
+    <div class="ajuste-seccion-titulo" data-i18n="delete_data">🗑️ Borrar Datos</div>
+
+    <p style="color: #e0e0e0; margin-bottom: 15px; font-size: 0.9em;" data-i18n="delete_warning">
       ⚠️ Esta acción es irreversible. Se eliminarán todos los registros guardados.
     </p>
-    
-    <button class="btn-ajuste peligro" onclick="borrarTodosDatos()">🗑️ Borrar TODOS los Datos</button>
-    <button class="btn-ajuste peligro" onclick="limpiarCache()" style="margin-top: 8px;">🧹 Limpiar Caché de la App</button>
+
+    <button class="btn-ajuste peligro" onclick="borrarTodosDatos()" data-i18n="delete_all_data">🗑️ Borrar TODOS los Datos</button>
+    <button class="btn-ajuste peligro" onclick="limpiarCache()" style="margin-top: 8px;" data-i18n="clean_cache">🧹 Limpiar Caché de la App</button>
   </div>
-  
+
   <!-- Info de la App -->
   <div class="ajuste-seccion">
-    <div class="ajuste-seccion-titulo">ℹ️ Información</div>
-    
+    <div class="ajuste-seccion-titulo" data-i18n="information">ℹ️ Información</div>
+
     <div class="info-version" id="infoVersion">
       <div id="textoNormal" class="texto-transicion">
         <strong>Regyster</strong><br>
-        Versión 2.0<br><br>
-        Aplicación profesional para el control<br>
-        de jornadas laborales<br><br>
+        <span data-i18n="version">Versión 2.0</span><br><br>
+        <span data-i18n="app_description">Aplicación profesional para el control de jornadas laborales</span><br><br>
         <span style="font-size: 0.8em; opacity: 0.7;">
-          Registro de trabajo y descanso<br>
-          Funciona 100% offline • PWA
+          <span data-i18n="work_rest_tracking">Registro de trabajo y descanso</span><br>
+          <span data-i18n="offline_pwa">Funciona 100% offline • PWA</span>
         </span>
       </div>
       <div id="textoSecreto" class="texto-transicion" style="display: none;">
-        <span class="easter-msg">Desarrollado con ❤️ y mucho ☕</span><br>
-        <span class="easter-msg">Para Mi Rey 👑</span>
+        <span class="easter-msg"><span data-i18n="developed_with">Desarrollado con</span> ❤️ y mucho ☕</span><br>
+        <span class="easter-msg"><span data-i18n="for_my_king">Para Mi Rey</span> 👑</span>
       </div>
     </div>
   </div>
@@ -460,7 +455,7 @@
   <div class="modal-content">
     <button class="modal-close" id="cerrarModal">✕</button>
     <div class="modal-header">
-      <h3 class="modal-title">🗑️ Últimos 10 Registros</h3>
+      <h3 class="modal-title" data-i18n="last_10_records">🗑️ Últimos 10 Registros</h3>
     </div>
     <div id="listaRegistros"></div>
   </div>
@@ -498,19 +493,19 @@
 <nav class="nav-bar">
   <button class="nav-btn active" data-pagina="paginaInicio" onclick="cambiarPagina('paginaInicio')">
     🏠
-    <span>Inicio</span>
+    <span data-i18n="nav_home">Inicio</span>
   </button>
   <button class="nav-btn" data-pagina="paginaGraficas" onclick="cambiarPagina('paginaGraficas')">
     📈
-    <span>Gráficas</span>
+    <span data-i18n="nav_charts">Gráficas</span>
   </button>
   <button class="nav-btn" data-pagina="paginaProximamente" onclick="cambiarPagina('paginaProximamente')">
     🔮
-    <span>Próximo</span>
+    <span data-i18n="nav_upcoming">Próximo</span>
   </button>
   <button class="nav-btn" data-pagina="paginaAjustes" onclick="cambiarPagina('paginaAjustes')">
     ⚙️
-    <span>Ajustes</span>
+    <span data-i18n="nav_settings">Ajustes</span>
   </button>
 </nav>
 
