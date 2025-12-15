@@ -8,6 +8,1402 @@
     });
   }
 
+  // ========== SISTEMA DE IDIOMAS / LANGUAGE SYSTEM ==========
+  const translations = {
+    es: {
+      // Navegación
+      nav_home: "Inicio",
+      nav_charts: "Gráficas",
+      nav_upcoming: "Próximo",
+      nav_settings: "Ajustes",
+
+      // Página Principal
+      date: "Fecha",
+      night_hours_auto: "Horas Nocturnas (automático)",
+      diet_overnight: "Dieta Pernocta",
+      at_home: "En casa",
+      in_truck: "En camión",
+      holiday: "Festivo",
+      sixth_day: "Sexto día consecutivo",
+      start_work: "INICIAR TRABAJO",
+      stop: "PARAR",
+      save: "GUARDAR",
+      delete_records: "BORRAR REGISTROS",
+      press_to_start: "Presiona para comenzar",
+      working_since: "Trabajando desde",
+      resting_since: "Descansando desde",
+      no_previous_records: "Sin registros previos",
+
+      // Resúmenes
+      summaries: "RESÚMENES",
+      normal_summary: "Resumen Normal (Mes Completo)",
+      show_monthly_summary: "Mostrar Resumen Mensual",
+      calendar_26_25: "Calendario 26→25 (Ciclo Laboral)",
+      show_calendar_26_25: "Mostrar Calendario 26→25",
+      daily_summary: "Resumen Diario",
+      show_daily_summaries: "Mostrar Resúmenes Diarios",
+
+      // Gráficas
+      charts: "GRÁFICAS",
+      week: "Semana",
+      month: "Mes",
+      year: "Año",
+      all: "Todo",
+      work_hours: "Horas de Trabajo",
+      rest_hours: "Horas de Descanso",
+      total_hours: "Total Horas",
+      average_day: "Promedio/Día",
+      days_worked: "Días Trabajados",
+      days_rest: "Días Descanso",
+
+      // Próximamente
+      coming_soon: "Próximamente...",
+      coming_soon_msg: "Esta página está reservada para futuras funcionalidades épicas que aún no se me han ocurrido.",
+      coming_soon_msg2: "Cuando la inspiración golpee como un rayo en mitad de la noche (o en un descanso del camión), aquí aparecerá algo increíble.",
+      coming_soon_sarcastic: "De momento, disfruta del vacío existencial de esta página. Es minimalismo llevado al extremo. Muy zen. Muy moderno. Básicamente, no hay nada porque aún no me ha dado por añadir nada. Pero hey, ¡el icono flota! Eso cuenta como feature, ¿no?",
+
+      // Ajustes
+      settings: "Ajustes",
+      customization: "Personalización",
+      dark_mode: "Modo Oscuro",
+      light_mode: "Claro",
+      neon_effects: "Efectos Neón",
+      animation_speed: "Velocidad Animaciones",
+      normal: "Normales",
+      fast: "Rápidas",
+      slow: "Lentas",
+      disabled: "Desactivadas",
+      time_format: "Formato de Horas",
+      traditional: "Tradicional (8h 30m 15s)",
+      decimal: "Decimal (8.50h)",
+      main_color: "Color principal",
+      text_size: "Tamaño de texto",
+      font: "Fuente",
+      default_font: "Por defecto",
+      apply_changes: "Aplicar Cambios",
+      restore_defaults: "Restaurar Predeterminados",
+
+      // Horarios y Ciclos
+      schedules_cycles: "Horarios y Ciclos",
+      night_start_hour: "Hora INICIO nocturnas",
+      night_end_hour: "Hora FIN nocturnas",
+      cycle_start_day: "Día inicio de ciclo laboral",
+      cycle_info: "El ciclo laboral va desde el día seleccionado del mes anterior hasta el día anterior del mes actual.",
+
+      // Importar/Exportar
+      import_export: "Importar / Exportar Datos",
+      import_from_file: "Importar datos desde archivo",
+      select_json_file: "Seleccionar Archivo JSON",
+      import_warning: "Esto reemplazará todos los datos actuales",
+      select_month_export: "Seleccionar mes a exportar",
+      export_month_json: "Exportar Mes JSON",
+      export_all_json: "Exportar TODO JSON",
+      export_month_pdf: "Exportar Mes PDF",
+      export_all_pdf: "Exportar TODO PDF",
+
+      // Notificaciones
+      notifications_alerts: "Notificaciones y Alertas",
+      vibrate_on_clock: "Vibrar al fichar",
+      sound_on_clock: "Sonido al fichar",
+      daily_limit_warning: "Aviso límite horas diarias",
+      warning_exceed: "Avisar al superar:",
+      hours: "horas",
+      clock_reminder: "Recordatorio de fichaje",
+      reminder_no_clock: "Recordar si no ficho después de:",
+      minutes: "minutos",
+      hour: "hora",
+      reminder_info: "Recibirás un aviso si llevas mucho tiempo sin registrar actividad",
+
+      // Borrar Datos
+      delete_data: "Borrar Datos",
+      delete_warning: "Esta acción es irreversible. Se eliminarán todos los registros guardados.",
+      delete_all_data: "Borrar TODOS los Datos",
+      clean_cache: "Limpiar Caché de la App",
+
+      // Información
+      information: "Información",
+      version: "Versión 2.0",
+      app_description: "Aplicación profesional para el control de jornadas laborales",
+      work_rest_tracking: "Registro de trabajo y descanso",
+      offline_pwa: "Funciona 100% offline • PWA",
+      developed_with: "Desarrollado con",
+      for_my_king: "Para Mi Rey",
+
+      // Idioma
+      language: "Idioma",
+      select_language: "Seleccionar idioma",
+
+      // Modales
+      last_10_records: "Últimos 10 Registros",
+      no_records_show: "No hay registros para mostrar",
+      worked: "trabajadas",
+      chronometer_data: "Datos del Cronómetro",
+      work_session: "Sesión de Trabajo",
+      start_time: "Hora de inicio",
+      end_time: "Hora de fin",
+      hours_worked: "Horas trabajadas",
+      night_hours: "Horas nocturnas",
+      total_worked: "TOTAL TRABAJADAS",
+      rest_session: "Sesión de Descanso",
+      hours_rested: "Horas descansadas",
+      total_rested: "TOTAL DESCANSADAS",
+      manual_data: "Datos Manuales",
+
+      // Calendario
+      days_worked_cal: "Días Trabajados",
+      days_rest_cal: "Días de Descanso",
+
+      // Meses
+      january: "Enero",
+      february: "Febrero",
+      march: "Marzo",
+      april: "Abril",
+      may: "Mayo",
+      june: "Junio",
+      july: "Julio",
+      august: "Agosto",
+      september: "Septiembre",
+      october: "Octubre",
+      november: "Noviembre",
+      december: "Diciembre",
+
+      // Días de la semana
+      mon: "LUN",
+      tue: "MAR",
+      wed: "MIÉ",
+      thu: "JUE",
+      fri: "VIE",
+      sat: "SÁB",
+      sun: "DOM",
+
+      // Alertas y mensajes
+      select_date: "Selecciona fecha",
+      saved_successfully: "Guardado correctamente",
+      check_to_confirm: "Marca el checkbox para confirmar el borrado",
+      confirm_delete: "¿Seguro que quieres borrar este registro?",
+      record_deleted: "Registro borrado correctamente",
+      select_month: "Selecciona mes",
+      records_found: "Registros encontrados",
+      festive_days: "Días festivos",
+      sixth_days: "Sextos días",
+      days_in_truck: "Días en camión",
+      days_at_home: "Días en casa",
+      summary: "Resumen",
+
+      // Edición de sesiones
+      work_sessions: "Sesiones de Trabajo",
+      rest_sessions: "Descansos (automático)",
+      no_work_sessions: "No hay sesiones de trabajo registradas",
+      rest_auto_calculated: "El descanso se calcula automáticamente entre sesiones de trabajo",
+      add_work_session: "Añadir Sesión de Trabajo",
+      new_work_session: "Nueva Sesión de Trabajo",
+      session: "Sesión",
+      rest: "Descanso",
+      duration: "Duración",
+      start: "Inicio",
+      end: "Fin",
+
+      // Exportación PDF
+      generating_pdf: "Generando PDF...",
+      pdf_generated: "PDF generado correctamente",
+      error_generating_pdf: "Error al generar el PDF",
+      no_data_export: "No hay datos para exportar en el período seleccionado",
+
+      // Límite de horas
+      hours_limit_exceeded: "Has superado el límite de",
+      hours_today: "horas hoy. ¡Descansa!",
+
+      // Confirmaciones
+      confirm_delete_all: "¿Estás seguro de que quieres borrar TODOS los datos? Esta acción no se puede deshacer.",
+      all_data_deleted: "Todos los datos han sido borrados",
+      cache_cleaned: "Caché limpiada correctamente",
+      confirm_clean_cache: "¿Limpiar la caché de la aplicación? La app se recargará.",
+
+      // Importar datos
+      select_file_import: "Selecciona un archivo JSON para importar",
+      import_successful: "Datos importados correctamente",
+      import_error: "Error al importar datos. Verifica que el archivo sea válido.",
+
+      // Personalización aplicada
+      customization_applied: "Personalización aplicada",
+      defaults_restored: "Valores predeterminados restaurados"
+    },
+
+    en: {
+      // Navigation
+      nav_home: "Home",
+      nav_charts: "Charts",
+      nav_upcoming: "Upcoming",
+      nav_settings: "Settings",
+
+      // Main Page
+      date: "Date",
+      night_hours_auto: "Night Hours (automatic)",
+      diet_overnight: "Overnight Allowance",
+      at_home: "At home",
+      in_truck: "In truck",
+      holiday: "Holiday",
+      sixth_day: "Sixth consecutive day",
+      start_work: "START WORK",
+      stop: "STOP",
+      save: "SAVE",
+      delete_records: "DELETE RECORDS",
+      press_to_start: "Press to start",
+      working_since: "Working since",
+      resting_since: "Resting since",
+      no_previous_records: "No previous records",
+
+      // Summaries
+      summaries: "SUMMARIES",
+      normal_summary: "Normal Summary (Full Month)",
+      show_monthly_summary: "Show Monthly Summary",
+      calendar_26_25: "Calendar 26→25 (Work Cycle)",
+      show_calendar_26_25: "Show Calendar 26→25",
+      daily_summary: "Daily Summary",
+      show_daily_summaries: "Show Daily Summaries",
+
+      // Charts
+      charts: "CHARTS",
+      week: "Week",
+      month: "Month",
+      year: "Year",
+      all: "All",
+      work_hours: "Work Hours",
+      rest_hours: "Rest Hours",
+      total_hours: "Total Hours",
+      average_day: "Average/Day",
+      days_worked: "Days Worked",
+      days_rest: "Rest Days",
+
+      // Coming Soon
+      coming_soon: "Coming Soon...",
+      coming_soon_msg: "This page is reserved for future epic features that haven't been thought of yet.",
+      coming_soon_msg2: "When inspiration strikes like lightning in the middle of the night (or during a truck break), something amazing will appear here.",
+      coming_soon_sarcastic: "For now, enjoy the existential void of this page. It's minimalism taken to the extreme. Very zen. Very modern. Basically, there's nothing because I haven't gotten around to adding anything yet. But hey, the icon floats! That counts as a feature, right?",
+
+      // Settings
+      settings: "Settings",
+      customization: "Customization",
+      dark_mode: "Dark Mode",
+      light_mode: "Light",
+      neon_effects: "Neon Effects",
+      animation_speed: "Animation Speed",
+      normal: "Normal",
+      fast: "Fast",
+      slow: "Slow",
+      disabled: "Disabled",
+      time_format: "Time Format",
+      traditional: "Traditional (8h 30m 15s)",
+      decimal: "Decimal (8.50h)",
+      main_color: "Main color",
+      text_size: "Text size",
+      font: "Font",
+      default_font: "Default",
+      apply_changes: "Apply Changes",
+      restore_defaults: "Restore Defaults",
+
+      // Schedules and Cycles
+      schedules_cycles: "Schedules and Cycles",
+      night_start_hour: "Night START hour",
+      night_end_hour: "Night END hour",
+      cycle_start_day: "Work cycle start day",
+      cycle_info: "The work cycle goes from the selected day of the previous month to the day before the current month.",
+
+      // Import/Export
+      import_export: "Import / Export Data",
+      import_from_file: "Import data from file",
+      select_json_file: "Select JSON File",
+      import_warning: "This will replace all current data",
+      select_month_export: "Select month to export",
+      export_month_json: "Export Month JSON",
+      export_all_json: "Export ALL JSON",
+      export_month_pdf: "Export Month PDF",
+      export_all_pdf: "Export ALL PDF",
+
+      // Notifications
+      notifications_alerts: "Notifications and Alerts",
+      vibrate_on_clock: "Vibrate on clock-in",
+      sound_on_clock: "Sound on clock-in",
+      daily_limit_warning: "Daily hour limit warning",
+      warning_exceed: "Warn when exceeding:",
+      hours: "hours",
+      clock_reminder: "Clock-in reminder",
+      reminder_no_clock: "Remind if no clock-in after:",
+      minutes: "minutes",
+      hour: "hour",
+      reminder_info: "You'll receive a warning if you go too long without logging activity",
+
+      // Delete Data
+      delete_data: "Delete Data",
+      delete_warning: "This action is irreversible. All saved records will be deleted.",
+      delete_all_data: "Delete ALL Data",
+      clean_cache: "Clean App Cache",
+
+      // Information
+      information: "Information",
+      version: "Version 2.0",
+      app_description: "Professional application for work time tracking",
+      work_rest_tracking: "Work and rest tracking",
+      offline_pwa: "Works 100% offline • PWA",
+      developed_with: "Developed with",
+      for_my_king: "For My King",
+
+      // Language
+      language: "Language",
+      select_language: "Select language",
+
+      // Modals
+      last_10_records: "Last 10 Records",
+      no_records_show: "No records to show",
+      worked: "worked",
+      chronometer_data: "Chronometer Data",
+      work_session: "Work Session",
+      start_time: "Start time",
+      end_time: "End time",
+      hours_worked: "Hours worked",
+      night_hours: "Night hours",
+      total_worked: "TOTAL WORKED",
+      rest_session: "Rest Session",
+      hours_rested: "Hours rested",
+      total_rested: "TOTAL RESTED",
+      manual_data: "Manual Data",
+
+      // Calendar
+      days_worked_cal: "Days Worked",
+      days_rest_cal: "Rest Days",
+
+      // Months
+      january: "January",
+      february: "February",
+      march: "March",
+      april: "April",
+      may: "May",
+      june: "June",
+      july: "July",
+      august: "August",
+      september: "September",
+      october: "October",
+      november: "November",
+      december: "December",
+
+      // Days of week
+      mon: "MON",
+      tue: "TUE",
+      wed: "WED",
+      thu: "THU",
+      fri: "FRI",
+      sat: "SAT",
+      sun: "SUN",
+
+      // Alerts and messages
+      select_date: "Select date",
+      saved_successfully: "Saved successfully",
+      check_to_confirm: "Check the checkbox to confirm deletion",
+      confirm_delete: "Are you sure you want to delete this record?",
+      record_deleted: "Record deleted successfully",
+      select_month: "Select month",
+      records_found: "Records found",
+      festive_days: "Holidays",
+      sixth_days: "Sixth days",
+      days_in_truck: "Days in truck",
+      days_at_home: "Days at home",
+      summary: "Summary",
+
+      // Session editing
+      work_sessions: "Work Sessions",
+      rest_sessions: "Rests (automatic)",
+      no_work_sessions: "No work sessions recorded",
+      rest_auto_calculated: "Rest is automatically calculated between work sessions",
+      add_work_session: "Add Work Session",
+      new_work_session: "New Work Session",
+      session: "Session",
+      rest: "Rest",
+      duration: "Duration",
+      start: "Start",
+      end: "End",
+
+      // PDF Export
+      generating_pdf: "Generating PDF...",
+      pdf_generated: "PDF generated successfully",
+      error_generating_pdf: "Error generating PDF",
+      no_data_export: "No data to export in the selected period",
+
+      // Hour limit
+      hours_limit_exceeded: "You've exceeded the limit of",
+      hours_today: "hours today. Rest!",
+
+      // Confirmations
+      confirm_delete_all: "Are you sure you want to delete ALL data? This action cannot be undone.",
+      all_data_deleted: "All data has been deleted",
+      cache_cleaned: "Cache cleaned successfully",
+      confirm_clean_cache: "Clean app cache? The app will reload.",
+
+      // Import data
+      select_file_import: "Select a JSON file to import",
+      import_successful: "Data imported successfully",
+      import_error: "Error importing data. Verify the file is valid.",
+
+      // Customization applied
+      customization_applied: "Customization applied",
+      defaults_restored: "Defaults restored"
+    },
+
+    ru: {
+      // Навигация
+      nav_home: "Главная",
+      nav_charts: "Графики",
+      nav_upcoming: "Скоро",
+      nav_settings: "Настройки",
+
+      // Главная страница
+      date: "Дата",
+      night_hours_auto: "Ночные часы (автоматически)",
+      diet_overnight: "Суточные",
+      at_home: "Дома",
+      in_truck: "В грузовике",
+      holiday: "Праздник",
+      sixth_day: "Шестой день подряд",
+      start_work: "НАЧАТЬ РАБОТУ",
+      stop: "СТОП",
+      save: "СОХРАНИТЬ",
+      delete_records: "УДАЛИТЬ ЗАПИСИ",
+      press_to_start: "Нажмите для начала",
+      working_since: "Работает с",
+      resting_since: "Отдыхает с",
+      no_previous_records: "Нет предыдущих записей",
+
+      // Сводки
+      summaries: "СВОДКИ",
+      normal_summary: "Обычная сводка (полный месяц)",
+      show_monthly_summary: "Показать месячную сводку",
+      calendar_26_25: "Календарь 26→25 (рабочий цикл)",
+      show_calendar_26_25: "Показать календарь 26→25",
+      daily_summary: "Ежедневная сводка",
+      show_daily_summaries: "Показать ежедневные сводки",
+
+      // Графики
+      charts: "ГРАФИКИ",
+      week: "Неделя",
+      month: "Месяц",
+      year: "Год",
+      all: "Все",
+      work_hours: "Рабочие часы",
+      rest_hours: "Часы отдыха",
+      total_hours: "Всего часов",
+      average_day: "Среднее/День",
+      days_worked: "Рабочие дни",
+      days_rest: "Дни отдыха",
+
+      // Скоро
+      coming_soon: "Скоро...",
+      coming_soon_msg: "Эта страница зарезервирована для будущих эпических функций, которые еще не придуманы.",
+      coming_soon_msg2: "Когда вдохновение ударит как молния посреди ночи (или во время перерыва на грузовике), здесь появится что-то невероятное.",
+      coming_soon_sarcastic: "А пока наслаждайтесь экзистенциальной пустотой этой страницы. Это минимализм, доведенный до крайности. Очень дзен. Очень современно. В основном здесь ничего нет, потому что я еще не добрался до добавления чего-либо. Но эй, иконка плавает! Это считается функцией, верно?",
+
+      // Настройки
+      settings: "Настройки",
+      customization: "Персонализация",
+      dark_mode: "Темный режим",
+      light_mode: "Светлый",
+      neon_effects: "Неоновые эффекты",
+      animation_speed: "Скорость анимации",
+      normal: "Нормальная",
+      fast: "Быстрая",
+      slow: "Медленная",
+      disabled: "Отключено",
+      time_format: "Формат времени",
+      traditional: "Традиционный (8ч 30м 15с)",
+      decimal: "Десятичный (8.50ч)",
+      main_color: "Основной цвет",
+      text_size: "Размер текста",
+      font: "Шрифт",
+      default_font: "По умолчанию",
+      apply_changes: "Применить изменения",
+      restore_defaults: "Восстановить по умолчанию",
+
+      // Расписание и циклы
+      schedules_cycles: "Расписание и циклы",
+      night_start_hour: "Час НАЧАЛА ночи",
+      night_end_hour: "Час ОКОНЧАНИЯ ночи",
+      cycle_start_day: "День начала рабочего цикла",
+      cycle_info: "Рабочий цикл идет с выбранного дня предыдущего месяца до дня перед текущим месяцем.",
+
+      // Импорт/Экспорт
+      import_export: "Импорт / Экспорт данных",
+      import_from_file: "Импортировать данные из файла",
+      select_json_file: "Выбрать JSON файл",
+      import_warning: "Это заменит все текущие данные",
+      select_month_export: "Выбрать месяц для экспорта",
+      export_month_json: "Экспорт месяца JSON",
+      export_all_json: "Экспорт ВСЕХ JSON",
+      export_month_pdf: "Экспорт месяца PDF",
+      export_all_pdf: "Экспорт ВСЕХ PDF",
+
+      // Уведомления
+      notifications_alerts: "Уведомления и оповещения",
+      vibrate_on_clock: "Вибрация при отметке",
+      sound_on_clock: "Звук при отметке",
+      daily_limit_warning: "Предупреждение о дневном лимите часов",
+      warning_exceed: "Предупреждать при превышении:",
+      hours: "часов",
+      clock_reminder: "Напоминание об отметке",
+      reminder_no_clock: "Напомнить, если нет отметки после:",
+      minutes: "минут",
+      hour: "час",
+      reminder_info: "Вы получите предупреждение, если слишком долго не регистрируете активность",
+
+      // Удаление данных
+      delete_data: "Удалить данные",
+      delete_warning: "Это действие необратимо. Все сохраненные записи будут удалены.",
+      delete_all_data: "Удалить ВСЕ данные",
+      clean_cache: "Очистить кэш приложения",
+
+      // Информация
+      information: "Информация",
+      version: "Версия 2.0",
+      app_description: "Профессиональное приложение для контроля рабочего времени",
+      work_rest_tracking: "Учет работы и отдыха",
+      offline_pwa: "Работает 100% оффлайн • PWA",
+      developed_with: "Разработано с",
+      for_my_king: "Для моего короля",
+
+      // Язык
+      language: "Язык",
+      select_language: "Выбрать язык",
+
+      // Модальные окна
+      last_10_records: "Последние 10 записей",
+      no_records_show: "Нет записей для отображения",
+      worked: "отработано",
+      chronometer_data: "Данные хронометра",
+      work_session: "Рабочая сессия",
+      start_time: "Время начала",
+      end_time: "Время окончания",
+      hours_worked: "Отработанные часы",
+      night_hours: "Ночные часы",
+      total_worked: "ВСЕГО ОТРАБОТАНО",
+      rest_session: "Сессия отдыха",
+      hours_rested: "Часы отдыха",
+      total_rested: "ВСЕГО ОТДЫХА",
+      manual_data: "Ручные данные",
+
+      // Календарь
+      days_worked_cal: "Рабочие дни",
+      days_rest_cal: "Дни отдыха",
+
+      // Месяцы
+      january: "Январь",
+      february: "Февраль",
+      march: "Март",
+      april: "Апрель",
+      may: "Май",
+      june: "Июнь",
+      july: "Июль",
+      august: "Август",
+      september: "Сентябрь",
+      october: "Октябрь",
+      november: "Ноябрь",
+      december: "Декабрь",
+
+      // Дни недели
+      mon: "ПН",
+      tue: "ВТ",
+      wed: "СР",
+      thu: "ЧТ",
+      fri: "ПТ",
+      sat: "СБ",
+      sun: "ВС",
+
+      // Оповещения и сообщения
+      select_date: "Выберите дату",
+      saved_successfully: "Сохранено успешно",
+      check_to_confirm: "Установите флажок для подтверждения удаления",
+      confirm_delete: "Вы уверены, что хотите удалить эту запись?",
+      record_deleted: "Запись успешно удалена",
+      select_month: "Выберите месяц",
+      records_found: "Найдено записей",
+      festive_days: "Праздничные дни",
+      sixth_days: "Шестые дни",
+      days_in_truck: "Дней в грузовике",
+      days_at_home: "Дней дома",
+      summary: "Сводка",
+
+      // Редактирование сессий
+      work_sessions: "Рабочие сессии",
+      rest_sessions: "Отдых (автоматически)",
+      no_work_sessions: "Нет записанных рабочих сессий",
+      rest_auto_calculated: "Отдых рассчитывается автоматически между рабочими сессиями",
+      add_work_session: "Добавить рабочую сессию",
+      new_work_session: "Новая рабочая сессия",
+      session: "Сессия",
+      rest: "Отдых",
+      duration: "Продолжительность",
+      start: "Начало",
+      end: "Конец",
+
+      // Экспорт PDF
+      generating_pdf: "Генерация PDF...",
+      pdf_generated: "PDF успешно создан",
+      error_generating_pdf: "Ошибка при создании PDF",
+      no_data_export: "Нет данных для экспорта в выбранном периоде",
+
+      // Лимит часов
+      hours_limit_exceeded: "Вы превысили лимит",
+      hours_today: "часов сегодня. Отдохните!",
+
+      // Подтверждения
+      confirm_delete_all: "Вы уверены, что хотите удалить ВСЕ данные? Это действие нельзя отменить.",
+      all_data_deleted: "Все данные были удалены",
+      cache_cleaned: "Кэш успешно очищен",
+      confirm_clean_cache: "Очистить кэш приложения? Приложение перезагрузится.",
+
+      // Импорт данных
+      select_file_import: "Выберите JSON файл для импорта",
+      import_successful: "Данные успешно импортированы",
+      import_error: "Ошибка импорта данных. Проверьте, что файл действителен.",
+
+      // Применена персонализация
+      customization_applied: "Персонализация применена",
+      defaults_restored: "Настройки по умолчанию восстановлены"
+    },
+
+    zh: {
+      // 导航
+      nav_home: "主页",
+      nav_charts: "图表",
+      nav_upcoming: "即将推出",
+      nav_settings: "设置",
+
+      // 主页
+      date: "日期",
+      night_hours_auto: "夜间时数（自动）",
+      diet_overnight: "过夜津贴",
+      at_home: "在家",
+      in_truck: "在卡车",
+      holiday: "假期",
+      sixth_day: "连续第六天",
+      start_work: "开始工作",
+      stop: "停止",
+      save: "保存",
+      delete_records: "删除记录",
+      press_to_start: "按下开始",
+      working_since: "工作开始时间",
+      resting_since: "休息开始时间",
+      no_previous_records: "无先前记录",
+
+      // 摘要
+      summaries: "摘要",
+      normal_summary: "正常摘要（整月）",
+      show_monthly_summary: "显示月度摘要",
+      calendar_26_25: "日历 26→25（工作周期）",
+      show_calendar_26_25: "显示日历 26→25",
+      daily_summary: "每日摘要",
+      show_daily_summaries: "显示每日摘要",
+
+      // 图表
+      charts: "图表",
+      week: "周",
+      month: "月",
+      year: "年",
+      all: "全部",
+      work_hours: "工作时数",
+      rest_hours: "休息时数",
+      total_hours: "总时数",
+      average_day: "每日平均",
+      days_worked: "工作天数",
+      days_rest: "休息天数",
+
+      // 即将推出
+      coming_soon: "即将推出...",
+      coming_soon_msg: "此页面保留用于尚未想到的未来史诗功能。",
+      coming_soon_msg2: "当灵感像午夜闪电一样袭来（或在卡车休息期间），这里将出现令人惊叹的东西。",
+      coming_soon_sarcastic: "目前，请享受这个页面的存在主义虚空。这是极端的极简主义。非常禅宗。非常现代。基本上，这里什么都没有，因为我还没有添加任何东西。但是嘿，图标会漂浮！这算作一个功能，对吧？",
+
+      // 设置
+      settings: "设置",
+      customization: "个性化",
+      dark_mode: "深色模式",
+      light_mode: "浅色",
+      neon_effects: "霓虹效果",
+      animation_speed: "动画速度",
+      normal: "正常",
+      fast: "快速",
+      slow: "慢速",
+      disabled: "禁用",
+      time_format: "时间格式",
+      traditional: "传统（8小时30分15秒）",
+      decimal: "十进制（8.50小时）",
+      main_color: "主要颜色",
+      text_size: "文字大小",
+      font: "字体",
+      default_font: "默认",
+      apply_changes: "应用更改",
+      restore_defaults: "恢复默认值",
+
+      // 时间表和周期
+      schedules_cycles: "时间表和周期",
+      night_start_hour: "夜间开始时间",
+      night_end_hour: "夜间结束时间",
+      cycle_start_day: "工作周期开始日",
+      cycle_info: "工作周期从上个月选定的日期到当月前一天。",
+
+      // 导入/导出
+      import_export: "导入/导出数据",
+      import_from_file: "从文件导入数据",
+      select_json_file: "选择JSON文件",
+      import_warning: "这将替换所有当前数据",
+      select_month_export: "选择要导出的月份",
+      export_month_json: "导出月份JSON",
+      export_all_json: "导出全部JSON",
+      export_month_pdf: "导出月份PDF",
+      export_all_pdf: "导出全部PDF",
+
+      // 通知
+      notifications_alerts: "通知和警报",
+      vibrate_on_clock: "打卡时振动",
+      sound_on_clock: "打卡时声音",
+      daily_limit_warning: "每日小时限制警告",
+      warning_exceed: "超过时警告：",
+      hours: "小时",
+      clock_reminder: "打卡提醒",
+      reminder_no_clock: "如果在以下时间后未打卡则提醒：",
+      minutes: "分钟",
+      hour: "小时",
+      reminder_info: "如果您太长时间没有记录活动，您将收到警告",
+
+      // 删除数据
+      delete_data: "删除数据",
+      delete_warning: "此操作不可逆。将删除所有保存的记录。",
+      delete_all_data: "删除所有数据",
+      clean_cache: "清除应用缓存",
+
+      // 信息
+      information: "信息",
+      version: "版本 2.0",
+      app_description: "专业的工作时间跟踪应用程序",
+      work_rest_tracking: "工作和休息跟踪",
+      offline_pwa: "100%离线工作 • PWA",
+      developed_with: "开发使用",
+      for_my_king: "献给我的国王",
+
+      // 语言
+      language: "语言",
+      select_language: "选择语言",
+
+      // 模态框
+      last_10_records: "最近10条记录",
+      no_records_show: "无记录显示",
+      worked: "已工作",
+      chronometer_data: "计时器数据",
+      work_session: "工作时段",
+      start_time: "开始时间",
+      end_time: "结束时间",
+      hours_worked: "工作时数",
+      night_hours: "夜间时数",
+      total_worked: "总工作时数",
+      rest_session: "休息时段",
+      hours_rested: "休息时数",
+      total_rested: "总休息时数",
+      manual_data: "手动数据",
+
+      // 日历
+      days_worked_cal: "工作天数",
+      days_rest_cal: "休息天数",
+
+      // 月份
+      january: "一月",
+      february: "二月",
+      march: "三月",
+      april: "四月",
+      may: "五月",
+      june: "六月",
+      july: "七月",
+      august: "八月",
+      september: "九月",
+      october: "十月",
+      november: "十一月",
+      december: "十二月",
+
+      // 星期
+      mon: "周一",
+      tue: "周二",
+      wed: "周三",
+      thu: "周四",
+      fri: "周五",
+      sat: "周六",
+      sun: "周日",
+
+      // 警报和消息
+      select_date: "选择日期",
+      saved_successfully: "保存成功",
+      check_to_confirm: "勾选复选框以确认删除",
+      confirm_delete: "您确定要删除此记录吗？",
+      record_deleted: "记录已成功删除",
+      select_month: "选择月份",
+      records_found: "找到的记录",
+      festive_days: "假期天数",
+      sixth_days: "第六天",
+      days_in_truck: "卡车天数",
+      days_at_home: "在家天数",
+      summary: "摘要",
+
+      // 会话编辑
+      work_sessions: "工作时段",
+      rest_sessions: "休息（自动）",
+      no_work_sessions: "无记录的工作时段",
+      rest_auto_calculated: "休息时间在工作时段之间自动计算",
+      add_work_session: "添加工作时段",
+      new_work_session: "新工作时段",
+      session: "时段",
+      rest: "休息",
+      duration: "持续时间",
+      start: "开始",
+      end: "结束",
+
+      // PDF导出
+      generating_pdf: "正在生成PDF...",
+      pdf_generated: "PDF生成成功",
+      error_generating_pdf: "生成PDF时出错",
+      no_data_export: "所选期间无数据可导出",
+
+      // 小时限制
+      hours_limit_exceeded: "您已超过限制",
+      hours_today: "今天的小时数。休息吧！",
+
+      // 确认
+      confirm_delete_all: "您确定要删除所有数据吗？此操作无法撤消。",
+      all_data_deleted: "所有数据已被删除",
+      cache_cleaned: "缓存已成功清除",
+      confirm_clean_cache: "清除应用缓存？应用将重新加载。",
+
+      // 导入数据
+      select_file_import: "选择要导入的JSON文件",
+      import_successful: "数据导入成功",
+      import_error: "导入数据时出错。请验证文件有效。",
+
+      // 应用个性化
+      customization_applied: "个性化已应用",
+      defaults_restored: "默认值已恢复"
+    },
+
+    de: {
+      // Navigation
+      nav_home: "Startseite",
+      nav_charts: "Diagramme",
+      nav_upcoming: "Demnächst",
+      nav_settings: "Einstellungen",
+
+      // Hauptseite
+      date: "Datum",
+      night_hours_auto: "Nachtstunden (automatisch)",
+      diet_overnight: "Übernachtungszulage",
+      at_home: "Zuhause",
+      in_truck: "Im LKW",
+      holiday: "Feiertag",
+      sixth_day: "Sechster Tag in Folge",
+      start_work: "ARBEIT BEGINNEN",
+      stop: "STOPP",
+      save: "SPEICHERN",
+      delete_records: "DATENSÄTZE LÖSCHEN",
+      press_to_start: "Zum Starten drücken",
+      working_since: "Arbeitet seit",
+      resting_since: "Ruht seit",
+      no_previous_records: "Keine vorherigen Datensätze",
+
+      // Zusammenfassungen
+      summaries: "ZUSAMMENFASSUNGEN",
+      normal_summary: "Normale Zusammenfassung (Ganzer Monat)",
+      show_monthly_summary: "Monatliche Zusammenfassung anzeigen",
+      calendar_26_25: "Kalender 26→25 (Arbeitszyklus)",
+      show_calendar_26_25: "Kalender 26→25 anzeigen",
+      daily_summary: "Tägliche Zusammenfassung",
+      show_daily_summaries: "Tägliche Zusammenfassungen anzeigen",
+
+      // Diagramme
+      charts: "DIAGRAMME",
+      week: "Woche",
+      month: "Monat",
+      year: "Jahr",
+      all: "Alle",
+      work_hours: "Arbeitsstunden",
+      rest_hours: "Ruhestunden",
+      total_hours: "Gesamtstunden",
+      average_day: "Durchschnitt/Tag",
+      days_worked: "Arbeitstage",
+      days_rest: "Ruhetage",
+
+      // Demnächst
+      coming_soon: "Demnächst...",
+      coming_soon_msg: "Diese Seite ist für zukünftige epische Funktionen reserviert, die noch nicht erdacht wurden.",
+      coming_soon_msg2: "Wenn die Inspiration wie ein Blitz mitten in der Nacht einschlägt (oder während einer LKW-Pause), wird hier etwas Erstaunliches erscheinen.",
+      coming_soon_sarcastic: "Genießen Sie vorerst die existenzielle Leere dieser Seite. Es ist Minimalismus bis zum Extrem. Sehr zen. Sehr modern. Im Grunde gibt es hier nichts, weil ich noch nichts hinzugefügt habe. Aber hey, das Symbol schwebt! Das zählt als Funktion, oder?",
+
+      // Einstellungen
+      settings: "Einstellungen",
+      customization: "Anpassung",
+      dark_mode: "Dunkler Modus",
+      light_mode: "Hell",
+      neon_effects: "Neon-Effekte",
+      animation_speed: "Animationsgeschwindigkeit",
+      normal: "Normal",
+      fast: "Schnell",
+      slow: "Langsam",
+      disabled: "Deaktiviert",
+      time_format: "Zeitformat",
+      traditional: "Traditionell (8h 30m 15s)",
+      decimal: "Dezimal (8.50h)",
+      main_color: "Hauptfarbe",
+      text_size: "Textgröße",
+      font: "Schriftart",
+      default_font: "Standard",
+      apply_changes: "Änderungen übernehmen",
+      restore_defaults: "Standardwerte wiederherstellen",
+
+      // Zeitpläne und Zyklen
+      schedules_cycles: "Zeitpläne und Zyklen",
+      night_start_hour: "Nacht-START-Stunde",
+      night_end_hour: "Nacht-END-Stunde",
+      cycle_start_day: "Arbeitszyklus-Starttag",
+      cycle_info: "Der Arbeitszyklus geht vom ausgewählten Tag des vorherigen Monats bis zum Tag vor dem aktuellen Monat.",
+
+      // Import/Export
+      import_export: "Daten importieren/exportieren",
+      import_from_file: "Daten aus Datei importieren",
+      select_json_file: "JSON-Datei auswählen",
+      import_warning: "Dies ersetzt alle aktuellen Daten",
+      select_month_export: "Monat zum Exportieren auswählen",
+      export_month_json: "Monat JSON exportieren",
+      export_all_json: "ALLE JSON exportieren",
+      export_month_pdf: "Monat PDF exportieren",
+      export_all_pdf: "ALLE PDF exportieren",
+
+      // Benachrichtigungen
+      notifications_alerts: "Benachrichtigungen und Warnungen",
+      vibrate_on_clock: "Bei Zeiterfassung vibrieren",
+      sound_on_clock: "Bei Zeiterfassung Ton",
+      daily_limit_warning: "Warnung bei täglichem Stundenlimit",
+      warning_exceed: "Warnen bei Überschreitung:",
+      hours: "Stunden",
+      clock_reminder: "Zeiterfassungserinnerung",
+      reminder_no_clock: "Erinnern, wenn keine Zeiterfassung nach:",
+      minutes: "Minuten",
+      hour: "Stunde",
+      reminder_info: "Sie erhalten eine Warnung, wenn Sie zu lange keine Aktivität aufzeichnen",
+
+      // Daten löschen
+      delete_data: "Daten löschen",
+      delete_warning: "Diese Aktion ist irreversibel. Alle gespeicherten Datensätze werden gelöscht.",
+      delete_all_data: "ALLE Daten löschen",
+      clean_cache: "App-Cache leeren",
+
+      // Information
+      information: "Information",
+      version: "Version 2.0",
+      app_description: "Professionelle Anwendung zur Arbeitszeiterfassung",
+      work_rest_tracking: "Arbeits- und Ruhezeit-Tracking",
+      offline_pwa: "Funktioniert 100% offline • PWA",
+      developed_with: "Entwickelt mit",
+      for_my_king: "Für meinen König",
+
+      // Sprache
+      language: "Sprache",
+      select_language: "Sprache auswählen",
+
+      // Modale Fenster
+      last_10_records: "Letzte 10 Datensätze",
+      no_records_show: "Keine Datensätze zum Anzeigen",
+      worked: "gearbeitet",
+      chronometer_data: "Stoppuhr-Daten",
+      work_session: "Arbeitssitzung",
+      start_time: "Startzeit",
+      end_time: "Endzeit",
+      hours_worked: "Arbeitsstunden",
+      night_hours: "Nachtstunden",
+      total_worked: "INSGESAMT GEARBEITET",
+      rest_session: "Ruhesitzung",
+      hours_rested: "Ruhestunden",
+      total_rested: "INSGESAMT GERUHT",
+      manual_data: "Manuelle Daten",
+
+      // Kalender
+      days_worked_cal: "Arbeitstage",
+      days_rest_cal: "Ruhetage",
+
+      // Monate
+      january: "Januar",
+      february: "Februar",
+      march: "März",
+      april: "April",
+      may: "Mai",
+      june: "Juni",
+      july: "Juli",
+      august: "August",
+      september: "September",
+      october: "Oktober",
+      november: "November",
+      december: "Dezember",
+
+      // Wochentage
+      mon: "MO",
+      tue: "DI",
+      wed: "MI",
+      thu: "DO",
+      fri: "FR",
+      sat: "SA",
+      sun: "SO",
+
+      // Warnungen und Nachrichten
+      select_date: "Datum auswählen",
+      saved_successfully: "Erfolgreich gespeichert",
+      check_to_confirm: "Kontrollkästchen zum Bestätigen des Löschvorgangs aktivieren",
+      confirm_delete: "Sind Sie sicher, dass Sie diesen Datensatz löschen möchten?",
+      record_deleted: "Datensatz erfolgreich gelöscht",
+      select_month: "Monat auswählen",
+      records_found: "Gefundene Datensätze",
+      festive_days: "Feiertage",
+      sixth_days: "Sechste Tage",
+      days_in_truck: "Tage im LKW",
+      days_at_home: "Tage zu Hause",
+      summary: "Zusammenfassung",
+
+      // Sitzungsbearbeitung
+      work_sessions: "Arbeitssitzungen",
+      rest_sessions: "Ruhepausen (automatisch)",
+      no_work_sessions: "Keine Arbeitssitzungen aufgezeichnet",
+      rest_auto_calculated: "Ruhezeit wird automatisch zwischen Arbeitssitzungen berechnet",
+      add_work_session: "Arbeitssitzung hinzufügen",
+      new_work_session: "Neue Arbeitssitzung",
+      session: "Sitzung",
+      rest: "Ruhe",
+      duration: "Dauer",
+      start: "Start",
+      end: "Ende",
+
+      // PDF-Export
+      generating_pdf: "PDF wird erstellt...",
+      pdf_generated: "PDF erfolgreich erstellt",
+      error_generating_pdf: "Fehler beim Erstellen des PDF",
+      no_data_export: "Keine Daten zum Exportieren im ausgewählten Zeitraum",
+
+      // Stundenlimit
+      hours_limit_exceeded: "Sie haben das Limit von",
+      hours_today: "Stunden heute überschritten. Ruhen Sie sich aus!",
+
+      // Bestätigungen
+      confirm_delete_all: "Sind Sie sicher, dass Sie ALLE Daten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      all_data_deleted: "Alle Daten wurden gelöscht",
+      cache_cleaned: "Cache erfolgreich geleert",
+      confirm_clean_cache: "App-Cache leeren? Die App wird neu geladen.",
+
+      // Daten importieren
+      select_file_import: "Wählen Sie eine JSON-Datei zum Importieren aus",
+      import_successful: "Daten erfolgreich importiert",
+      import_error: "Fehler beim Importieren von Daten. Überprüfen Sie, ob die Datei gültig ist.",
+
+      // Anpassung angewendet
+      customization_applied: "Anpassung angewendet",
+      defaults_restored: "Standardwerte wiederhergestellt"
+    },
+
+    pl: {
+      // Nawigacja
+      nav_home: "Start",
+      nav_charts: "Wykresy",
+      nav_upcoming: "Wkrótce",
+      nav_settings: "Ustawienia",
+
+      // Strona główna
+      date: "Data",
+      night_hours_auto: "Godziny nocne (automatycznie)",
+      diet_overnight: "Dieta noclegowa",
+      at_home: "W domu",
+      in_truck: "W ciężarówce",
+      holiday: "Święto",
+      sixth_day: "Szósty dzień z rzędu",
+      start_work: "ROZPOCZNIJ PRACĘ",
+      stop: "STOP",
+      save: "ZAPISZ",
+      delete_records: "USUŃ REKORDY",
+      press_to_start: "Naciśnij, aby rozpocząć",
+      working_since: "Pracuje od",
+      resting_since: "Odpoczywa od",
+      no_previous_records: "Brak poprzednich rekordów",
+
+      // Podsumowania
+      summaries: "PODSUMOWANIA",
+      normal_summary: "Normalne podsumowanie (pełny miesiąc)",
+      show_monthly_summary: "Pokaż podsumowanie miesięczne",
+      calendar_26_25: "Kalendarz 26→25 (cykl pracy)",
+      show_calendar_26_25: "Pokaż kalendarz 26→25",
+      daily_summary: "Podsumowanie dzienne",
+      show_daily_summaries: "Pokaż podsumowania dzienne",
+
+      // Wykresy
+      charts: "WYKRESY",
+      week: "Tydzień",
+      month: "Miesiąc",
+      year: "Rok",
+      all: "Wszystko",
+      work_hours: "Godziny pracy",
+      rest_hours: "Godziny odpoczynku",
+      total_hours: "Łącznie godzin",
+      average_day: "Średnia/Dzień",
+      days_worked: "Dni robocze",
+      days_rest: "Dni odpoczynku",
+
+      // Wkrótce
+      coming_soon: "Wkrótce...",
+      coming_soon_msg: "Ta strona jest zarezerwowana dla przyszłych epickich funkcji, które jeszcze nie zostały wymyślone.",
+      coming_soon_msg2: "Kiedy inspiracja uderzy jak piorun w środku nocy (lub podczas przerwy w ciężarówce), pojawi się tu coś niesamowitego.",
+      coming_soon_sarcastic: "Na razie ciesz się egzystencjalną pustką tej strony. To minimalizm doprowadzony do ekstremum. Bardzo zen. Bardzo nowoczesne. W zasadzie nie ma tu nic, bo jeszcze nic nie dodałem. Ale hej, ikona unosi się! To się liczy jako funkcja, prawda?",
+
+      // Ustawienia
+      settings: "Ustawienia",
+      customization: "Personalizacja",
+      dark_mode: "Tryb ciemny",
+      light_mode: "Jasny",
+      neon_effects: "Efekty neonowe",
+      animation_speed: "Prędkość animacji",
+      normal: "Normalna",
+      fast: "Szybka",
+      slow: "Wolna",
+      disabled: "Wyłączona",
+      time_format: "Format czasu",
+      traditional: "Tradycyjny (8h 30m 15s)",
+      decimal: "Dziesiętny (8.50h)",
+      main_color: "Kolor główny",
+      text_size: "Rozmiar tekstu",
+      font: "Czcionka",
+      default_font: "Domyślna",
+      apply_changes: "Zastosuj zmiany",
+      restore_defaults: "Przywróć domyślne",
+
+      // Harmonogramy i cykle
+      schedules_cycles: "Harmonogramy i cykle",
+      night_start_hour: "Godzina ROZPOCZĘCIA nocy",
+      night_end_hour: "Godzina ZAKOŃCZENIA nocy",
+      cycle_start_day: "Dzień rozpoczęcia cyklu pracy",
+      cycle_info: "Cykl pracy trwa od wybranego dnia poprzedniego miesiąca do dnia przed bieżącym miesiącem.",
+
+      // Import/Eksport
+      import_export: "Import / Eksport danych",
+      import_from_file: "Importuj dane z pliku",
+      select_json_file: "Wybierz plik JSON",
+      import_warning: "To zastąpi wszystkie bieżące dane",
+      select_month_export: "Wybierz miesiąc do eksportu",
+      export_month_json: "Eksportuj miesiąc JSON",
+      export_all_json: "Eksportuj WSZYSTKO JSON",
+      export_month_pdf: "Eksportuj miesiąc PDF",
+      export_all_pdf: "Eksportuj WSZYSTKO PDF",
+
+      // Powiadomienia
+      notifications_alerts: "Powiadomienia i alerty",
+      vibrate_on_clock: "Wibruj przy rejestracji",
+      sound_on_clock: "Dźwięk przy rejestracji",
+      daily_limit_warning: "Ostrzeżenie o dziennym limicie godzin",
+      warning_exceed: "Ostrzegaj przy przekroczeniu:",
+      hours: "godzin",
+      clock_reminder: "Przypomnienie o rejestracji",
+      reminder_no_clock: "Przypomnij, jeśli brak rejestracji po:",
+      minutes: "minut",
+      hour: "godzina",
+      reminder_info: "Otrzymasz ostrzeżenie, jeśli zbyt długo nie zarejestrujesz aktywności",
+
+      // Usuń dane
+      delete_data: "Usuń dane",
+      delete_warning: "Ta akcja jest nieodwracalna. Wszystkie zapisane rekordy zostaną usunięte.",
+      delete_all_data: "Usuń WSZYSTKIE dane",
+      clean_cache: "Wyczyść pamięć podręczną aplikacji",
+
+      // Informacje
+      information: "Informacje",
+      version: "Wersja 2.0",
+      app_description: "Profesjonalna aplikacja do śledzenia czasu pracy",
+      work_rest_tracking: "Śledzenie pracy i odpoczynku",
+      offline_pwa: "Działa 100% offline • PWA",
+      developed_with: "Opracowane z",
+      for_my_king: "Dla mojego króla",
+
+      // Język
+      language: "Język",
+      select_language: "Wybierz język",
+
+      // Okna modalne
+      last_10_records: "Ostatnie 10 rekordów",
+      no_records_show: "Brak rekordów do wyświetlenia",
+      worked: "przepracowane",
+      chronometer_data: "Dane stopera",
+      work_session: "Sesja pracy",
+      start_time: "Czas rozpoczęcia",
+      end_time: "Czas zakończenia",
+      hours_worked: "Godziny przepracowane",
+      night_hours: "Godziny nocne",
+      total_worked: "ŁĄCZNIE PRZEPRACOWANE",
+      rest_session: "Sesja odpoczynku",
+      hours_rested: "Godziny odpoczynku",
+      total_rested: "ŁĄCZNIE ODPOCZYNEK",
+      manual_data: "Dane ręczne",
+
+      // Kalendarz
+      days_worked_cal: "Dni robocze",
+      days_rest_cal: "Dni odpoczynku",
+
+      // Miesiące
+      january: "Styczeń",
+      february: "Luty",
+      march: "Marzec",
+      april: "Kwiecień",
+      may: "Maj",
+      june: "Czerwiec",
+      july: "Lipiec",
+      august: "Sierpień",
+      september: "Wrzesień",
+      october: "Październik",
+      november: "Listopad",
+      december: "Grudzień",
+
+      // Dni tygodnia
+      mon: "PON",
+      tue: "WT",
+      wed: "ŚR",
+      thu: "CZW",
+      fri: "PT",
+      sat: "SOB",
+      sun: "NIE",
+
+      // Alerty i wiadomości
+      select_date: "Wybierz datę",
+      saved_successfully: "Zapisano pomyślnie",
+      check_to_confirm: "Zaznacz pole wyboru, aby potwierdzić usunięcie",
+      confirm_delete: "Czy na pewno chcesz usunąć ten rekord?",
+      record_deleted: "Rekord usunięty pomyślnie",
+      select_month: "Wybierz miesiąc",
+      records_found: "Znaleziono rekordów",
+      festive_days: "Święta",
+      sixth_days: "Szóste dni",
+      days_in_truck: "Dni w ciężarówce",
+      days_at_home: "Dni w domu",
+      summary: "Podsumowanie",
+
+      // Edycja sesji
+      work_sessions: "Sesje pracy",
+      rest_sessions: "Odpoczynek (automatycznie)",
+      no_work_sessions: "Brak zarejestrowanych sesji pracy",
+      rest_auto_calculated: "Odpoczynek jest automatycznie obliczany między sesjami pracy",
+      add_work_session: "Dodaj sesję pracy",
+      new_work_session: "Nowa sesja pracy",
+      session: "Sesja",
+      rest: "Odpoczynek",
+      duration: "Czas trwania",
+      start: "Start",
+      end: "Koniec",
+
+      // Eksport PDF
+      generating_pdf: "Generowanie PDF...",
+      pdf_generated: "PDF wygenerowany pomyślnie",
+      error_generating_pdf: "Błąd podczas generowania PDF",
+      no_data_export: "Brak danych do eksportu w wybranym okresie",
+
+      // Limit godzin
+      hours_limit_exceeded: "Przekroczyłeś limit",
+      hours_today: "godzin dzisiaj. Odpocznij!",
+
+      // Potwierdzenia
+      confirm_delete_all: "Czy na pewno chcesz usunąć WSZYSTKIE dane? Tej akcji nie można cofnąć.",
+      all_data_deleted: "Wszystkie dane zostały usunięte",
+      cache_cleaned: "Pamięć podręczna wyczyszczona pomyślnie",
+      confirm_clean_cache: "Wyczyścić pamięć podręczną aplikacji? Aplikacja zostanie przeładowana.",
+
+      // Import danych
+      select_file_import: "Wybierz plik JSON do importu",
+      import_successful: "Dane zaimportowane pomyślnie",
+      import_error: "Błąd podczas importowania danych. Sprawdź, czy plik jest prawidłowy.",
+
+      // Zastosowano personalizację
+      customization_applied: "Zastosowano personalizację",
+      defaults_restored: "Przywrócono domyślne"
+    }
+  };
+
+  // Idioma actual (se carga desde localStorage o español por defecto)
+  let currentLang = localStorage.getItem('language') || 'es';
+
+  // Función para obtener una traducción
+  function t(key) {
+    return translations[currentLang][key] || translations['es'][key] || key;
+  }
+
+  // Función para cambiar idioma
+  function changeLanguage(lang) {
+    if (!translations[lang]) {
+      console.error('Idioma no soportado:', lang);
+      return;
+    }
+
+    currentLang = lang;
+    localStorage.setItem('language', lang);
+
+    // Actualizar atributo lang del HTML
+    document.documentElement.lang = lang;
+
+    // Aplicar traducciones
+    applyTranslations();
+
+    // Actualizar cronómetro para que use el idioma correcto
+    actualizarReloj();
+
+    // Recargar gráficas si estamos en esa página
+    const paginaGraficas = document.getElementById('paginaGraficas');
+    if (paginaGraficas && paginaGraficas.classList.contains('active')) {
+      const periodoActivo = document.querySelector('.periodo-btn.active');
+      if (periodoActivo) {
+        cargarGraficas(periodoActivo.dataset.periodo);
+      }
+    }
+  }
+
+  // Función para aplicar todas las traducciones al DOM
+  function applyTranslations() {
+    // Actualizar navegación
+    const navBtns = document.querySelectorAll('.nav-btn span');
+    navBtns[0].textContent = t('nav_home');
+    navBtns[1].textContent = t('nav_charts');
+    navBtns[2].textContent = t('nav_upcoming');
+    navBtns[3].textContent = t('nav_settings');
+
+    // Actualizar botones de cronómetro
+    const botonCrono = document.getElementById('botonCrono');
+    if (botonCrono) {
+      if (cronometroTrabajando) {
+        botonCrono.textContent = `⏹ ${t('stop')}`;
+      } else {
+        botonCrono.textContent = `▶ ${t('start_work')}`;
+      }
+    }
+
+    // Actualizar botones principales
+    const botonGuardar = document.getElementById('botonGuardar');
+    if (botonGuardar) botonGuardar.textContent = `💾 ${t('save')}`;
+
+    const botonBorrar = document.getElementById('botonBorrar');
+    if (botonBorrar) botonBorrar.textContent = `🗑️ ${t('delete_records')}`;
+
+    // Actualizar otros textos dinámicos según sea necesario
+    // Esta función se puede expandir para actualizar más elementos
+  }
+
+  // Inicializar idioma al cargar la página
+  document.addEventListener('DOMContentLoaded', () => {
+    // Establecer el idioma guardado en el selector
+    const selectorIdioma = document.getElementById('selectorIdioma');
+    if (selectorIdioma) {
+      selectorIdioma.value = currentLang;
+    }
+
+    // Aplicar traducciones iniciales
+    applyTranslations();
+  });
+
   // Función para calcular horas nocturnas (configurable)
   function calcularHorasNocturnas(timestampInicio, timestampFin){
     const HORA_INICIO_NOCTURNA = parseInt(localStorage.getItem('horaInicioNocturnas') || '22');
