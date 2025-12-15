@@ -187,10 +187,27 @@
   
   <h2>⚙️ Ajustes</h2>
   
+  <!-- Idioma / Language -->
+  <div class="ajuste-seccion">
+    <div class="ajuste-seccion-titulo">🌐 Idioma / Language</div>
+
+    <div class="ajuste-item">
+      <label class="ajuste-label">Seleccionar idioma / Select language</label>
+      <select class="ajuste-select" id="selectorIdioma" onchange="changeLanguage(this.value)">
+        <option value="es">🇪🇸 Español</option>
+        <option value="en">🇬🇧 English</option>
+        <option value="ru">🇷🇺 Русский</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="de">🇩🇪 Deutsch</option>
+        <option value="pl">🇵🇱 Polski</option>
+      </select>
+    </div>
+  </div>
+
   <!-- Personalización -->
   <div class="ajuste-seccion">
     <div class="ajuste-seccion-titulo">🎨 Personalización</div>
-    
+
     <div class="ajuste-toggle-container">
       <span class="ajuste-toggle-label">🌙 Modo Oscuro / ☀️ Claro</span>
       <div class="toggle-switch" id="toggleModoClaro" onclick="toggleModoClaro()">
