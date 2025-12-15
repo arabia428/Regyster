@@ -137,17 +137,17 @@
       last_10_records: "Últimos 10 Registros",
       no_records_show: "No hay registros para mostrar",
       worked: "trabajadas",
-      chronometer_data: "Datos del Cronómetro",
-      work_session: "Sesión de Trabajo",
+      chronometer_data: "${t('chronometer_data')}",
+      work_session: "${t('work_session')}",
       start_time: "Hora de inicio",
       end_time: "Hora de fin",
       hours_worked: "Horas trabajadas",
       night_hours: "Horas nocturnas",
       total_worked: "TOTAL TRABAJADAS",
-      rest_session: "Sesión de Descanso",
+      rest_session: "${t('rest_session')}",
       hours_rested: "Horas descansadas",
       total_rested: "TOTAL DESCANSADAS",
-      manual_data: "Datos Manuales",
+      manual_data: "${t('manual_data')}",
 
       // Calendario
       days_worked_cal: "Días Trabajados",
@@ -195,8 +195,8 @@
       rest_sessions: "Descansos (automático)",
       no_work_sessions: "No hay sesiones de trabajo registradas",
       rest_auto_calculated: "El descanso se calcula automáticamente entre sesiones de trabajo",
-      add_work_session: "Añadir Sesión de Trabajo",
-      new_work_session: "Nueva Sesión de Trabajo",
+      add_work_session: "Añadir ${t('work_session')}",
+      new_work_session: "Nueva ${t('work_session')}",
       session: "Sesión",
       rest: "Descanso",
       duration: "Duración",
@@ -1907,105 +1907,105 @@
     
     const registrosCrono = JSON.parse(localStorage.getItem('registrosCrono') || '[]');
     const todosCrono = registrosCrono.filter(rc => rc.fecha === registro.fecha);
-    
+
     if(todosCrono && todosCrono.length > 0){
       html += '<div class="detalle-seccion">';
-      html += '<div class="detalle-seccion-titulo">⏱️ Datos del Cronómetro</div>';
-      
+      html += '<div class="detalle-seccion-titulo">⏱️ ' + t('chronometer_data') + '</div>';
+
       const trabajo = todosCrono.filter(c => c.tipo === 'trabajo');
       const descanso = todosCrono.filter(c => c.tipo === 'descanso');
-      
+
       if(trabajo.length > 0){
         trabajo.forEach((crono, idx) => {
           if(trabajo.length > 1){
             html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
-              <span class="detalle-dato-label">🔧 Sesión de Trabajo ${idx + 1}</span>
+              <span class="detalle-dato-label">🔧 ${t('work_session')} ${idx + 1}</span>
             </div>`;
           }
           if(crono.horaInicio){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🔧 Hora de inicio:</span>
+              <span class="detalle-dato-label">🔧 ${t('start_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaInicio}</span>
             </div>`;
           }
           if(crono.horaFin){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🔧 Hora de fin:</span>
+              <span class="detalle-dato-label">🔧 ${t('end_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaFin}</span>
             </div>`;
           }
           html += `<div class="detalle-dato">
-            <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
+            <span class="detalle-dato-label">🔧 ${t('hours_worked')}:</span>
             <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
-        
+
         const totalTrabajo = trabajo.reduce((sum, rc) => sum + rc.tiempo, 0);
         if(trabajo.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
-            <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
+            <span class="detalle-dato-label">🔧 ${t('total_worked')}:</span>
             <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalTrabajo)}</span>
           </div>`;
         }
       }
-      
+
       if(descanso.length > 0){
         html += `<div style="height: 20px;"></div>`;
         descanso.forEach((crono, idx) => {
           if(descanso.length > 1){
             html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
-              <span class="detalle-dato-label">🛏️ Sesión de Descanso ${idx + 1}</span>
+              <span class="detalle-dato-label">🛏️ ${t('rest_session')} ${idx + 1}</span>
             </div>`;
           }
           if(crono.horaInicio){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🛏️ Hora de inicio:</span>
+              <span class="detalle-dato-label">🛏️ ${t('start_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaInicio}</span>
             </div>`;
           }
           if(crono.horaFin){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🛏️ Hora de fin:</span>
+              <span class="detalle-dato-label">🛏️ ${t('end_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaFin}</span>
             </div>`;
           }
           html += `<div class="detalle-dato">
-            <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
+            <span class="detalle-dato-label">🛏️ ${t('hours_rested')}:</span>
             <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
-        
+
         const totalDescanso = descanso.reduce((sum, rc) => sum + rc.tiempo, 0);
         if(descanso.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
-            <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
+            <span class="detalle-dato-label">🛏️ ${t('total_rested')}:</span>
             <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalDescanso)}</span>
           </div>`;
         }
       }
-      
+
       html += '</div>';
     }
-    
+
     if(registro.datosManual){
       html += '<div class="detalle-seccion">';
-      html += '<div class="detalle-seccion-titulo">📝 Datos Manuales</div>';
-      
+      html += '<div class="detalle-seccion-titulo">📝 ' + t('manual_data') + '</div>';
+
       if(registro.datosManual.nocturnas && parseInt(registro.datosManual.nocturnas) > 0){
         html += `<div class="detalle-dato">
-          <span class="detalle-dato-label">🌙 Horas nocturnas:</span>
-          <span class="detalle-dato-valor">${registro.datosManual.nocturnas} horas</span>
+          <span class="detalle-dato-label">🌙 ${t('night_hours')}:</span>
+          <span class="detalle-dato-valor">${registro.datosManual.nocturnas} ${t('hours')}</span>
         </div>`;
       }
-      
+
       html += `<div class="detalle-dato">
-        <span class="detalle-dato-label">🛏️ Dieta pernocta:</span>
-        <span class="detalle-dato-valor">${registro.datosManual.dieta_pernocta === 'camion' ? 'En camión' : 'En casa'}</span>
+        <span class="detalle-dato-label">🛏️ ${t('diet_overnight')}:</span>
+        <span class="detalle-dato-valor">${registro.datosManual.dieta_pernocta === 'camion' ? t('in_truck') : t('at_home')}</span>
       </div>`;
-      
+
       if(registro.datosManual.festivo){
         html += `<div class="detalle-dato">
-          <span class="detalle-dato-label">🎉 Festivo:</span>
+          <span class="detalle-dato-label">🎉 ${t('holiday')}:</span>
           <span class="detalle-dato-valor">Sí</span>
         </div>`;
       }
@@ -2281,12 +2281,12 @@
         </div>`;
         
         html += `<div class="edicion-fila">
-          <span class="edicion-label">Horas trabajadas:</span>
+          <span class="edicion-label">${t('hours_worked')}:</span>
           <span class="edicion-valor-auto" id="horas-trabajo-${idx}">${formatearHorasDecimal(crono.tiempo)}</span>
         </div>`;
         
         html += `<div class="edicion-fila">
-          <span class="edicion-label">Horas nocturnas:</span>
+          <span class="edicion-label">${t('night_hours')}:</span>
           <span class="edicion-valor-auto" id="horas-nocturnas-${idx}">${formatearHorasDecimal(crono.horasNocturnas || 0)}</span>
         </div>`;
         
@@ -2301,7 +2301,7 @@
     
     // Botón para añadir nueva sesión
     html += `<button type="button" class="btn-nueva-sesion" onclick="agregarNuevaSesionTrabajo('${fechaStr}')">
-      <span>➕</span> Añadir Sesión de Trabajo
+      <span>➕</span> Añadir ${t('work_session')}
     </button>`;
     
     html += '</div>';
@@ -2350,7 +2350,7 @@
   // Función para generar HTML de edición de datos manuales
   function generarEdicionDatosManuales(datosManual){
     let html = '<div class="edicion-seccion">';
-    html += '<div class="edicion-seccion-titulo">📝 Datos Manuales</div>';
+    html += '<div class="edicion-seccion-titulo">📝 ${t('manual_data')}</div>';
     
     const dietaValor = datosManual ? datosManual.dieta_pernocta : 'casa';
     const festivoValor = datosManual ? datosManual.festivo : false;
@@ -2421,7 +2421,7 @@
     
     let html = `<div class="sesion-edicion nueva-sesion" data-sesion-idx="${idx}" data-tipo="trabajo" data-nueva="true">`;
     html += `<div class="sesion-edicion-header">
-      <span class="sesion-edicion-titulo">🆕 Nueva Sesión de Trabajo</span>
+      <span class="sesion-edicion-titulo">🆕 Nueva ${t('work_session')}</span>
       <button type="button" class="btn-eliminar-sesion" onclick="eliminarSesion(this, 'trabajo')" title="Eliminar sesión">🗑️</button>
     </div>`;
     
@@ -2436,12 +2436,12 @@
     </div>`;
     
     html += `<div class="edicion-fila">
-      <span class="edicion-label">Horas trabajadas:</span>
+      <span class="edicion-label">${t('hours_worked')}:</span>
       <span class="edicion-valor-auto" id="horas-trabajo-${idx}">8.00h</span>
     </div>`;
     
     html += `<div class="edicion-fila">
-      <span class="edicion-label">Horas nocturnas:</span>
+      <span class="edicion-label">${t('night_hours')}:</span>
       <span class="edicion-valor-auto" id="horas-nocturnas-${idx}">0.00h</span>
     </div>`;
     
@@ -2654,7 +2654,7 @@
       // Sección de cronómetro
       if(registro.datosCrono && registro.datosCrono.length > 0){
         html += '<div class="detalle-seccion">';
-        html += '<div class="detalle-seccion-titulo">⏱️ Registro del Cronómetro</div>';
+        html += '<div class="detalle-seccion-titulo">⏱️ ${t('chronometer_data')}</div>';
         
         const trabajo = registro.datosCrono.filter(c => c.tipo === 'trabajo');
         const descanso = registro.datosCrono.filter(c => c.tipo === 'descanso');
@@ -2664,28 +2664,28 @@
           trabajo.forEach((crono, idx) => {
             if(trabajo.length > 1){
               html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
-                <span class="detalle-dato-label">🔧 Sesión de Trabajo ${idx + 1}</span>
+                <span class="detalle-dato-label">🔧 ${t('work_session')} ${idx + 1}</span>
               </div>`;
             }
             if(crono.horaInicio){
               html += `<div class="detalle-dato">
-                <span class="detalle-dato-label">🔧 Hora de inicio:</span>
+                <span class="detalle-dato-label">🔧 ${t('start_time')}:</span>
                 <span class="detalle-dato-valor">${crono.horaInicio}</span>
               </div>`;
             }
             if(crono.horaFin){
               html += `<div class="detalle-dato">
-                <span class="detalle-dato-label">🔧 Hora de fin:</span>
+                <span class="detalle-dato-label">🔧 ${t('end_time')}:</span>
                 <span class="detalle-dato-valor">${crono.horaFin}</span>
               </div>`;
             }
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
+              <span class="detalle-dato-label">🔧 ${t('hours_worked')}:</span>
               <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
             </div>`;
             if(crono.horasNocturnas !== undefined && crono.horasNocturnas > 0){
               html += `<div class="detalle-dato">
-                <span class="detalle-dato-label">🌙 Horas nocturnas:</span>
+                <span class="detalle-dato-label">🌙 ${t('night_hours')}:</span>
                 <span class="detalle-dato-valor">${formatearHorasDecimal(crono.horasNocturnas)}</span>
               </div>`;
               totalNocturnas += crono.horasNocturnas;
@@ -2695,12 +2695,12 @@
           const totalTrabajo = trabajo.reduce((sum, rc) => sum + rc.tiempo, 0);
           if(trabajo.length > 1){
             html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
-              <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
+              <span class="detalle-dato-label">🔧 ${t('total_worked')}:</span>
               <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalTrabajo)}</span>
             </div>`;
             if(totalNocturnas > 0){
               html += `<div class="detalle-dato">
-                <span class="detalle-dato-label">🌙 TOTAL NOCTURNAS:</span>
+                <span class="detalle-dato-label">🌙 ${t('night_hours').toUpperCase()}:</span>
                 <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalNocturnas)}</span>
               </div>`;
             }
@@ -2712,23 +2712,23 @@
           descanso.forEach((crono, idx) => {
             if(descanso.length > 1){
               html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
-                <span class="detalle-dato-label">🛏️ Sesión de Descanso ${idx + 1}</span>
+                <span class="detalle-dato-label">🛏️ ${t('rest_session')} ${idx + 1}</span>
               </div>`;
             }
             if(crono.horaInicio){
               html += `<div class="detalle-dato">
-                <span class="detalle-dato-label">🛏️ Hora de inicio:</span>
+                <span class="detalle-dato-label">🛏️ ${t('start_time')}:</span>
                 <span class="detalle-dato-valor">${crono.horaInicio}</span>
               </div>`;
             }
             if(crono.horaFin){
               html += `<div class="detalle-dato">
-                <span class="detalle-dato-label">🛏️ Hora de fin:</span>
+                <span class="detalle-dato-label">🛏️ ${t('end_time')}:</span>
                 <span class="detalle-dato-valor">${crono.horaFin}</span>
               </div>`;
             }
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
+              <span class="detalle-dato-label">🛏️ ${t('hours_rested')}:</span>
               <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
             </div>`;
           });
@@ -2736,7 +2736,7 @@
           const totalDescanso = descanso.reduce((sum, rc) => sum + rc.tiempo, 0);
           if(descanso.length > 1){
             html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
-              <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
+              <span class="detalle-dato-label">🛏️ ${t('total_rested')}:</span>
               <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalDescanso)}</span>
             </div>`;
           }
@@ -2748,11 +2748,11 @@
       // Sección de datos manuales
       if(registro.datosManual){
         html += '<div class="detalle-seccion">';
-        html += '<div class="detalle-seccion-titulo">📝 Datos Manuales</div>';
+        html += '<div class="detalle-seccion-titulo">📝 ${t('manual_data')}</div>';
         
         if(registro.datosManual.nocturnas && parseInt(registro.datosManual.nocturnas) > 0){
           html += `<div class="detalle-dato">
-            <span class="detalle-dato-label">🌙 Horas nocturnas:</span>
+            <span class="detalle-dato-label">🌙 ${t('night_hours')}:</span>
             <span class="detalle-dato-valor">${registro.datosManual.nocturnas} horas</span>
           </div>`;
         }
@@ -2907,7 +2907,7 @@
     
     if(todosCrono && todosCrono.length > 0){
       html += '<div class="detalle-seccion">';
-      html += '<div class="detalle-seccion-titulo">⏱️ Registro del Cronómetro</div>';
+      html += '<div class="detalle-seccion-titulo">⏱️ ${t('chronometer_data')}</div>';
       
       const trabajo = todosCrono.filter(c => c.tipo === 'trabajo');
       const descanso = todosCrono.filter(c => c.tipo === 'descanso');
@@ -2916,23 +2916,23 @@
         trabajo.forEach((crono, idx) => {
           if(trabajo.length > 1){
             html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
-              <span class="detalle-dato-label">🔧 Sesión de Trabajo ${idx + 1}</span>
+              <span class="detalle-dato-label">🔧 ${t('work_session')} ${idx + 1}</span>
             </div>`;
           }
           if(crono.horaInicio){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🔧 Hora de inicio:</span>
+              <span class="detalle-dato-label">🔧 ${t('start_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaInicio}</span>
             </div>`;
           }
           if(crono.horaFin){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🔧 Hora de fin:</span>
+              <span class="detalle-dato-label">🔧 ${t('end_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaFin}</span>
             </div>`;
           }
           html += `<div class="detalle-dato">
-            <span class="detalle-dato-label">🔧 Horas trabajadas:</span>
+            <span class="detalle-dato-label">🔧 ${t('hours_worked')}:</span>
             <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
@@ -2940,7 +2940,7 @@
         const totalTrabajo = trabajo.reduce((sum, rc) => sum + rc.tiempo, 0);
         if(trabajo.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
-            <span class="detalle-dato-label">🔧 TOTAL TRABAJADAS:</span>
+            <span class="detalle-dato-label">🔧 ${t('total_worked')}:</span>
             <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalTrabajo)}</span>
           </div>`;
         }
@@ -2951,23 +2951,23 @@
         descanso.forEach((crono, idx) => {
           if(descanso.length > 1){
             html += `<div class="detalle-dato" style="margin-top: ${idx > 0 ? '15px' : '0'}; padding-top: ${idx > 0 ? '15px' : '0'}; border-top: ${idx > 0 ? '1px solid rgba(255, 140, 66, 0.2)' : 'none'};">
-              <span class="detalle-dato-label">🛏️ Sesión de Descanso ${idx + 1}</span>
+              <span class="detalle-dato-label">🛏️ ${t('rest_session')} ${idx + 1}</span>
             </div>`;
           }
           if(crono.horaInicio){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🛏️ Hora de inicio:</span>
+              <span class="detalle-dato-label">🛏️ ${t('start_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaInicio}</span>
             </div>`;
           }
           if(crono.horaFin){
             html += `<div class="detalle-dato">
-              <span class="detalle-dato-label">🛏️ Hora de fin:</span>
+              <span class="detalle-dato-label">🛏️ ${t('end_time')}:</span>
               <span class="detalle-dato-valor">${crono.horaFin}</span>
             </div>`;
           }
           html += `<div class="detalle-dato">
-            <span class="detalle-dato-label">🛏️ Horas descansadas:</span>
+            <span class="detalle-dato-label">🛏️ ${t('hours_rested')}:</span>
             <span class="detalle-dato-valor">${formatearHorasDecimal(crono.tiempo)}</span>
           </div>`;
         });
@@ -2975,7 +2975,7 @@
         const totalDescanso = descanso.reduce((sum, rc) => sum + rc.tiempo, 0);
         if(descanso.length > 1){
           html += `<div class="detalle-dato" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid rgba(255, 140, 66, 0.3);">
-            <span class="detalle-dato-label">🛏️ TOTAL DESCANSADAS:</span>
+            <span class="detalle-dato-label">🛏️ ${t('total_rested')}:</span>
             <span class="detalle-dato-valor" style="font-size: 1.1em;">${formatearHorasDecimal(totalDescanso)}</span>
           </div>`;
         }
@@ -2986,11 +2986,11 @@
     
     if(registro.datosManual){
       html += '<div class="detalle-seccion">';
-      html += '<div class="detalle-seccion-titulo">📝 Datos Manuales</div>';
+      html += '<div class="detalle-seccion-titulo">📝 ${t('manual_data')}</div>';
       
       if(registro.datosManual.nocturnas && parseInt(registro.datosManual.nocturnas) > 0){
         html += `<div class="detalle-dato">
-          <span class="detalle-dato-label">🌙 Horas nocturnas:</span>
+          <span class="detalle-dato-label">🌙 ${t('night_hours')}:</span>
           <span class="detalle-dato-valor">${registro.datosManual.nocturnas} horas</span>
         </div>`;
       }
