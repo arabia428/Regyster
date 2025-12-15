@@ -1463,6 +1463,9 @@
   let horaInicioTrabajo = null;
   let ultimoFinTrabajo = null; // Para calcular descanso
 
+  // Variable para formato de visualización del cronómetro (true = mostrar días, false = solo horas)
+  let mostrarDiasEnCrono = localStorage.getItem('mostrarDiasEnCrono') !== 'false'; // Por defecto true
+
   // Recuperar estado del cronómetro al cargar la página
   function recuperarEstadoCrono(){
     const estadoGuardado = localStorage.getItem('estadoCrono');
@@ -1502,18 +1505,24 @@
     const segundos = totalSegundos % 60;
     return `${String(horas).padStart(2,'0')}:${String(minutos).padStart(2,'0')}:${String(segundos).padStart(2,'0')}`;
   }
-  
-  function formatearTiempoLargo(ms){
+
+  function formatearTiempoLargo(ms, usarFormatoDias = true){
     const totalSegundos = Math.floor(ms / 1000);
     const dias = Math.floor(totalSegundos / 86400);
-    const horas = Math.floor((totalSegundos % 86400) / 3600);
-    const minutos = Math.floor((totalSegundos % 3600) / 60);
-    const segundos = totalSegundos % 60;
-    
-    if(dias > 0){
+
+    if(usarFormatoDias && dias > 0){
+      // Formato con días: "1d 07:05:34"
+      const horas = Math.floor((totalSegundos % 86400) / 3600);
+      const minutos = Math.floor((totalSegundos % 3600) / 60);
+      const segundos = totalSegundos % 60;
       return `${dias}d ${String(horas).padStart(2,'0')}:${String(minutos).padStart(2,'0')}:${String(segundos).padStart(2,'0')}`;
+    } else {
+      // Formato solo horas totales: "31:05:34"
+      const horasTotales = Math.floor(totalSegundos / 3600);
+      const minutos = Math.floor((totalSegundos % 3600) / 60);
+      const segundos = totalSegundos % 60;
+      return `${String(horasTotales).padStart(2,'0')}:${String(minutos).padStart(2,'0')}:${String(segundos).padStart(2,'0')}`;
     }
-    return `${String(horas).padStart(2,'0')}:${String(minutos).padStart(2,'0')}:${String(segundos).padStart(2,'0')}`;
   }
 
   // NUEVA FUNCIÓN: Convertir horas decimales a formato "Xh Ym Zs"
@@ -1567,32 +1576,39 @@
     const reloj = document.getElementById('reloj');
 
     const ahora = Date.now();
-    
+
     if(cronometroTrabajando && horaInicioTrabajo){
       // Mostrando trabajo en curso
       const total = ahora - horaInicioTrabajo;
-      tiempoReloj.textContent = formatearTiempo(total);
+      tiempoReloj.textContent = formatearTiempoLargo(total, mostrarDiasEnCrono);
       iconoReloj.textContent = '🔧';
       const horaInicioFormateada = formatearHora(horaInicioTrabajo);
-      estadoCrono.textContent = `⏱️ Trabajando desde ${horaInicioFormateada}`;
+      estadoCrono.textContent = `⏱️ ${t('working_since')} ${horaInicioFormateada}`;
       reloj.classList.add('activo');
     } else if(ultimoFinTrabajo){
       // Mostrando descanso en curso
       const total = ahora - ultimoFinTrabajo;
-      tiempoReloj.textContent = formatearTiempoLargo(total);
+      tiempoReloj.textContent = formatearTiempoLargo(total, mostrarDiasEnCrono);
       iconoReloj.textContent = '🛏️';
       const finFormateado = formatearFechaHora(ultimoFinTrabajo);
-      estadoCrono.textContent = `😴 Descansando desde ${finFormateado}`;
+      estadoCrono.textContent = `😴 ${t('resting_since')} ${finFormateado}`;
       reloj.classList.remove('activo');
     } else {
       // Sin datos previos
       tiempoReloj.textContent = '00:00:00';
       iconoReloj.textContent = '⏸️';
-      estadoCrono.textContent = 'Sin registros previos';
+      estadoCrono.textContent = t('no_previous_records');
       reloj.classList.remove('activo');
     }
-    
+
     requestAnimationFrame(actualizarReloj);
+  }
+
+  // Función para alternar formato de visualización del cronómetro
+  function toggleFormatoCrono(){
+    mostrarDiasEnCrono = !mostrarDiasEnCrono;
+    localStorage.setItem('mostrarDiasEnCrono', mostrarDiasEnCrono);
+    // El reloj se actualizará automáticamente en el siguiente frame de actualizarReloj()
   }
 
   document.getElementById('botonCrono').onclick = function(){
@@ -2977,6 +2993,13 @@
   recuperarEstadoCrono();
   actualizarDisplayNocturnas();
   cargarPersonalizacion();
+
+  // Event listener para alternar formato del cronómetro al hacer click
+  const relojCrono = document.getElementById('reloj');
+  if(relojCrono){
+    relojCrono.addEventListener('click', toggleFormatoCrono);
+    relojCrono.style.cursor = 'pointer'; // Indicar que es clickeable
+  }
 
   // ========== NAVEGACIÓN POR PÁGINAS ==========
   function cambiarPagina(idPagina){
