@@ -210,8 +210,11 @@
       no_data_export: "No hay datos para exportar en el período seleccionado",
 
       // Límite de horas
+      attention: "¡ATENCIÓN!",
       hours_limit_exceeded: "Has superado el límite de",
-      hours_today: "horas hoy. ¡Descansa!",
+      daily_hours: "horas diarias",
+      hours_worked_today: "Horas trabajadas hoy:",
+      remember_rest: "¡Recuerda descansar!",
 
       // Confirmaciones
       confirm_delete_all: "¿Estás seguro de que quieres borrar TODOS los datos? Esta acción no se puede deshacer.",
@@ -429,8 +432,11 @@
       no_data_export: "No data to export in the selected period",
 
       // Hour limit
+      attention: "ATTENTION!",
       hours_limit_exceeded: "You've exceeded the limit of",
-      hours_today: "hours today. Rest!",
+      daily_hours: "daily hours",
+      hours_worked_today: "Hours worked today:",
+      remember_rest: "Remember to rest!",
 
       // Confirmations
       confirm_delete_all: "Are you sure you want to delete ALL data? This action cannot be undone.",
@@ -648,8 +654,11 @@
       no_data_export: "Нет данных для экспорта в выбранном периоде",
 
       // Лимит часов
+      attention: "ВНИМАНИЕ!",
       hours_limit_exceeded: "Вы превысили лимит",
-      hours_today: "часов сегодня. Отдохните!",
+      daily_hours: "часов в день",
+      hours_worked_today: "Часов отработано сегодня:",
+      remember_rest: "Не забудьте отдохнуть!",
 
       // Подтверждения
       confirm_delete_all: "Вы уверены, что хотите удалить ВСЕ данные? Это действие нельзя отменить.",
@@ -867,8 +876,11 @@
       no_data_export: "所选期间无数据可导出",
 
       // 小时限制
+      attention: "注意！",
       hours_limit_exceeded: "您已超过限制",
-      hours_today: "今天的小时数。休息吧！",
+      daily_hours: "每日小时",
+      hours_worked_today: "今天工作时数：",
+      remember_rest: "记得休息！",
 
       // 确认
       confirm_delete_all: "您确定要删除所有数据吗？此操作无法撤消。",
@@ -1086,8 +1098,11 @@
       no_data_export: "Keine Daten zum Exportieren im ausgewählten Zeitraum",
 
       // Stundenlimit
+      attention: "ACHTUNG!",
       hours_limit_exceeded: "Sie haben das Limit von",
-      hours_today: "Stunden heute überschritten. Ruhen Sie sich aus!",
+      daily_hours: "Stunden pro Tag überschritten",
+      hours_worked_today: "Heute gearbeitete Stunden:",
+      remember_rest: "Denken Sie daran, sich auszuruhen!",
 
       // Bestätigungen
       confirm_delete_all: "Sind Sie sicher, dass Sie ALLE Daten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
@@ -1305,8 +1320,11 @@
       no_data_export: "Brak danych do eksportu w wybranym okresie",
 
       // Limit godzin
+      attention: "UWAGA!",
       hours_limit_exceeded: "Przekroczyłeś limit",
-      hours_today: "godzin dzisiaj. Odpocznij!",
+      daily_hours: "godzin dziennie",
+      hours_worked_today: "Godzin przepracowanych dzisiaj:",
+      remember_rest: "Pamiętaj o odpoczynku!",
 
       // Potwierdzenia
       confirm_delete_all: "Czy na pewno chcesz usunąć WSZYSTKIE dane? Tej akcji nie można cofnąć.",
@@ -4026,8 +4044,8 @@
     const horasHoy = trabajoHoy.reduce((sum, r) => sum + r.tiempo, 0);
     
     if(horasHoy >= limite){
-      alert(`⚠️ ¡ATENCIÓN!\n\nHas superado el límite de ${limite} horas diarias.\n\nHoras trabajadas hoy: ${formatearHorasDecimal(horasHoy)}\n\n¡Recuerda descansar!`);
-      
+      alert(`⚠️ ${t('attention')}\n\n${t('hours_limit_exceeded')} ${limite} ${t('daily_hours')}.\n\n${t('hours_worked_today')} ${formatearHorasDecimal(horasHoy)}\n\n${t('remember_rest')}`);
+
       if(navigator.vibrate){
         navigator.vibrate([500, 200, 500, 200, 500]);
       }
