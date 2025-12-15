@@ -1363,50 +1363,29 @@
   }
 
   // Función para aplicar todas las traducciones al DOM
+  // ========== SISTEMA DE TRADUCCIÓN AUTOMÁTICO ==========
+  // Esta función simple reemplaza 285 líneas de código manual
   function applyTranslations() {
-    // ========== NAVEGACIÓN ==========
-    const navBtns = document.querySelectorAll('.nav-btn span');
-    if (navBtns.length >= 4) {
-      navBtns[0].textContent = t('nav_home');
-      navBtns[1].textContent = t('nav_charts');
-      navBtns[2].textContent = t('nav_upcoming');
-      navBtns[3].textContent = t('nav_settings');
-    }
-
-    // ========== PÁGINA PRINCIPAL ==========
-    // Título
-    document.querySelectorAll('h2').forEach(h2 => {
-      if (h2.textContent.includes('Regyster')) {
-        // Mantener el título principal
-      } else if (h2.textContent.includes('RESÚMENES')) {
-        h2.textContent = t('summaries');
-      } else if (h2.textContent.includes('Ajustes')) {
-        h2.textContent = `⚙️ ${t('settings')}`;
+    // Traducir todos los elementos con data-i18n automáticamente
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      if (key && translations[currentLang] && translations[currentLang][key]) {
+        element.textContent = translations[currentLang][key];
       }
     });
 
-    // Labels de la página principal
-    const labels = document.querySelectorAll('label');
-    labels.forEach(label => {
-      const text = label.textContent.trim();
-      if (text.includes('Fecha')) label.textContent = `📅 ${t('date')}`;
-      if (text.includes('Horas Nocturnas')) label.innerHTML = `🌙 ${t('night_hours_auto')}<br><span class="nocturnas-info">(22:00 - 06:00)</span>`;
-      if (text.includes('Dieta Pernocta')) label.textContent = `🛏️ ${t('diet_overnight')}`;
-      if (text.includes('Festivo')) label.textContent = `🎉 ${t('holiday')}`;
-      if (text.includes('Sexto día')) label.textContent = `6️⃣ ${t('sixth_day')}`;
-      if (text.includes('Resumen Normal')) label.textContent = t('normal_summary');
-      if (text.includes('Calendario 26')) label.textContent = `📅 ${t('calendar_26_25')}`;
-      if (text.includes('Resumen Diario')) label.textContent = `📅 ${t('daily_summary')}`;
+    // Traducir elementos con data-i18n-template (requieren formato especial)
+    document.querySelectorAll('[data-i18n-template]').forEach(element => {
+      const key = element.getAttribute('data-i18n-template');
+      if (key === 'dark_mode_light_mode') {
+        element.textContent = `🌙 ${t('dark_mode')} / ☀️ ${t('light_mode')}`;
+      }
+      if (key === 'font_default') {
+        element.textContent = `Segoe UI (${t('default_font')})`;
+      }
     });
 
-    // Opciones del select de dieta
-    const selectDieta = document.getElementById('dieta_pernocta');
-    if (selectDieta && selectDieta.options) {
-      selectDieta.options[0].textContent = t('at_home');
-      selectDieta.options[1].textContent = t('in_truck');
-    }
-
-    // Botones principales
+    // Elementos dinámicos que cambian según el estado
     const botonCrono = document.getElementById('botonCrono');
     if (botonCrono) {
       if (cronometroTrabajando) {
@@ -1416,219 +1395,25 @@
       }
     }
 
-    const botonGuardar = document.getElementById('botonGuardar');
-    if (botonGuardar) botonGuardar.textContent = `💾 ${t('save')}`;
-
-    const botonBorrar = document.getElementById('botonBorrar');
-    if (botonBorrar) botonBorrar.textContent = `🗑️ ${t('delete_records')}`;
-
-    // Botones de resúmenes
-    const resumenMes = document.getElementById('resumenMes');
-    if (resumenMes) resumenMes.textContent = `📈 ${t('show_monthly_summary')}`;
-
-    const resumenReal = document.getElementById('resumenReal');
-    if (resumenReal) resumenReal.textContent = `📅 ${t('show_calendar_26_25')}`;
-
-    const btnMostrarDiarios = document.getElementById('btnMostrarDiarios');
-    if (btnMostrarDiarios) btnMostrarDiarios.textContent = `📅 ${t('show_daily_summaries')}`;
-
-    // Estado del cronómetro
-    const estadoCrono = document.getElementById('estadoCrono');
-    if (estadoCrono && !cronometroTrabajando && !ultimoFinTrabajo) {
-      estadoCrono.textContent = t('no_previous_records');
+    // Traducir opciones de selects dinámicos
+    const limiteHorasSelect = document.getElementById('limiteHorasDiarias');
+    if (limiteHorasSelect && limiteHorasSelect.options) {
+      for (let i = 0; i < limiteHorasSelect.options.length; i++) {
+        const option = limiteHorasSelect.options[i];
+        const horas = option.value;
+        option.textContent = `${horas} ${t('hours')}`;
+      }
     }
 
-    // ========== PÁGINA DE GRÁFICAS ==========
-    const tituloGraficas = document.querySelector('#paginaGraficas .titulo-neon');
-    if (tituloGraficas) tituloGraficas.textContent = t('charts');
-
-    // Botones de período
-    const periodoBtns = document.querySelectorAll('.periodo-btn');
-    periodoBtns.forEach(btn => {
-      const periodo = btn.dataset.periodo;
-      if (periodo === 'semana') btn.textContent = t('week');
-      if (periodo === 'mes') btn.textContent = t('month');
-      if (periodo === 'anio') btn.textContent = t('year');
-      if (periodo === 'todo') btn.textContent = t('all');
-    });
-
-    // Títulos de gráficas
-    const graficaTitulos = document.querySelectorAll('.grafica-titulo');
-    if (graficaTitulos.length >= 2) {
-      graficaTitulos[0].textContent = `🔧 ${t('work_hours')}`;
-      graficaTitulos[1].textContent = `🛏️ ${t('rest_hours')}`;
+    const tiempoRecordatorioSelect = document.getElementById('tiempoRecordatorio');
+    if (tiempoRecordatorioSelect && tiempoRecordatorioSelect.options) {
+      tiempoRecordatorioSelect.options[0].textContent = `30 ${t('minutes')}`;
+      tiempoRecordatorioSelect.options[1].textContent = `1 ${t('hour')}`;
+      tiempoRecordatorioSelect.options[2].textContent = `2 ${t('hours')}`;
+      tiempoRecordatorioSelect.options[3].textContent = `3 ${t('hours')}`;
     }
 
-    // Labels de estadísticas
-    const graficaLabels = document.querySelectorAll('.grafica-stat-label');
-    graficaLabels.forEach(label => {
-      const text = label.textContent.trim();
-      if (text.includes('Total Horas')) label.textContent = t('total_hours');
-      if (text.includes('Promedio')) label.textContent = t('average_day');
-      if (text.includes('Días Trabajados')) label.textContent = t('days_worked');
-      if (text.includes('Días Descanso')) label.textContent = t('days_rest');
-    });
-
-    // ========== PÁGINA PRÓXIMAMENTE ==========
-    const proximamenteTitulo = document.querySelector('.proximamente-titulo');
-    if (proximamenteTitulo) proximamenteTitulo.textContent = t('coming_soon');
-
-    const proximamenteMensaje = document.querySelector('.proximamente-mensaje');
-    if (proximamenteMensaje) {
-      proximamenteMensaje.innerHTML = `
-        ${t('coming_soon_msg')}
-        <br><br>
-        ${t('coming_soon_msg2')}
-        <span class="sarcastico">
-          ${t('coming_soon_sarcastic')}
-        </span>
-      `;
-    }
-
-    // ========== PÁGINA DE AJUSTES ==========
-    // Secciones de ajustes
-    const ajusteSecciones = document.querySelectorAll('.ajuste-seccion-titulo');
-    ajusteSecciones.forEach(titulo => {
-      const text = titulo.textContent.trim();
-      if (text.includes('Idioma') || text.includes('Language')) {
-        titulo.textContent = `🌐 ${t('language')}`;
-      }
-      if (text.includes('Personalización')) titulo.textContent = `🎨 ${t('customization')}`;
-      if (text.includes('Horarios')) titulo.textContent = `⏰ ${t('schedules_cycles')}`;
-      if (text.includes('Importar')) titulo.textContent = `📦 ${t('import_export')}`;
-      if (text.includes('Notificaciones')) titulo.textContent = `🔔 ${t('notifications_alerts')}`;
-      if (text.includes('Borrar Datos')) titulo.textContent = `🗑️ ${t('delete_data')}`;
-      if (text.includes('Información')) titulo.textContent = `ℹ️ ${t('information')}`;
-    });
-
-    // Labels de ajustes
-    const ajusteLabels = document.querySelectorAll('.ajuste-label');
-    ajusteLabels.forEach(label => {
-      const text = label.textContent.trim();
-      if (text.includes('Seleccionar idioma') || text.includes('Select language')) {
-        label.textContent = t('select_language');
-      }
-      if (text.includes('Modo Oscuro')) label.textContent = `🌙 ${t('dark_mode')} / ☀️ ${t('light_mode')}`;
-      if (text.includes('Efectos Neón')) label.textContent = `✨ ${t('neon_effects')}`;
-      if (text.includes('Velocidad Animaciones')) label.textContent = `⚡ ${t('animation_speed')}`;
-      if (text.includes('Formato de Horas')) label.textContent = `🕐 ${t('time_format')}`;
-      if (text.includes('Color principal')) label.textContent = t('main_color');
-      if (text.includes('Tamaño de texto')) label.textContent = t('text_size');
-      if (text.includes('Fuente')) label.textContent = t('font');
-      if (text.includes('Hora INICIO nocturnas')) label.textContent = `🌙 ${t('night_start_hour')}`;
-      if (text.includes('Hora FIN nocturnas')) label.textContent = `🌅 ${t('night_end_hour')}`;
-      if (text.includes('Día inicio de ciclo')) label.textContent = `📅 ${t('cycle_start_day')}`;
-      if (text.includes('Importar datos')) label.textContent = `📥 ${t('import_from_file')}`;
-      if (text.includes('Seleccionar mes a exportar')) label.textContent = t('select_month_export');
-      if (text.includes('Vibrar al fichar')) label.textContent = `📳 ${t('vibrate_on_clock')}`;
-      if (text.includes('Sonido al fichar')) label.textContent = `🔊 ${t('sound_on_clock')}`;
-      if (text.includes('Aviso límite')) label.textContent = `⚠️ ${t('daily_limit_warning')}`;
-      if (text.includes('Avisar al superar')) label.textContent = t('warning_exceed');
-      if (text.includes('Recordatorio de fichaje')) label.textContent = `⏰ ${t('clock_reminder')}`;
-      if (text.includes('Recordar si no ficho')) label.textContent = t('reminder_no_clock');
-    });
-
-    // Opciones de selects
-    const velocidadSelect = document.getElementById('velocidadAnimaciones');
-    if (velocidadSelect && velocidadSelect.options) {
-      velocidadSelect.options[0].textContent = t('normal');
-      velocidadSelect.options[1].textContent = t('fast');
-      velocidadSelect.options[2].textContent = t('slow');
-      velocidadSelect.options[3].textContent = t('disabled');
-    }
-
-    const formatoSelect = document.getElementById('formatoHoras');
-    if (formatoSelect && formatoSelect.options) {
-      formatoSelect.options[0].textContent = t('traditional');
-      formatoSelect.options[1].textContent = t('decimal');
-    }
-
-    const fuenteSelect = document.getElementById('fuenteTexto');
-    if (fuenteSelect && fuenteSelect.options) {
-      fuenteSelect.options[0].textContent = `Segoe UI (${t('default_font')})`;
-    }
-
-    // Botones de ajustes
-    const btnAplicar = document.querySelector('button[onclick="aplicarPersonalizacion()"]');
-    if (btnAplicar) btnAplicar.textContent = `✨ ${t('apply_changes')}`;
-
-    const btnRestaurar = document.querySelector('button[onclick="resetearPersonalizacion()"]');
-    if (btnRestaurar) btnRestaurar.textContent = `🔄 ${t('restore_defaults')}`;
-
-    const btnSeleccionarJSON = document.querySelectorAll('.btn-ajuste');
-    btnSeleccionarJSON.forEach(btn => {
-      if (btn.textContent.includes('Seleccionar Archivo JSON')) {
-        btn.textContent = `📥 ${t('select_json_file')}`;
-      }
-      if (btn.textContent.includes('Exportar Mes JSON')) {
-        btn.textContent = `📅 ${t('export_month_json')}`;
-      }
-      if (btn.textContent.includes('Exportar TODO JSON')) {
-        btn.textContent = `📦 ${t('export_all_json')}`;
-      }
-      if (btn.textContent.includes('Exportar Mes PDF')) {
-        btn.textContent = `📄 ${t('export_month_pdf')}`;
-      }
-      if (btn.textContent.includes('Exportar TODO PDF')) {
-        btn.textContent = `📄 ${t('export_all_pdf')}`;
-      }
-      if (btn.textContent.includes('Borrar TODOS')) {
-        btn.textContent = `🗑️ ${t('delete_all_data')}`;
-      }
-      if (btn.textContent.includes('Limpiar Caché')) {
-        btn.textContent = `🧹 ${t('clean_cache')}`;
-      }
-    });
-
-    // Textos informativos
-    const infos = document.querySelectorAll('p[style*="color: #888"]');
-    infos.forEach(p => {
-      if (p.textContent.includes('reemplazará todos')) {
-        p.innerHTML = `⚠️ ${t('import_warning')}`;
-      }
-      if (p.textContent.includes('El ciclo laboral')) {
-        p.innerHTML = `💡 ${t('cycle_info')}`;
-      }
-      if (p.textContent.includes('Recibirás un aviso')) {
-        p.innerHTML = `💡 ${t('reminder_info')}`;
-      }
-      if (p.textContent.includes('Esta acción es irreversible')) {
-        p.textContent = `⚠️ ${t('delete_warning')}`;
-      }
-    });
-
-    // Info de versión
-    const infoVersion = document.getElementById('textoNormal');
-    if (infoVersion) {
-      infoVersion.innerHTML = `
-        <strong>Regyster</strong><br>
-        ${t('version')}<br><br>
-        ${t('app_description')}<br><br>
-        <span style="font-size: 0.8em; opacity: 0.7;">
-          ${t('work_rest_tracking')}<br>
-          ${t('offline_pwa')}
-        </span>
-      `;
-    }
-
-    const textoSecreto = document.getElementById('textoSecreto');
-    if (textoSecreto) {
-      textoSecreto.innerHTML = `
-        <span class="easter-msg">${t('developed_with')} ❤️ y mucho ☕</span><br>
-        <span class="easter-msg">${t('for_my_king')} 👑</span>
-      `;
-    }
-
-    // ========== MODALES ==========
-    // Títulos de modales
-    const modalTitulos = document.querySelectorAll('.modal-title');
-    modalTitulos.forEach(titulo => {
-      if (titulo.textContent.includes('Últimos 10')) {
-        titulo.textContent = `🗑️ ${t('last_10_records')}`;
-      }
-    });
-
-    console.log('Traducciones aplicadas para idioma:', currentLang);
+    console.log('✅ Traducciones aplicadas para idioma:', currentLang);
   }
 
   // Inicializar idioma al cargar la página
@@ -1975,7 +1760,7 @@
     const sexto = document.getElementById('sexto').checked;
 
     if(!fecha){
-      alert('Selecciona fecha');
+      alert(t('select_date'));
       return;
     }
 
@@ -2004,7 +1789,7 @@
     localStorage.setItem('registros', JSON.stringify(registros));
 
     cargarHistorial();
-    alert('✅ Guardado correctamente');
+    alert('✅ ' + t('saved_successfully'));
   };
 
   // FUNCIONALIDAD DE BORRADO
@@ -2227,11 +2012,11 @@
     const checkbox = document.getElementById('detalleCheckbox');
     
     if(!checkbox.checked){
-      alert('⚠️ Marca el checkbox para confirmar el borrado');
+      alert('⚠️ ' + t('check_to_confirm'));
       return;
     }
     
-    if(!confirm('¿Seguro que quieres borrar este registro?')){
+    if(!confirm(t('confirm_delete'))){
       return;
     }
     
@@ -2264,27 +2049,27 @@
       document.getElementById('modalBorrar').classList.remove('active');
     }
     
-    alert('✅ Registro borrado correctamente');
+    alert('✅ ' + t('record_deleted'));
   }
 
   document.getElementById('resumenMes').onclick = function(){
     const mes = document.getElementById('mesResumen').value;
-    if(!mes){ alert('Selecciona mes'); return; }
+    if(!mes){ alert(t('select_month')); return; }
     
     const [anio, mesNum] = mes.split('-');
     const registros = JSON.parse(localStorage.getItem('registros') || "[]");
     
     const filtrados = registros.filter(r => r.fecha.startsWith(anio + '-' + mesNum));
-    
-    let html = '<div class="resumen"><h3>✨ Resumen ✨</h3>';
-    html += '<div class="resumen-item"><span>Registros encontrados:</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + filtrados.length + '</span></div>';
-    
+
+    let html = '<div class="resumen"><h3>✨ ' + t('summary') + ' ✨</h3>';
+    html += '<div class="resumen-item"><span>' + t('records_found') + ':</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + filtrados.length + '</span></div>';
+
     let totalNoc = 0;
     let festivos = 0;
     let sextos = 0;
     let camion = 0;
     let casa = 0;
-    
+
     filtrados.forEach(r => {
       totalNoc += parseInt(r.nocturnas || 0);
       if(r.festivo) festivos++;
@@ -2292,12 +2077,12 @@
       if(r.dieta_pernocta === 'camion') camion++;
       if(r.dieta_pernocta === 'casa') casa++;
     });
-    
-    html += '<div class="resumen-item"><span>Horas nocturnas:</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + totalNoc + 'h</span></div>';
-    html += '<div class="resumen-item"><span>Días festivos:</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + festivos + '</span></div>';
-    html += '<div class="resumen-item"><span>Sextos días:</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + sextos + '</span></div>';
-    html += '<div class="resumen-item"><span>Días en camión:</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + camion + '</span></div>';
-    html += '<div class="resumen-item"><span>Días en casa:</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + casa + '</span></div>';
+
+    html += '<div class="resumen-item"><span>' + t('night_hours') + ':</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + totalNoc + 'h</span></div>';
+    html += '<div class="resumen-item"><span>' + t('festive_days') + ':</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + festivos + '</span></div>';
+    html += '<div class="resumen-item"><span>' + t('sixth_days') + ':</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + sextos + '</span></div>';
+    html += '<div class="resumen-item"><span>' + t('days_in_truck') + ':</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + camion + '</span></div>';
+    html += '<div class="resumen-item"><span>' + t('days_at_home') + ':</span> <span style="color: #000; font-weight: bold; font-size: 1.05em;">' + casa + '</span></div>';
     html += '</div>';
     
     document.getElementById('resumen').innerHTML = html;
@@ -2432,11 +2217,11 @@
     html += '<div class="calendario-stats">';
     html += `<div class="stat-box">
       <div class="stat-numero">${diasTrabajados}</div>
-      <div class="stat-label">🔧 Días Trabajados</div>
+      <div class="stat-label">🔧 ${t('days_worked_cal')}</div>
     </div>`;
     html += `<div class="stat-box">
       <div class="stat-numero">${diasDescanso}</div>
-      <div class="stat-label">😴 Días de Descanso</div>
+      <div class="stat-label">😴 ${t('days_rest_cal')}</div>
     </div>`;
     html += '</div>';
     
@@ -3466,7 +3251,7 @@
     document.body.style.fontSize = tamano + 'px';
     document.body.style.fontFamily = fuente;
     
-    alert('✨ Personalización aplicada');
+    alert('✨ ' + t('customization_applied'));
   }
   window.aplicarPersonalizacion = aplicarPersonalizacion;
 
@@ -3481,7 +3266,7 @@
     document.body.style.fontSize = '';
     document.body.style.fontFamily = '';
     
-    alert('🔄 Personalización restaurada');
+    alert('🔄 ' + t('defaults_restored'));
   }
   window.resetearPersonalizacion = resetearPersonalizacion;
 
@@ -3854,11 +3639,11 @@
 
   // ========== AJUSTES - BORRAR DATOS ==========
   function borrarTodosDatos(){
-    if(!confirm('⚠️ ¿Estás SEGURO de que quieres borrar TODOS los datos?\n\nEsta acción NO se puede deshacer.')){
+    if(!confirm(t('confirm_delete_all'))){
       return;
     }
-    
-    if(!confirm('🚨 ÚLTIMA ADVERTENCIA 🚨\n\n¿Realmente quieres borrar TODO?\n\nEscribe "BORRAR" mentalmente y pulsa Aceptar...')){
+
+    if(!confirm(t('confirm_delete_all'))){
       return;
     }
     
@@ -3869,13 +3654,13 @@
     cargarHistorial();
     actualizarDisplayNocturnas();
     
-    alert('🗑️ Todos los datos han sido borrados');
+    alert('🗑️ ' + t('all_data_deleted'));
     cambiarPagina('paginaInicio');
   }
   window.borrarTodosDatos = borrarTodosDatos;
 
   function limpiarCache(){
-    if(!confirm('¿Limpiar caché de la aplicación?\n\nLa app se recargará.')){
+    if(!confirm(t('confirm_clean_cache'))){
       return;
     }
     
@@ -3895,7 +3680,7 @@
       });
     }
     
-    alert('🧹 Caché limpiada. La página se recargará.');
+    alert('🧹 ' + t('cache_cleaned'));
     location.reload(true);
   }
   window.limpiarCache = limpiarCache;
