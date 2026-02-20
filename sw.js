@@ -1,4 +1,4 @@
-const CACHE_NAME = 'regyster-v3.5';
+const CACHE_NAME = 'regyster-v3.6';
 const urlsToCache = [
   '/',
   '/index.html',
